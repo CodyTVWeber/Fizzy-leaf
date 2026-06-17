@@ -6,18 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fizzy Leaf Sparkling Tea</title>
     <link rel="icon" type="image/webp" sizes="32x32" href="img/FizzyLeafIcon_favicon_dark.webp">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap');
 
         * { box-sizing: border-box; }
 
         :root {
-            --maroon: #7c2330;
-            --maroon-dark: #5e1a24;
-            --gold: #c9a86b;
-            --cream: #fdfbf6;
+            --maroon: #9c6f1f;
+            --maroon-dark: #5c4420;
+            --gold: #9c6f1f;
+            --gold-soft: #c9a86b;
+            --gold-pale: #f6ecd4;
+            --cream: #fffefb;
             --cream-deep: #f7f0e3;
-            --ink: #4a3328;
+            --ink: #3a3024;
         }
 
         body {
@@ -39,7 +42,7 @@
             background: rgba(253, 251, 246, 0.96);
             backdrop-filter: blur(20px) saturate(180%);
             z-index: 1000;
-            border-bottom: 1px solid rgba(124, 35, 48, 0.08);
+            border-bottom: 1px solid rgba(156, 111, 31, 0.12);
         }
 
         .nav-container {
@@ -169,8 +172,8 @@
         .badge-row span {
             font-size: 0.82rem;
             font-weight: 700;
-            color: var(--maroon);
-            background: rgba(124, 35, 48, 0.07);
+            color: var(--maroon-dark);
+            background: var(--gold-pale);
             padding: 0.5rem 0.9rem;
             border-radius: 999px;
         }
@@ -184,18 +187,20 @@
             width: 100%;
             max-width: 420px;
             border-radius: 28px;
-            box-shadow: 0 30px 60px rgba(124, 35, 48, 0.22);
+            box-shadow: 0 30px 60px rgba(156, 111, 31, 0.25);
             object-fit: cover;
         }
 
         /* --- Shop section --- */
         #shop {
-            background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
-            color: #fdf6ec;
+            background: #fff;
+            border-top: 1px solid var(--gold-pale);
+            border-bottom: 1px solid var(--gold-pale);
+            color: var(--ink);
         }
-        #shop .eyebrow { color: var(--gold); }
-        #shop h2 { color: #fff; }
-        #shop .lead { color: #f1ddd0; }
+        #shop .eyebrow { color: var(--maroon); }
+        #shop h2 { color: var(--maroon-dark); }
+        #shop .lead { color: #6b5544; }
 
         .shop-grid {
             display: grid;
@@ -210,51 +215,58 @@
             border-radius: 24px;
             padding: 2.5rem;
             color: var(--ink);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            border: 1px solid var(--gold-pale);
+            box-shadow: 0 20px 50px rgba(156, 111, 31, 0.12);
         }
 
-        .plan-toggle {
-            display: flex;
-            background: var(--cream-deep);
-            border-radius: 999px;
-            padding: 0.3rem;
+        .pack-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.4rem;
             margin-bottom: 1.5rem;
         }
-        .plan-toggle button {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 0.7rem 1rem;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: var(--ink);
+        .pack-card {
+            border: 1px solid var(--gold-pale);
+            border-radius: 18px;
+            padding: 1.3rem;
+            text-align: left;
         }
-        .plan-toggle button.active {
-            background: var(--maroon);
-            color: #fff;
+        .pack-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--maroon-dark);
+            margin: 0 0 0.4rem;
+            font-size: 1.3rem;
         }
+        .pack-card .price { font-size: 1rem; margin: 0.2rem 0; color: var(--ink); }
+        .pack-card .price-sub { font-size: 0.88rem; margin: 0.2rem 0 0.8rem; color: var(--maroon); font-weight: 700; }
+
         .plan-note { font-size: 0.85rem; color: #8a7361; margin-top: 0.5rem; }
 
-        #shopify-buy-button-container {
-            margin-top: 1.2rem;
-            min-height: 220px;
+        .buy-button-slot {
+            margin-top: 0.6rem;
+            min-height: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px dashed rgba(124, 35, 48, 0.25);
-            border-radius: 16px;
-            padding: 1.5rem;
+            border: 2px dashed var(--gold-soft);
+            background: var(--gold-pale);
+            border-radius: 14px;
+            padding: 1.2rem;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #8a7361;
+        }
+
+        .shopify-note {
+            font-size: 0.85rem;
+            color: #8a7361;
+            margin: 1.2rem 0 0;
         }
 
         .tn-only-banner {
             margin-top: 1.5rem;
-            background: rgba(201, 168, 107, 0.15);
-            border: 1px solid var(--gold);
+            background: var(--gold-pale);
+            border: 1px solid var(--gold-soft);
             border-radius: 14px;
             padding: 0.9rem 1.2rem;
             font-size: 0.88rem;
@@ -265,7 +277,7 @@
         .shop-image img {
             width: 100%;
             border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(156, 111, 31, 0.18);
         }
 
         /* --- Gallery --- */
@@ -295,8 +307,14 @@
             background: #fff;
             padding: 1.3rem 1.4rem;
             border-radius: 16px;
-            border: 1px solid rgba(124, 35, 48, 0.1);
-            box-shadow: 0 4px 14px rgba(124, 35, 48, 0.05);
+            border: 1px solid rgba(156, 111, 31, 0.15);
+            box-shadow: 0 4px 14px rgba(156, 111, 31, 0.06);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        .location-card[data-lat] { cursor: pointer; }
+        .location-card[data-lat]:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 22px rgba(156, 111, 31, 0.18);
         }
         .location-card strong {
             display: block;
@@ -314,15 +332,18 @@
             text-transform: uppercase;
             color: var(--gold);
         }
+        .location-card span.tag.pending { color: #a89b8a; }
 
-        iframe {
+        #map {
             width: 100%;
             max-width: 1180px;
             height: 460px;
             border-radius: 22px;
-            box-shadow: 0 15px 40px rgba(124, 35, 48, 0.18);
+            box-shadow: 0 15px 40px rgba(156, 111, 31, 0.18);
             border: 4px solid #fff;
+            margin: 0 auto;
         }
+        .map-hint { font-size: 0.85rem; color: #8a7361; margin: 0.8rem auto 1.5rem; }
 
         /* --- Story / Flavors --- */
         .split {
@@ -335,7 +356,7 @@
         .split img {
             width: 100%;
             border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(124, 35, 48, 0.15);
+            box-shadow: 0 20px 50px rgba(156, 111, 31, 0.18);
             max-height: 520px;
             object-fit: cover;
         }
@@ -344,7 +365,7 @@
             background: #fff;
             padding: 2.2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(124, 35, 48, 0.08);
+            box-shadow: 0 10px 30px rgba(156, 111, 31, 0.1);
             display: flex;
             gap: 2rem;
             align-items: center;
@@ -359,7 +380,7 @@
         .contact-card {
             background: #fff;
             border-radius: 22px;
-            box-shadow: 0 15px 40px rgba(124, 35, 48, 0.1);
+            box-shadow: 0 15px 40px rgba(156, 111, 31, 0.12);
             max-width: 460px;
             margin: 2.5rem auto 0;
             padding: 2.5rem;
@@ -471,47 +492,46 @@
 
             <div class="shop-grid">
                 <div class="shop-card">
-                    <div class="plan-toggle">
-                        <button type="button" class="active" id="plan-onetime" onclick="setPlan('onetime')">One-Time Purchase</button>
-                        <button type="button" id="plan-subscribe" onclick="setPlan('subscribe')">Subscribe &amp; Save</button>
+                    <div class="pack-grid">
+                        <div class="pack-card">
+                            <h3>12-Pack</h3>
+                            <p class="price">One-time: <strong>$TBD</strong></p>
+                            <p class="price-sub">Subscribe &amp; Save 20%: <strong>$TBD/mo</strong></p>
+                            <div id="shopify-buy-button-12pack" class="buy-button-slot">
+                                Shopify Buy Button (12-Pack)
+                            </div>
+                        </div>
+                        <div class="pack-card">
+                            <h3>24-Pack</h3>
+                            <p class="price">One-time: <strong>$TBD</strong></p>
+                            <p class="price-sub">Subscribe &amp; Save 20%: <strong>$TBD/mo</strong></p>
+                            <div id="shopify-buy-button-24pack" class="buy-button-slot">
+                                Shopify Buy Button (24-Pack)
+                            </div>
+                        </div>
                     </div>
-                    <p class="plan-note" id="plan-description">Buy a single order of Fizzy Leaf Roselle Hibiscus, no commitment.</p>
 
                     <!--
-                        Shopify Buy Button embed.
-                        Replace the placeholders below with the snippet generated from
-                        Shopify Admin > Sales Channels > Buy Button for the Roselle Hibiscus product.
-                        To offer "Subscribe & Save", enable a Selling Plan (Shopify Subscriptions
-                        app or Recharge) on the product first — the Buy Button will then render
-                        a one-time vs. subscription picker automatically.
-                    -->
-                    <div id="shopify-buy-button-container">
-                        Shopify Buy Button goes here.<br>
-                        Generate the embed snippet in Shopify Admin → Sales Channels → Buy Button,
-                        then paste it into this container.
-                    </div>
-                    <script type="text/javascript">
-                        // TODO: replace with real Shopify Buy Button SDK init once store is connected.
-                        // Example:
-                        // var client = ShopifyBuy.buildClient({
-                        //   domain: 'YOUR-SHOP.myshopify.com',
-                        //   storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN',
-                        // });
-                        // ui.createComponent('product', {
-                        //   id: 'YOUR_PRODUCT_ID',
-                        //   node: document.getElementById('shopify-buy-button-container'),
-                        //   moneyFormat: '%24%7B%7Bamount%7D%7D',
-                        //   options: { product: { contents: { options: true } } }
-                        // });
+                        Each "buy-button-slot" above gets replaced with a real Shopify Buy
+                        Button embed (Shopify Admin > Settings > Sales Channels > add the
+                        "Buy Button" channel — requires a paid Shopify plan, ~$40/mo — then
+                        pick the 12-pack / 24-pack product and click "Generate code"). Paste
+                        the generated <div> + <script> snippet from Shopify directly into the
+                        matching slot. Shopify hosts the button; this site just embeds it, so
+                        it works on any page without a full storefront migration.
 
-                        function setPlan(plan) {
-                            document.getElementById('plan-onetime').classList.toggle('active', plan === 'onetime');
-                            document.getElementById('plan-subscribe').classList.toggle('active', plan === 'subscribe');
-                            document.getElementById('plan-description').textContent = plan === 'subscribe'
-                                ? 'Subscribe and save — recurring deliveries of Roselle Hibiscus, cancel anytime.'
-                                : 'Buy a single order of Fizzy Leaf Roselle Hibiscus, no commitment.';
-                        }
-                    </script>
+                        For "Subscribe & Save 20%", add a Selling Plan to each product in
+                        Shopify (via the built-in Shopify Subscriptions app or Recharge) —
+                        the embedded Buy Button then shows a one-time vs. subscription
+                        picker automatically, and the 20% discount is configured on the
+                        Selling Plan itself, not in this code.
+
+                        Prices above are placeholders. Once real prices are set in Shopify,
+                        update the $TBD text here to match — the Buy Button will show the
+                        live Shopify price regardless, so keep these in sync to avoid
+                        confusing shoppers.
+                    -->
+                    <p class="shopify-note">Buy buttons are powered by Shopify's Buy Button sales channel and embedded directly from the Fizzy Leaf Shopify store.</p>
 
                     <div class="tn-only-banner">
                         🚚 Currently shipping to <strong>Tennessee addresses only</strong>. Shipping zones are restricted in Shopify so only TN orders can be placed.
@@ -543,27 +563,28 @@
             <p class="lead" style="margin:0 auto;">Fizzy Leaf is proudly carried by these local shops across Middle Tennessee.</p>
 
             <div class="locations-grid">
-                <div class="location-card"><strong>1819 Coffee</strong><span class="addr">4683 Columbia Pike<br>Thompsons Station, TN 37179</span></div>
-                <div class="location-card"><strong>White Shepherd Coffee</strong><span class="addr">2101 Branford Pl Unit 101<br>Thompsons Station, TN 37179</span></div>
-                <div class="location-card"><strong>White Shepherd Coffee</strong><span class="addr">Spring Hill, TN</span><span class="tag">Spring Hill location</span></div>
-                <div class="location-card"><strong>Mama Mila's</strong><span class="addr">1200 S Garden St<br>Columbia, TN 38401</span></div>
-                <div class="location-card"><strong>Old Stone Creamery</strong><span class="addr">2301 Sugar Ridge Rd<br>Spring Hill, TN 37174</span></div>
-                <div class="location-card"><strong>Awaken House</strong><span class="addr">3035 Reserve Blvd<br>Spring Hill, TN 37174</span></div>
-                <div class="location-card"><strong>High Brow Coffee</strong><span class="addr">188 Front St, Unit 102<br>Franklin, TN 37064</span></div>
-                <div class="location-card"><strong>The Brunch Collective</strong><span class="addr">5323 Main St<br>Spring Hill, TN 37174</span></div>
-                <div class="location-card"><strong>The Coffee House</strong><span class="addr">144 2nd Ave N<br>Franklin, TN 37064</span><span class="tag">Downtown Franklin</span></div>
-                <div class="location-card"><strong>The Coffee House</strong><span class="addr">Cool Springs, TN</span><span class="tag">Cool Springs location</span></div>
-                <div class="location-card"><strong>Abundant Provisions</strong><span class="addr">5322 Main St<br>Spring Hill, TN 37174</span></div>
-                <div class="location-card"><strong>Bruno's Italian Deli &amp; Market</strong><span class="addr">Middle Tennessee</span></div>
-                <div class="location-card"><strong>Legacy Coffee</strong><span class="addr">Middle Tennessee</span></div>
-                <div class="location-card"><strong>North Arrow Coffee Co.</strong><span class="addr">Middle Tennessee</span></div>
-                <div class="location-card"><strong>Columbia Health Foods</strong><span class="addr">Columbia, TN</span></div>
-                <div class="location-card"><strong>Canine Concepts</strong><span class="addr">Middle Tennessee</span></div>
-                <div class="location-card"><strong>Prickly Pear</strong><span class="addr">Middle Tennessee</span><span class="tag">Location 1</span></div>
-                <div class="location-card"><strong>Prickly Pear</strong><span class="addr">Albion</span><span class="tag">Location 2</span></div>
+                <div class="location-card" data-lat="35.7897004" data-lng="-86.8611139" data-name="1819 Coffee"><strong>1819 Coffee</strong><span class="addr">4683 Columbia Pike<br>Thompsons Station, TN 37179</span></div>
+                <div class="location-card" data-lat="35.7897004" data-lng="-86.8611139" data-name="White Shepherd Coffee (Thompsons Station)"><strong>White Shepherd Coffee</strong><span class="addr">2101 Branford Pl Unit 101<br>Thompsons Station, TN 37179</span></div>
+                <div class="location-card"><strong>White Shepherd Coffee</strong><span class="addr">Spring Hill, TN</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card" data-lat="35.6085497" data-lng="-87.0368302" data-name="Mama Mila's"><strong>Mama Mila's</strong><span class="addr">1200 S Garden St<br>Columbia, TN 38401</span></div>
+                <div class="location-card" data-lat="35.7625638" data-lng="-86.9434303" data-name="Old Stone Creamery"><strong>Old Stone Creamery</strong><span class="addr">2301 Sugar Ridge Rd<br>Spring Hill, TN 37174</span></div>
+                <div class="location-card" data-lat="35.7365795" data-lng="-86.9198924" data-name="Awaken House"><strong>Awaken House</strong><span class="addr">3035 Reserve Blvd<br>Spring Hill, TN 37174</span></div>
+                <div class="location-card" data-lat="35.9292329" data-lng="-86.9197204" data-name="High Brow Coffee"><strong>High Brow Coffee</strong><span class="addr">188 Front St, Unit 102<br>Franklin, TN 37064</span></div>
+                <div class="location-card" data-lat="35.7504460" data-lng="-86.9309841" data-name="The Brunch Collective"><strong>The Brunch Collective</strong><span class="addr">5323 Main St<br>Spring Hill, TN 37174</span></div>
+                <div class="location-card" data-lat="35.9265874" data-lng="-86.8680145" data-name="The Coffee House (Downtown Franklin)"><strong>The Coffee House</strong><span class="addr">144 2nd Ave N<br>Franklin, TN 37064</span><span class="tag">Downtown Franklin</span></div>
+                <div class="location-card" data-lat="35.9477428" data-lng="-86.8198098" data-name="The Coffee House (Cool Springs)"><strong>The Coffee House</strong><span class="addr">Cool Springs, TN</span><span class="tag">Cool Springs location</span></div>
+                <div class="location-card" data-lat="35.7502925" data-lng="-86.9308780" data-name="Abundant Provisions"><strong>Abundant Provisions</strong><span class="addr">5322 Main St<br>Spring Hill, TN 37174</span></div>
+                <div class="location-card"><strong>Bruno's Italian Deli &amp; Market</strong><span class="addr">Middle Tennessee</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>Legacy Coffee</strong><span class="addr">Middle Tennessee</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>North Arrow Coffee Co.</strong><span class="addr">Middle Tennessee</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>Columbia Health Foods</strong><span class="addr">Columbia, TN</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>Canine Concepts</strong><span class="addr">Middle Tennessee</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>Prickly Pear</strong><span class="addr">Middle Tennessee</span><span class="tag pending">Address coming soon</span></div>
+                <div class="location-card"><strong>Prickly Pear</strong><span class="addr">Albion</span><span class="tag pending">Address coming soon</span></div>
             </div>
 
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103324.49841804153!2d-87.00908868615024!3d35.88904581177651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886409600108861d%3A0x633a01103362e349!2sFranklin%2C%20TN!5e0!3m2!1sen!2sus!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+            <div id="map"></div>
+            <p class="map-hint">Click a shop above to zoom in on the map. Locations marked "address coming soon" aren't pinned yet — we're waiting on a precise address.</p>
         </div>
     </section>
 
@@ -659,6 +680,35 @@
             © 2026 Fizzy Leaf Sparkling Tea · Crafted with care in Tennessee
         </div>
     </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = L.map('map');
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            var markers = [];
+            document.querySelectorAll('.location-card[data-lat]').forEach(function (card) {
+                var lat = parseFloat(card.dataset.lat);
+                var lng = parseFloat(card.dataset.lng);
+                var marker = L.marker([lat, lng]).addTo(map).bindPopup('<strong>' + card.dataset.name + '</strong>');
+                markers.push(marker);
+                card.addEventListener('click', function () {
+                    map.flyTo([lat, lng], 15, { duration: 0.8 });
+                    marker.openPopup();
+                });
+            });
+
+            if (markers.length) {
+                map.fitBounds(L.featureGroup(markers).getBounds(), { padding: [40, 40] });
+            } else {
+                map.setView([35.85, -86.9], 9);
+            }
+        });
+    </script>
 
 </body>
 </html>
