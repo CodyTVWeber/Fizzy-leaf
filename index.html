@@ -4,249 +4,1178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fizzy Leaf Sparkling Tea</title>
+    <title>Fizzy Leaf Sparkling Tea | Unsweetened Roselle Hibiscus</title>
+    <meta name="description" content="A naturally tart, unsweetened sparkling roselle hibiscus tea brewed locally and sold fresh in Middle Tennessee. 0 calories, 0g sugar, 100% real refreshment.">
+    
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Fizzy Leaf Sparkling Tea | Unsweetened Roselle Hibiscus">
+    <meta property="og:description" content="A naturally tart, unsweetened sparkling roselle hibiscus tea brewed locally and sold fresh in Middle Tennessee. 0 calories, 0g sugar, 100% real refreshment.">
+    <meta property="og:image" content="Fizzyleaf2.jpg">
+    <meta property="og:type" content="website">
+    
     <link rel="icon" type="image/webp" sizes="32x32" href="img/FizzyLeafIcon_favicon_dark.webp">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
-
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #fffdf8 0%, #fef8ee 50%, #fef3e4 100%);
-            background-attachment: fixed;
-            color: #6b5538;
-            scroll-behavior: smooth;
-            line-height: 1.6;
-        }
-
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(25px) saturate(180%);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(122, 99, 59, 0.08);
-            box-shadow: 0 2px 24px rgba(122, 99, 59, 0.06);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            padding: 1rem 2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links a {
-            color: #7a633b;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 0.6rem 1rem;
-            transition: all 0.3s;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover {
-            color: #d2a863;
-            background: rgba(210, 168, 99, 0.08);
-        }
-
-        section {
-            min-height: 100vh;
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-        }
-
-        .hero img.logo {
-            width: 390px;
-            max-width: 90vw;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 8px 30px rgba(210, 168, 99, 0.35));
-        }
-
-        .hero-images {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        .feature-image {
-            width: 300px;
-            height: auto;
-            object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: #a88445;
-        }
-
-        .locations-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 3rem auto;
-            text-align: left;
-        }
-
-        .location-card {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 1.5rem;
-            border-radius: 18px;
-            border: 1px solid rgba(210, 168, 99, 0.15);
-            box-shadow: 0 4px 12px rgba(122, 99, 59, 0.05);
-        }
-
-        .location-card strong {
-            display: block;
-            color: #a88445;
-            font-size: 1.2rem;
-            margin-bottom: 0.4rem;
-        }
-
-        iframe {
-            width: 100%;
-            max-width: 1000px;
-            height: 500px;
-            border-radius: 20px;
-            margin-top: 2.5rem;
-            box-shadow: 0 8px 30px rgba(210, 168, 99, 0.25);
-            border: 3px solid rgba(255, 255, 255, 0.8);
-        }
-
-        /* --- Contact Section Styles --- */
-        .contact-card {
-            background: rgba(255, 252, 242, 0.95);
-            border-radius: 22px;
-            box-shadow: 0 8px 28px rgba(210, 168, 99, 0.10);
-            max-width: 450px;
-            margin: 2.5rem auto 0;
-            padding: 2.5rem;
-            text-align: left;
-        }
-        .form-row { margin-bottom: 1.3rem; }
-        .form-row label { display: block; font-weight: 600; color: #a88445; margin-bottom: 0.5rem; }
-        .form-row input, .form-row textarea {
-            width: 100%; padding: 0.85rem; border-radius: 12px; border: 1.5px solid #ecd7b2;
-            font-family: inherit; font-size: 1rem;
-        }
-        .fancy-btn {
-            background: linear-gradient(135deg, #d2a863 0%, #c99a52 100%);
-            border: none; border-radius: 18px; color: #fff; padding: 1rem;
-            width: 100%; font-size: 1.1rem; font-weight: 700; cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .locations-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
 
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar">
+        <span>🎉 Proudly Brewed & Sold in Middle Tennessee. Save 20% on Subscription Sales! 🚚</span>
+    </div>
+
+    <!-- Header & Navigation -->
     <header>
         <div class="nav-container">
-            <nav class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#locations">Locations</a>
-                <a href="#story">Our Story</a>
-                <a href="#flavors">Flavors</a>
-                <a href="#contact">Contact</a>
-            </nav>
+            <a href="#home" class="brand">
+                <img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf Logo">
+                <span>Fizzy Leaf</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#ingredients">Ingredients</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#shop" class="btn nav-cta">Buy Now</a></li>
+            </ul>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
-        <img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf Logo" class="logo">
-        <div class="hero-images">
-            <img src="Fizzyleaf2.jpg" alt="Fizzy Leaf" class="feature-image">
-            <img src="Fizzyleaf3.jpg" alt="Fizzy Leaf" class="feature-image">
-            <img src="Fizzyleaf4.jpg" alt="Fizzy Leaf" class="feature-image">
+        <div class="hero-content">
+            <div class="hero-badge">🌿 Real Squeezed Hibiscus Tea</div>
+            <h1>Real Hibiscus.<br><span>Real Sparkle.</span></h1>
+            <p class="hero-description">Tired of artificial sweeteners and sugary sodas? Welcome to Fizzy Leaf—a simple, unsweetened, 0-calorie sparkling roselle hibiscus tea brewed locally in Tennessee.</p>
+            <div class="hero-ctas">
+                <a href="#shop" class="btn btn-primary">Shop Hibiscus</a>
+                <a href="#locations" class="btn btn-secondary">Find a Store</a>
+            </div>
+            
+            <div class="hero-features">
+                <div class="hero-feature-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>0 Calories & 0g Sugar</span>
+                </div>
+                <div class="hero-feature-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>No Artificial Sweeteners</span>
+                </div>
+            </div>
         </div>
-        <p>Made and Sold here in Middle Tennessee.</p>
+
+        <div class="hero-visual">
+            <!-- Floating Background Elements -->
+            <img src="img/FizzyLeafIcon.webp" alt="Fizzy Leaf Graphic" class="bg-leaf bg-leaf-1">
+            <img src="img/FizzyLeafIcon.webp" alt="Fizzy Leaf Graphic" class="bg-leaf bg-leaf-2">
+            
+            <!-- Hero Carousel -->
+            <div class="hero-carousel-container">
+                <div class="hero-carousel-wrapper">
+                    <div class="carousel-slide active">
+                        <img src="Fizzyleaf2.jpg" alt="Fizzy Leaf Roselle Hibiscus">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Fizzyleaf3.jpg" alt="Fizzy Leaf Lifestyle">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Fizzyleaf4.jpg" alt="Fizzy Leaf Details">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/fizzy-detail3.jpg" alt="Fizzy Leaf Bottle Close Up">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/fizzy-detail4.jpg" alt="Fresh Brewed Hibiscus">
+                    </div>
+                </div>
+                
+                <div class="carousel-controls" id="carousel-dots">
+                    <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
+                    <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
+                    <button class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
+                    <button class="carousel-dot" data-slide="3" aria-label="Slide 4"></button>
+                    <button class="carousel-dot" data-slide="4" aria-label="Slide 5"></button>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- What's Inside (Ingredients) Section -->
+    <section id="ingredients" class="ingredients">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>What's Inside?</h2>
+                <p>We believe in absolute transparency. That's why we make Fizzy Leaf the hard way—with only simple, real, and natural ingredients. No mystery chemicals, no lab-made sugars.</p>
+            </div>
+
+            <div class="ingredients-grid">
+                <!-- Ingredient 1 -->
+                <div class="ingredient-card">
+                    <div class="ingredient-icon-wrapper">
+                        <!-- Hibiscus flower outline -->
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a15 15 0 0 0-4 10 4 4 0 0 0 8 0A15 15 0 0 0 12 2zm0 0c-4 3-7 6-7 10a7 7 0 0 0 14 0c0-4-3-7-7-10z"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3>Organic Roselle Hibiscus</h3>
+                    <p>Naturally tart, bright crimson flowers loaded with antioxidants. We steep them to bring out a bold, refreshing flavor profile that naturally stands out.</p>
+                </div>
+
+                <!-- Ingredient 2 -->
+                <div class="ingredient-card">
+                    <div class="ingredient-icon-wrapper green">
+                        <!-- Water droplet outline -->
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-11-7-11S5 10.7 5 15a7 7 0 0 0 7 7z"></path>
+                        </svg>
+                    </div>
+                    <h3>Sparkling Water</h3>
+                    <p>Triple-filtered water carbonated at the perfect volume to create a crisp, effervescent bite that keeps your taste buds energized and refreshed.</p>
+                </div>
+
+                <!-- Ingredient 3 -->
+                <div class="ingredient-card">
+                    <div class="ingredient-icon-wrapper gold">
+                        <!-- Sparkles outline -->
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Real Citrus Essence</h3>
+                    <p>A tiny squeeze of real, organic lime juice. Just enough to round out the floral hibiscus notes and leave a crisp, clean citrus aftertaste.</p>
+                </div>
+            </div>
+
+            <!-- Nutritional Info Banner -->
+            <div class="nutrition-banner">
+                <div class="nutrition-item">
+                    <span class="nutrition-value">0</span>
+                    <span class="nutrition-label">Calories</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">0g</span>
+                    <span class="nutrition-label">Added Sugar</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">&lt;1g</span>
+                    <span class="nutrition-label">Total Carbs</span>
+                </div>
+                <div class="nutrition-item">
+                    <span class="nutrition-value">100%</span>
+                    <span class="nutrition-label">Plant Powered</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop / Product Section -->
+    <section id="shop" class="shop">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Bring Fizzy Leaf Home</h2>
+                <p>Brewed fresh in Middle Tennessee and shipped locally. Order a case today and experience the crisp, floral sparkling tea you've been waiting for.</p>
+            </div>
+
+            <div class="shop-product">
+                <!-- Left: Interactive Gallery -->
+                <div class="shop-gallery">
+                    <img src="img/fizzy-detail4.jpg" alt="Fizzy Leaf Bottle" class="shop-main-img" id="main-product-img">
+                    <div class="shop-thumbnails">
+                        <img src="img/fizzy-detail4.jpg" alt="Fizzy Leaf Close Up" class="shop-thumb active">
+                        <img src="img/fizzy-detail3.jpg" alt="Fizzy Leaf Pouring" class="shop-thumb">
+                        <img src="Fizzyleaf2.jpg" alt="Fizzy Leaf 12-Pack" class="shop-thumb">
+                        <img src="Fizzyleaf4.jpg" alt="Fizzy Leaf Bottles" class="shop-thumb">
+                    </div>
+                </div>
+
+                <!-- Right: Product Information and Buy Button -->
+                <div class="shop-info">
+                    <div class="product-stars">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <span class="product-reviews">(48 reviews)</span>
+                    </div>
+                    <h3>Roselle Hibiscus Cans</h3>
+                    <p class="product-tagline">Unsweetened Sparkling Herbal Tea · 12 fl oz Cans</p>
+                    <p class="product-desc">Our flagship flavor. Brewed from the finest organic Roselle hibiscus flowers and carbonated for a refreshing, tart punch. Packed with antioxidants, and completely free from sugars, stevia, or artificial additives.</p>
+                    
+                    <!-- Native UI (Hidden if Shopify SDK is active) -->
+                    <div id="native-buy-widget">
+                        <!-- Pack Size Selector -->
+                        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark);">Select Case Size:</h4>
+                        <div class="pack-selector">
+                            <button class="pack-btn selected" id="pack-12" data-size="12">12-Pack</button>
+                            <button class="pack-btn" id="pack-24" data-size="24">24-Pack</button>
+                        </div>
+
+                        <!-- Purchase Options Card Selector (Shopify Style) -->
+                        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark);">Choose Purchase Plan:</h4>
+                        <div class="purchase-options">
+                            <!-- Subscribe Card (20% off!) -->
+                            <div class="option-card selected" id="opt-subscribe">
+                                <div class="option-input-group">
+                                    <input type="radio" id="purchase-sub" name="purchase-option" value="subscribe" checked>
+                                    <div class="option-label">
+                                        <span class="option-title">Subscribe & Save (20%)</span>
+                                        <span class="option-subtitle">Delivered fresh monthly. Pause or cancel anytime.</span>
+                                    </div>
+                                </div>
+                                <div class="option-price-group">
+                                    <span class="option-price" id="sub-price">$25.60</span>
+                                    <span class="option-discount-badge" id="sub-discount-label">SAVE 20% + FREE SHIP</span>
+                                </div>
+                            </div>
+
+                            <!-- One Time Card -->
+                            <div class="option-card" id="opt-onetime">
+                                <div class="option-input-group">
+                                    <input type="radio" id="purchase-onetime" name="purchase-option" value="onetime">
+                                    <div class="option-label">
+                                        <span class="option-title">One-time Purchase</span>
+                                        <span class="option-subtitle">Single delivery of one case.</span>
+                                    </div>
+                                </div>
+                                <div class="option-price-group">
+                                    <span class="option-price" id="onetime-price">$32.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buy Actions -->
+                        <div class="shop-actions">
+                            <button class="btn btn-primary btn-buy" id="buy-button">
+                                <span>Buy Now</span>
+                            </button>
+                            <div class="shipping-disclaimer">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="1" y="3" width="15" height="13"></rect>
+                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                </svg>
+                                <span>Only delivering to Tennessee (TN) addresses.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shopify Buy Button Container (Optionally pulled dynamically from Shopify for $40/mo Starter plan) -->
+                    <div id="shopify-buy-button-container" style="display: none;">
+                        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dark);">Checkout with Shopify:</h4>
+                        <div id="product-component-shopify"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Locator Section -->
     <section id="locations" class="locations">
-        <h2>Find Fizzy Leaf Near You</h2>
-        <div class="locations-grid">
-            <div class="location-card"><strong>High Brow Coffee</strong>188 Front St, Unit 102<br>Franklin, TN 37064</div>
-            <div class="location-card"><strong>The Brunch Collective</strong>5323 Main St<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>The Coffee House</strong>144 2nd Ave N<br>Franklin, TN 37064</div>
-            <div class="location-card"><strong>White Shepherd Coffee</strong>2101 Branford Pl Unit 101<br>Thompsons Station, TN 37179</div>
-            <div class="location-card"><strong>1819 Coffee</strong>4683 Columbia Pike<br>Thompsons Station, TN 37179</div>
-            <div class="location-card"><strong>Mama Mila’s</strong>1200 S Garden St<br>Columbia, TN 38401</div>
-            <div class="location-card"><strong>Old Stone Creamery</strong>2301 Sugar Ridge Rd<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>Awaken House</strong>3035 Reserve Blvd<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>Abondant Provisions</strong>5322 Main St<br>Spring Hill, TN 37174</div>
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Find Us Near You</h2>
+                <p>Can't wait for shipping? Grab a cold Fizzy Leaf bottle right off the shelf! We're stocked in 18 premium coffee houses, creamers, and markets across Middle Tennessee.</p>
+            </div>
 
+            <!-- Filter tabs by city -->
+            <div class="filter-tabs" id="location-tabs">
+                <button class="tab-btn active" data-city="all">All Locations</button>
+                <button class="tab-btn" data-city="spring-hill">Spring Hill</button>
+                <button class="tab-btn" data-city="franklin">Franklin</button>
+                <button class="tab-btn" data-city="columbia">Columbia</button>
+                <button class="tab-btn" data-city="thompons-station">Thompson's Station</button>
+                <button class="tab-btn" data-city="nashville">Nashville</button>
+            </div>
+
+            <!-- Locations Layout -->
+            <div class="locations-layout">
+                <!-- Scrollable List -->
+                <div class="locations-list-wrapper" id="locations-list">
+                    <!-- Cards will be populated and filtered here -->
+                    
+                    <!-- Franklin (4) -->
+                    <div class="location-card-new active" data-city="franklin" data-name="High Brow Coffee" data-address="188 Front St, Unit 102, Franklin, TN 37064">
+                        <h4>High Brow Coffee</h4>
+                        <p>188 Front St, Unit 102<br>Franklin, TN 37064</p>
+                        <span class="loc-city-badge">Franklin</span>
+                    </div>
+                    <div class="location-card-new" data-city="franklin" data-name="The Coffee House (Downtown)" data-address="144 2nd Ave N, Franklin, TN 37064">
+                        <h4>The Coffee House (Downtown Franklin)</h4>
+                        <p>144 2nd Ave N<br>Franklin, TN 37064</p>
+                        <span class="loc-city-badge">Franklin</span>
+                    </div>
+                    <div class="location-card-new" data-city="franklin" data-name="North Arrow Coffee Co." data-address="406 Church Street, Franklin, TN 37064">
+                        <h4>North Arrow Coffee Co.</h4>
+                        <p>406 Church Street<br>Franklin, TN 37064</p>
+                        <span class="loc-city-badge">Franklin</span>
+                    </div>
+                    <div class="location-card-new" data-city="franklin" data-name="The Coffee House (Cool Springs)" data-address="6700 Tower Circle, Franklin, TN 37067">
+                        <h4>The Coffee House (Cool Springs)</h4>
+                        <p>6700 Tower Circle<br>Franklin, TN 37067</p>
+                        <span class="loc-city-badge">Franklin</span>
+                    </div>
+
+                    <!-- Spring Hill (5) -->
+                    <div class="location-card-new" data-city="spring-hill" data-name="The Brunch Collective" data-address="5323 Main St, Spring Hill, TN 37174">
+                        <h4>The Brunch Collective</h4>
+                        <p>5323 Main St<br>Spring Hill, TN 37174</p>
+                        <span class="loc-city-badge">Spring Hill</span>
+                    </div>
+                    <div class="location-card-new" data-city="spring-hill" data-name="Old Stone Creamery" data-address="2301 Sugar Ridge Rd, Spring Hill, TN 37174">
+                        <h4>Old Stone Creamery</h4>
+                        <p>2301 Sugar Ridge Rd<br>Spring Hill, TN 37174</p>
+                        <span class="loc-city-badge">Spring Hill</span>
+                    </div>
+                    <div class="location-card-new" data-city="spring-hill" data-name="Awaken House" data-address="3035 Reserve Blvd, Spring Hill, TN 37174">
+                        <h4>Awaken House</h4>
+                        <p>3035 Reserve Blvd<br>Spring Hill, TN 37174</p>
+                        <span class="loc-city-badge">Spring Hill</span>
+                    </div>
+                    <div class="location-card-new" data-city="spring-hill" data-name="Abundant Provisions" data-address="5322 Main St, Spring Hill, TN 37174">
+                        <h4>Abundant Provisions</h4>
+                        <p>5322 Main St<br>Spring Hill, TN 37174</p>
+                        <span class="loc-city-badge">Spring Hill</span>
+                    </div>
+                    <div class="location-card-new" data-city="spring-hill" data-name="White Shepherd Coffee (Spring Hill)" data-address="4001 Parkfield Loop North, Suite #40, Spring Hill, TN 37174">
+                        <h4>White Shepherd Coffee (Spring Hill)</h4>
+                        <p>4001 Parkfield Loop North, Suite #40<br>Spring Hill, TN 37174</p>
+                        <span class="loc-city-badge">Spring Hill</span>
+                    </div>
+
+                    <!-- Thompson's Station (2) -->
+                    <div class="location-card-new" data-city="thompons-station" data-name="1819 Coffee" data-address="4683 Columbia Pike, Thompson's Station, TN 37179">
+                        <h4>1819 Coffee</h4>
+                        <p>4683 Columbia Pike<br>Thompson's Station, TN 37179</p>
+                        <span class="loc-city-badge">Thompson's Station</span>
+                    </div>
+                    <div class="location-card-new" data-city="thompons-station" data-name="White Shepherd Coffee (TS)" data-address="2101 Branford Pl, Unit 101, Thompson's Station, TN 37179">
+                        <h4>White Shepherd Coffee (Thompson's Station)</h4>
+                        <p>2101 Branford Pl, Unit 101<br>Thompson's Station, TN 37179</p>
+                        <span class="loc-city-badge">Thompson's Station</span>
+                    </div>
+
+                    <!-- Columbia (4) -->
+                    <div class="location-card-new" data-city="columbia" data-name="Mama Mila's" data-address="1200 S Garden St, Columbia, TN 38401">
+                        <h4>Mama Mila's</h4>
+                        <p>1200 S Garden St<br>Columbia, TN 38401</p>
+                        <span class="loc-city-badge">Columbia</span>
+                    </div>
+                    <div class="location-card-new" data-city="columbia" data-name="Bruno's Italian Deli & Market" data-address="2500 Hospitality Lane, Columbia, TN 38401">
+                        <h4>Bruno's Italian Deli & Market</h4>
+                        <p>2500 Hospitality Lane<br>Columbia, TN 38401</p>
+                        <span class="loc-city-badge">Columbia</span>
+                    </div>
+                    <div class="location-card-new" data-city="columbia" data-name="Legacy Coffee Co." data-address="2547 Nashville Hwy, Suite A, Columbia, TN 38401">
+                        <h4>Legacy Coffee Co.</h4>
+                        <p>2547 Nashville Hwy, Suite A<br>Columbia, TN 38401</p>
+                        <span class="loc-city-badge">Columbia</span>
+                    </div>
+                    <div class="location-card-new" data-city="columbia" data-name="Columbia Health Foods" data-address="106 W 7th St, Columbia, TN 38401">
+                        <h4>Columbia Health Foods</h4>
+                        <p>106 W 7th St<br>Columbia, TN 38401</p>
+                        <span class="loc-city-badge">Columbia</span>
+                    </div>
+
+                    <!-- Nashville (3) -->
+                    <div class="location-card-new" data-city="nashville" data-name="Canine Concepts" data-address="1106 Division Street, Nashville, TN 37203">
+                        <h4>Canine Concepts</h4>
+                        <p>1106 Division Street<br>Nashville, TN 37203</p>
+                        <span class="loc-city-badge">Nashville</span>
+                    </div>
+                    <div class="location-card-new" data-city="nashville" data-name="Prickly Pear Coffee Co. (Batman)" data-address="333 Commerce St, Nashville, TN 37201">
+                        <h4>Prickly Pear Coffee Co. (Batman)</h4>
+                        <p>333 Commerce St (Inside the AT&T / "Batman" building)<br>Nashville, TN 37201</p>
+                        <span class="loc-city-badge">Nashville</span>
+                    </div>
+                    <div class="location-card-new" data-city="nashville" data-name="Prickly Pear Coffee Co. (Albion)" data-address="645 Division St, Nashville, TN 37203">
+                        <h4>Prickly Pear Coffee Co. (Albion)</h4>
+                        <p>645 Division St (Albion in the Gulch)<br>Nashville, TN 37203</p>
+                        <span class="loc-city-badge">Nashville</span>
+                    </div>
+
+                </div>
+
+                <!-- Interactive Map Frame -->
+                <div class="map-wrapper">
+                    <!-- Default shows zoomed out overview of Middle Tennessee area (z=9) -->
+                    <iframe id="map-frame" src="https://maps.google.com/maps?q=Franklin,+TN&t=&z=9&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
         </div>
-
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103324.49841804153!2d-87.00908868615024!3d35.88904581177651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886409600108861d%3A0x633a01103362e349!2sFranklin%2C%20TN!5e0!3m2!1sen!2sus!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
     </section>
 
-    <section id="instagram">
-        <h2>Follow Fizzy Leaf on Instagram</h2>
-        <script src="https://elfsightcdn.com/platform.js" async></script>
-        <div class="elfsight-app-18cc5d9e-ff56-432e-9d94-79147ead9d44" data-elfsight-app-lazy></div>
-    </section>
-
+    <!-- Our Story Section -->
     <section id="story" class="story">
-        <h2>Our Story</h2>
-        <p>Hello! My name is <strong>Christian Milford</strong> and I am the owner of <strong>Fizzy Leaf</strong>. Tired of sugary drinks and artificial sweeteners, I started carbonating my mom's hibiscus tea recipe. Today, I’m proud to share that passion with you.</p>
-    </section>
-
-    <section id="flavors" class="flavors">
-        <h2>Our Flavors</h2>
-        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 18px;">
-            <h3 style="color: #a88445;">Roselle Hibiscus</h3>
-            <p>Bold, vibrant, and naturally tart. 0 calories, <strong>less than one gram of carbs</strong>, and absolutely no <strong>artificial sweetener</strong>.</p>
+        <div class="section-container">
+            <div class="story-layout">
+                <div class="story-img-wrapper">
+                    <img src="img/fizzy-detail5.jpg" alt="Christian Milford, Creator of Fizzy Leaf">
+                </div>
+                <div class="story-text">
+                    <div class="hero-badge">📖 Meet the Founder</div>
+                    <h2>Brewed with Heart in Tennessee</h2>
+                    <p>Hello! My name is <strong>Christian Milford</strong>, and I am the founder of Fizzy Leaf. My journey started out of simple frustration. Tired of store shelves lined with overly sweetened drinks, chemical additives, and artificial stevia aftertastes, I wanted something pure, bubbly, and refreshing.</p>
+                    <p>I went back to basics and started experimenting in my kitchen, carbonating my mother's signature hibiscus tea recipe. Steeping organic Roselle hibiscus flowers, balancing the natural tartness, and infusing it with perfectly calibrated carbonation—Fizzy Leaf was born.</p>
+                    <p class="story-quote">"We don't cut corners. We brew the hard way with real ingredients, producing a clean sparkle you can feel good about drinking every day."</p>
+                    <p>Today, we proudly brew and bottle Fizzy Leaf right here in Middle Tennessee, serving local coffee shops and neighbors who value transparency and real ingredients.</p>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Visual Gallery Section -->
+    <section class="gallery">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Fizzy Leaf in the Wild</h2>
+                <p>Take a look at how our community enjoys the floral sparkle of Fizzy Leaf. Tag us in your moments!</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" data-img="img/fizzy-detail1.jpg">
+                    <img src="img/fizzy-detail1.jpg" alt="Fizzy Leaf Outdoor">
+                    <div class="gallery-overlay"><span>Fresh & Crisp</span></div>
+                </div>
+                <div class="gallery-item" data-img="img/fizzy-detail2.jpg">
+                    <img src="img/fizzy-detail2.jpg" alt="Fizzy Leaf Pour">
+                    <div class="gallery-overlay"><span>Perfect Steep</span></div>
+                </div>
+                <div class="gallery-item" data-img="img/fizzy-detail6.jpg">
+                    <img src="img/fizzy-detail6.jpg" alt="Fizzy Leaf Close Up">
+                    <div class="gallery-overlay"><span>Naturally Crimson</span></div>
+                </div>
+            </div>
+            
+            <!-- Instagram Widget -->
+            <div class="instagram-widget">
+                <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center; color: var(--text-dark);">Follow Our Journey @FizzyLeaf</h3>
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-18cc5d9e-ff56-432e-9d94-79147ead9d44" data-elfsight-app-lazy></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
     <section id="contact" class="contact">
-        <h2>Contact</h2>
-        <p>For business inquiries, please reach out:</p>
-        <div class="contact-card">
-            <form action="https://submit-form.com/vwsJT57aO">
-                <div class="form-row">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required />
+        <div class="section-container">
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <h2>Let's Stay in Touch</h2>
+                    <p>Have questions about retail distribution, local shipping, or just want to say hello? Drop us a line and we'll get right back to you!</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span>hello@fizzyleaf.com</span>
+                        </div>
+                        <div class="contact-detail-item">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <span>Columbia, Tennessee</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-row">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
+
+                <div class="contact-card-wrapper">
+                    <div class="contact-card">
+                        <!-- Success/Error Feedback Messages -->
+                        <div id="form-feedback-success" class="form-message success">Thank you! Your message has been sent successfully.</div>
+                        <div id="form-feedback-error" class="form-message error">Oops! There was an error sending your message. Please try again.</div>
+
+                        <form id="contact-form" action="https://submit-form.com/vwsJT57aO">
+                            <div class="form-group">
+                                <label for="form-name">Your Name</label>
+                                <input type="text" id="form-name" name="name" class="form-control" placeholder="John Doe" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="form-email">Email Address</label>
+                                <input type="email" id="form-email" name="email" class="form-control" placeholder="john@example.com" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="form-message">Message</label>
+                                <textarea id="form-message" name="message" class="form-control" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-submit" id="form-submit-btn">Send Message</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-row">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="fancy-btn">Send Message</button>
-            </form>
+            </div>
         </div>
     </section>
 
-    <footer style="padding: 3rem; background: #f7f2e8; text-align: center;">
-        © 2026 Fizzy Leaf Sparkling Tea · Crafted with care in Tennessee
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf Logo">
+                <span>Fizzy Leaf</span>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#ingredients">Ingredients</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#locations">Locations</a></li>
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Fizzy Leaf Sparkling Tea · Handcrafted with care in Tennessee · Unsweetened & Unfiltered</p>
+        </div>
     </footer>
 
+    <!-- Tennessee Address Verification Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Fizzy Leaf Local Checkout</h3>
+                <button class="modal-close" id="modal-close-btn" aria-label="Close Modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- STEP 1: ZIP Check -->
+                <div class="modal-step active" id="step-zip">
+                    <div class="zip-badge-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="modal-step-title">Verify Shipping Address</h4>
+                    <p class="modal-step-desc">Fizzy Leaf is brewed fresh locally. To guarantee freshness, we currently ship exclusively within Tennessee (TN). Enter your ZIP code to verify delivery:</p>
+                    
+                    <div class="zip-input-group">
+                        <input type="text" id="zip-code-input" class="form-control" placeholder="37064" maxlength="5" pattern="[0-9]*" inputmode="numeric" required>
+                    </div>
+                    <p id="zip-error-msg" style="color: var(--primary); font-weight: 600; text-align: center; display: none; margin-bottom: 1rem;">Please enter a valid 5-digit zip code.</p>
+                    
+                    <button class="btn btn-primary" style="width:100%;" id="verify-zip-btn">Verify Delivery Availability</button>
+                </div>
+
+                <!-- STEP 2: Checkout Form (TN Success) -->
+                <div class="modal-step" id="step-checkout">
+                    <h4 class="modal-step-title" style="margin-bottom:0.25rem;">Shipment & Payment</h4>
+                    <p class="modal-step-desc" style="color: var(--secondary); font-weight: 600; margin-bottom:1.5rem;">🎉 Success! We deliver to your ZIP code.</p>
+                    
+                    <div class="checkout-summary">
+                        <div class="summary-row">
+                            <span id="summary-item-label">Roselle Hibiscus 12-Pack (One-time)</span>
+                            <span id="summary-item-price">$32.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Local Shipping</span>
+                            <span id="summary-shipping-price">$4.99</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Order Total</span>
+                            <span id="summary-total-price">$36.99</span>
+                        </div>
+                    </div>
+
+                    <form id="checkout-form">
+                        <div class="checkout-form-grid">
+                            <div class="form-group full-width">
+                                <label for="ship-name">Full Name</label>
+                                <input type="text" id="ship-name" class="form-control" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="ship-email">Email Address</label>
+                                <input type="email" id="ship-email" class="form-control" placeholder="john@example.com" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="ship-address">Street Address</label>
+                                <input type="text" id="ship-address" class="form-control" placeholder="123 Main St" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ship-city">City</label>
+                                <input type="text" id="ship-city" class="form-control" placeholder="Franklin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ship-state">State</label>
+                                <input type="text" id="ship-state" class="form-control" value="TN" readonly disabled>
+                            </div>
+                            
+                            <!-- Mock Payment Fields -->
+                            <div class="form-group full-width" style="margin-top:0.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                                <label for="card-num">Credit Card Number</label>
+                                <input type="text" id="card-num" class="form-control" placeholder="4111 2222 3333 4444" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" class="form-control" placeholder="123" required>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-nav-buttons">
+                            <button type="button" class="btn btn-secondary modal-btn" id="checkout-back-btn">Back</button>
+                            <button type="submit" class="btn btn-primary modal-btn" id="checkout-submit-btn">Place Order</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 3: Out of State Waitlist -->
+                <div class="modal-step" id="step-waitlist">
+                    <div class="zip-badge-icon" style="background-color: var(--primary-light); color: var(--primary);">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="modal-step-title">Outside Delivery Zone</h4>
+                    <p class="modal-step-desc">Fizzy Leaf is committed to low-impact local shipping. We do not deliver to your ZIP code yet, but we are expanding soon! Join our mailing list to get notified when we start shipping to your area:</p>
+                    
+                    <form id="waitlist-form">
+                        <div class="form-group">
+                            <label for="waitlist-email">Email Address</label>
+                            <input type="email" id="waitlist-email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="waitlist-zip">Your Zip Code</label>
+                            <input type="text" id="waitlist-zip" class="form-control" readonly disabled>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 1rem;">Join Expansion Waitlist</button>
+                    </form>
+                </div>
+
+                <!-- STEP 4: Success Screen -->
+                <div class="modal-step" id="step-success">
+                    <div class="success-checkmark">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="modal-step-title" id="success-title">Order Confirmed!</h4>
+                    <p class="modal-step-desc" id="success-desc">Thank you for supporting Fizzy Leaf. We've sent a confirmation email, and your sparkling tea will be shipped within 24 hours.</p>
+                    <button class="btn btn-primary" style="width:100%;" id="success-close-btn">Awesome!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox for Gallery Previews -->
+    <div class="lightbox" id="gallery-lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close-btn">&times; Close</button>
+            <img src="" alt="Fizzy Leaf Expanded" id="lightbox-img">
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // --- SHOPIFY BUY BUTTON SDK CONFIGURATION ---
+        // You can enable this and put in client product credentials from Shopify (e.g. Starter $40/mo plan)
+        const SHOPIFY_CONFIG = {
+            enabled: false, // Set to true when live storefront credentials are ready
+            domain: 'fizzyleaf.myshopify.com',
+            storefrontAccessToken: 'your-storefront-access-token-here',
+            productIds: {
+                pack12: '12-pack-product-id-from-shopify',
+                pack24: '24-pack-product-id-from-shopify'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- MOBILE MENU TOGGLE ---
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileToggle.classList.toggle('active');
+            });
+
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    mobileToggle.classList.remove('active');
+                });
+            });
+
+            // --- HERO CAROUSEL ---
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.carousel-dot');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 4000);
+            }
+
+            function resetSlideShow() {
+                clearInterval(slideInterval);
+                startSlideShow();
+            }
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideIndex = parseInt(dot.getAttribute('data-slide'));
+                    showSlide(slideIndex);
+                    resetSlideShow();
+                });
+            });
+
+            startSlideShow();
+
+            // --- SHOP GALLERY THUMBNAILS ---
+            const mainProductImg = document.getElementById('main-product-img');
+            const thumbnails = document.querySelectorAll('.shop-thumb');
+
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                    mainProductImg.src = thumb.src;
+                });
+            });
+
+            // --- DYNAMIC PRICING FOR 12-PACK & 24-PACK WITH 20% DISCOUNT ---
+            const pricingData = {
+                '12': {
+                    onetime: 32.00,
+                    subscribe: 25.60 // 20% off
+                },
+                '24': {
+                    onetime: 58.00, // discounted bundle base
+                    subscribe: 46.40 // 20% off
+                }
+            };
+
+            let selectedSize = '12'; // Default size
+            let selectedOption = 'subscribe'; // Default option
+
+            const pack12Btn = document.getElementById('pack-12');
+            const pack24Btn = document.getElementById('pack-24');
+            const optSubscribe = document.getElementById('opt-subscribe');
+            const optOnetime = document.getElementById('opt-onetime');
+            const purchaseSubRadio = document.getElementById('purchase-sub');
+            const purchaseOnetimeRadio = document.getElementById('purchase-onetime');
+            
+            const subPriceEl = document.getElementById('sub-price');
+            const onetimePriceEl = document.getElementById('onetime-price');
+
+            function updatePricingUI() {
+                const prices = pricingData[selectedSize];
+                subPriceEl.innerText = `$${prices.subscribe.toFixed(2)}`;
+                onetimePriceEl.innerText = `$${prices.onetime.toFixed(2)}`;
+            }
+
+            pack12Btn.addEventListener('click', () => {
+                pack12Btn.classList.add('selected');
+                pack24Btn.classList.remove('selected');
+                selectedSize = '12';
+                updatePricingUI();
+            });
+
+            pack24Btn.addEventListener('click', () => {
+                pack24Btn.classList.add('selected');
+                pack12Btn.classList.remove('selected');
+                selectedSize = '24';
+                updatePricingUI();
+            });
+
+            optSubscribe.addEventListener('click', () => {
+                optSubscribe.classList.add('selected');
+                optOnetime.classList.remove('selected');
+                purchaseSubRadio.checked = true;
+                selectedOption = 'subscribe';
+            });
+
+            optOnetime.addEventListener('click', () => {
+                optOnetime.classList.add('selected');
+                optSubscribe.classList.remove('selected');
+                purchaseOnetimeRadio.checked = true;
+                selectedOption = 'onetime';
+            });
+
+            // --- LOCAL STORE LOCATOR FILTER & MAP ZOOM INTERACTIONS ---
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const storeCards = document.querySelectorAll('.location-card-new');
+            const mapFrame = document.getElementById('map-frame');
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const city = btn.getAttribute('data-city');
+                    
+                    if (city === 'all') {
+                        // Reset map to zoomed out Tennessee view (z=9) showing all stores
+                        mapFrame.src = "https://maps.google.com/maps?q=Franklin,+TN&t=&z=9&ie=UTF8&iwloc=&output=embed";
+                        
+                        storeCards.forEach(card => {
+                            card.style.display = 'block';
+                            card.classList.remove('active');
+                        });
+                        if (storeCards.length > 0) {
+                            storeCards[0].classList.add('active');
+                        }
+                    } else {
+                        // Show filtered stores
+                        let firstVisibleCard = null;
+                        storeCards.forEach(card => {
+                            const cardCity = card.getAttribute('data-city');
+                            if (cardCity === city) {
+                                card.style.display = 'block';
+                                if (!firstVisibleCard) firstVisibleCard = card;
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+
+                        // Zoom map to intermediate city view (z=12)
+                        if (firstVisibleCard) {
+                            const cityName = btn.innerText;
+                            mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(cityName + ", TN")}&t=&z=12&ie=UTF8&iwloc=&output=embed`;
+                            
+                            storeCards.forEach(c => c.classList.remove('active'));
+                            firstVisibleCard.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            function selectLocationAndZoom(card) {
+                storeCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                
+                const address = card.getAttribute('data-address');
+                const name = card.getAttribute('data-name');
+                
+                // ZOOM IN to specific store location on card click (z=16)
+                mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(name + ", " + address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+            }
+
+            storeCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    selectLocationAndZoom(card);
+                });
+            });
+
+            // --- GALLERY LIGHTBOX POPUP ---
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.getAttribute('data-img');
+                    lightboxImg.src = imgSrc;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            lightboxCloseBtn.addEventListener('click', () => {
+                lightbox.classList.remove('active');
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.classList.remove('active');
+                }
+            });
+
+            // --- FORMSPARK CONTACT FORM SUBMISSION ---
+            const contactForm = document.getElementById('contact-form');
+            const formSuccess = document.getElementById('form-feedback-success');
+            const formError = document.getElementById('form-feedback-error');
+            const formSubmitBtn = document.getElementById('form-submit-btn');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    formSuccess.style.display = 'none';
+                    formError.style.display = 'none';
+                    formSubmitBtn.disabled = true;
+                    formSubmitBtn.innerText = 'Sending...';
+
+                    const formData = new FormData(contactForm);
+                    const formObject = {};
+                    formData.forEach((value, key) => {
+                        formObject[key] = value;
+                    });
+
+                    try {
+                        const response = await fetch(contactForm.action, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(formObject)
+                        });
+
+                        if (response.ok) {
+                            formSuccess.style.display = 'block';
+                            contactForm.reset();
+                        } else {
+                            formError.style.display = 'block';
+                        }
+                    } catch (error) {
+                        formError.style.display = 'block';
+                    } finally {
+                        formSubmitBtn.disabled = false;
+                        formSubmitBtn.innerText = 'Send Message';
+                    }
+                });
+            }
+
+            // --- LOCAL ADDRESS VERIFICATION MODAL FLOW ---
+            const checkoutModal = document.getElementById('checkout-modal');
+            const buyButton = document.getElementById('buy-button');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const verifyZipBtn = document.getElementById('verify-zip-btn');
+            const zipCodeInput = document.getElementById('zip-code-input');
+            const zipErrorMsg = document.getElementById('zip-error-msg');
+            
+            // Modal Steps
+            const stepZip = document.getElementById('step-zip');
+            const stepCheckout = document.getElementById('step-checkout');
+            const stepWaitlist = document.getElementById('step-waitlist');
+            const stepSuccess = document.getElementById('step-success');
+
+            // Form References
+            const checkoutForm = document.getElementById('checkout-form');
+            const waitlistForm = document.getElementById('waitlist-form');
+            const checkoutBackBtn = document.getElementById('checkout-back-btn');
+            const successCloseBtn = document.getElementById('success-close-btn');
+
+            // Checkout UI labels update
+            const summaryItemLabel = document.getElementById('summary-item-label');
+            const summaryItemPrice = document.getElementById('summary-item-price');
+            const summaryShippingPrice = document.getElementById('summary-shipping-price');
+            const summaryTotalPrice = document.getElementById('summary-total-price');
+
+            buyButton.addEventListener('click', () => {
+                const prices = pricingData[selectedSize];
+                const isSub = selectedOption === 'subscribe';
+                
+                // Set checkout values
+                if (isSub) {
+                    summaryItemLabel.innerText = `Roselle Hibiscus ${selectedSize}-Pack (Monthly Subscription)`;
+                    summaryItemPrice.innerText = `$${prices.subscribe.toFixed(2)}`;
+                    summaryShippingPrice.innerText = "FREE";
+                    summaryTotalPrice.innerText = `$${prices.subscribe.toFixed(2)}`;
+                } else {
+                    summaryItemLabel.innerText = `Roselle Hibiscus ${selectedSize}-Pack (One-time)`;
+                    summaryItemPrice.innerText = `$${prices.onetime.toFixed(2)}`;
+                    summaryShippingPrice.innerText = "$4.99";
+                    summaryTotalPrice.innerText = `$${(prices.onetime + 4.99).toFixed(2)}`;
+                }
+
+                // Reset and Open Modal
+                resetModal();
+                checkoutModal.classList.add('active');
+            });
+
+            function resetModal() {
+                zipCodeInput.value = '';
+                zipErrorMsg.style.display = 'none';
+                
+                stepZip.classList.add('active');
+                stepCheckout.classList.remove('active');
+                stepWaitlist.classList.remove('active');
+                stepSuccess.classList.remove('active');
+            }
+
+            modalCloseBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+
+            checkoutModal.addEventListener('click', (e) => {
+                if (e.target === checkoutModal) {
+                    checkoutModal.classList.remove('active');
+                }
+            });
+
+            // ZIP CODE DELIVERY CHECKER
+            verifyZipBtn.addEventListener('click', () => {
+                const zip = zipCodeInput.value.trim();
+                
+                if (zip.length !== 5 || isNaN(zip)) {
+                    zipErrorMsg.innerText = "Please enter a valid 5-digit ZIP code.";
+                    zipErrorMsg.style.display = 'block';
+                    return;
+                }
+
+                zipErrorMsg.style.display = 'none';
+
+                // Tennessee ZIP codes start with 37 or 38
+                const isTennessee = zip.startsWith('37') || zip.startsWith('38');
+
+                stepZip.classList.remove('active');
+
+                if (isTennessee) {
+                    // Pre-fill checkout fields where appropriate
+                    document.getElementById('ship-city').value = getCityFromZip(zip);
+                    stepCheckout.classList.add('active');
+                } else {
+                    // Set up waitlist page
+                    document.getElementById('waitlist-zip').value = zip;
+                    stepWaitlist.classList.add('active');
+                }
+            });
+
+            checkoutBackBtn.addEventListener('click', () => {
+                stepCheckout.classList.remove('active');
+                stepZip.classList.add('active');
+            });
+
+            checkoutForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                stepCheckout.classList.remove('active');
+                
+                const isSub = selectedOption === 'subscribe';
+                const prices = pricingData[selectedSize];
+                
+                if (isSub) {
+                    document.getElementById('success-title').innerText = "Subscription Active!";
+                    document.getElementById('success-desc').innerText = `Thank you! Your recurring order of Fizzy Leaf Roselle Hibiscus ${selectedSize}-Pack has been created. Your first case ships in 24 hours, and you will be billed $${prices.subscribe.toFixed(2)} monthly (20% Savings applied).`;
+                } else {
+                    document.getElementById('success-title').innerText = "Order Placed!";
+                    document.getElementById('success-desc').innerText = `Thank you for supporting Fizzy Leaf. Your order of a Roselle Hibiscus ${selectedSize}-Pack has been received. Your case will be delivered within 24-48 hours.`;
+                }
+
+                stepSuccess.classList.add('active');
+            });
+
+            waitlistForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                stepWaitlist.classList.remove('active');
+                document.getElementById('success-title').innerText = "Joined Waitlist!";
+                document.getElementById('success-desc').innerText = "We've added you to our expansion mailing list. We'll notify you as soon as Fizzy Leaf is available for shipping in your area. Thanks for your interest!";
+                stepSuccess.classList.add('active');
+            });
+
+            successCloseBtn.addEventListener('click', () => {
+                checkoutModal.classList.remove('active');
+            });
+
+            function getCityFromZip(zip) {
+                const prefix = zip.substring(0, 5);
+                if (prefix === '37174') return 'Spring Hill';
+                if (prefix === '37064' || prefix === '37067' || prefix === '37069') return 'Franklin';
+                if (prefix === '37179') return "Thompson's Station";
+                if (prefix === '38401') return 'Columbia';
+                if (prefix.startsWith('372')) return 'Nashville';
+                return '';
+            }
+
+            // --- SHOPIFY BUY BUTTON SDK INTEGRATION ---
+            // Triggers loading the Shopify Buy Button code when config.enabled is true
+            if (SHOPIFY_CONFIG.enabled) {
+                // Hide native buy panel and show shopify buy buttons container
+                document.getElementById('native-buy-widget').style.display = 'none';
+                document.getElementById('shopify-buy-button-container').style.display = 'block';
+
+                loadShopifySDK();
+            }
+
+            function loadShopifySDK() {
+                const scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+                if (window.ShopifyBuy && window.ShopifyBuy.UI) {
+                    initShopifyBuy();
+                } else {
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.src = scriptURL;
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+                    script.onload = initShopifyBuy;
+                }
+            }
+
+            function initShopifyBuy() {
+                const client = ShopifyBuy.buildClient({
+                    domain: SHOPIFY_CONFIG.domain,
+                    storefrontAccessToken: SHOPIFY_CONFIG.storefrontAccessToken,
+                });
+
+                ShopifyBuy.UI.onReady(client).then((ui) => {
+                    // Create widget instance for the Shopify product
+                    ui.createComponent('product', {
+                        id: SHOPIFY_CONFIG.productIds.pack12, // Default to 12 Pack product ID
+                        node: document.getElementById('product-component-shopify'),
+                        moneyFormat: '%24%7B%7Bamount%7D%7D',
+                        options: {
+                            "product": {
+                                "styles": {
+                                    "product": {
+                                        "@media (min-width: 601px)": {
+                                            "max-width": "100%",
+                                            "margin-left": "0px",
+                                            "margin-bottom": "0px"
+                                        }
+                                    },
+                                    "button": {
+                                        "font-family": "Outfit, sans-serif",
+                                        "font-weight": "bold",
+                                        "font-size": "16px",
+                                        "padding-top": "15px",
+                                        "padding-bottom": "15px",
+                                        "color": "#ffffff",
+                                        "background-color": "#c5a059",
+                                        ":hover": {
+                                            "background-color": "#b38f46"
+                                        },
+                                        "border-radius": "40px",
+                                        "transition": "all 0.3s ease"
+                                    }
+                                },
+                                "text": {
+                                    "button": "Add to Cart"
+                                }
+                            },
+                            "cart": {
+                                "styles": {
+                                    "button": {
+                                        "font-family": "Outfit, sans-serif",
+                                        "background-color": "#c5a059",
+                                        ":hover": {
+                                            "background-color": "#b38f46"
+                                        },
+                                        "border-radius": "40px"
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
+
 </html>
