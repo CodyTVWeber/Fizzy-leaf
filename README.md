@@ -40,11 +40,21 @@ Since this is a static site, you can host it on:
 
 ## Features
 
-- Responsive design with smooth scrolling
-- Google Maps integration showing Fizzy Leaf locations
-- Contact form powered by Formspark
-- Beautiful gradient backgrounds and animations
-- Mobile-friendly layout
+- Spindrift-inspired clean, premium product-focused design
+- Hero with professional product photography (new cans + handheld shots from tmp/)
+- **Shop section** with pack sizes (4/8/12), one-time purchase and **Subscribe & Save (15% off)** options
+- Client-side cart + "Buy with Shopify" buttons + demo checkout flow (notes real Shopify integration + TN shipping restriction)
+- **Tennessee-only** badges, disclaimers, and demo zip gate for online orders
+- **Full updated retailer list** (18 locations) from email + cleaned names + search filter on Find Us
+- "Made the right way" values section modeled on Spindrift philosophy
+- Contact via Formspark + demo newsletter signup
+- Instagram embed + Google Maps retained
+- Responsive, modern typography and generous whitespace
+
+## Online Sales Notes
+- "Add shopify button" and subscriptions implemented via attractive UI + JS cart.
+- When a real Shopify store + Buy Button + Selling Plans exist, replace the add-to-cart behavior and `shopifyCheckout()` with the official Shopify Buy Button embed (product + subscription plan).
+- Shipping profiles in Shopify should restrict to TN zip codes only.
 
 ## Customization
 

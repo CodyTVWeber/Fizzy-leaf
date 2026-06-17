@@ -5,18 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fizzy Leaf Sparkling Tea</title>
+    <meta name="description" content="Fizzy Leaf — the original sparkling tea. Real brewed hibiscus tea, lightly carbonated in Middle Tennessee. 0 calories, &lt;1g carbs, no artificial sweeteners. Shop online (Tennessee residents only) or find us at local shops across Middle TN.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fizzyleaf.com/">
+    <meta property="og:title" content="Fizzy Leaf | The Original Sparkling Tea">
+    <meta property="og:description" content="Real hibiscus tea, lightly carbonated. 0 cal. Shop packs or subscribe &amp; save. TN online orders only. Available at coffee shops and markets across Middle Tennessee.">
+    <meta property="og:image" content="https://fizzyleaf.com/cans-3pack.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fizzy Leaf Sparkling Tea">
+    <meta name="twitter:description" content="The original sparkling tea made the right way in Tennessee.">
+    <meta name="twitter:image" content="https://fizzyleaf.com/cans-3pack.jpg">
     <link rel="icon" type="image/webp" sizes="32x32" href="img/FizzyLeafIcon_favicon_dark.webp">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+        :root {
+            --gold: #d2a863;
+            --brown: #7a633b;
+            --accent: #a88445;
+            --cream: #fffdf8;
+            --ink: #3f2e1f;
+        }
 
         * { box-sizing: border-box; }
 
         body {
             margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #fffdf8 0%, #fef8ee 50%, #fef3e4 100%);
-            background-attachment: fixed;
-            color: #6b5538;
+            font-family: 'Montserrat', system_ui, sans-serif;
+            background: #fffdf8;
+            color: #3f2e1f;
             scroll-behavior: smooth;
             line-height: 1.6;
         }
@@ -25,24 +42,35 @@
             position: fixed;
             width: 100%;
             top: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(25px) saturate(180%);
+            background: rgba(255, 253, 248, 0.96);
+            backdrop-filter: blur(20px) saturate(180%);
             z-index: 1000;
-            border-bottom: 1px solid rgba(122, 99, 59, 0.08);
-            box-shadow: 0 2px 24px rgba(122, 99, 59, 0.06);
+            border-bottom: 1px solid rgba(122, 99, 59, 0.1);
         }
 
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            justify-content: center;
-            padding: 1rem 2rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .nav-logo {
+            height: 32px;
+            width: auto;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 1.75rem;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -52,111 +80,560 @@
             color: #7a633b;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            padding: 0.6rem 1rem;
-            transition: all 0.3s;
-            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.4rem 0.6rem;
+            transition: color .2s;
         }
 
-        .nav-links a:hover {
-            color: #d2a863;
-            background: rgba(210, 168, 99, 0.08);
+        .nav-links a:hover { color: #d2a863; }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            background: #d2a863;
+            color: white;
+            border: none;
+            border-radius: 999px;
+            padding: 0.55rem 1.1rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+        .nav-btn:hover { background: #c99a52; transform: translateY(-1px); }
+
+        .cart-btn {
+            background: none;
+            border: 1px solid rgba(122,99,59,0.2);
+            border-radius: 999px;
+            padding: 0.4rem 0.75rem;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            color: #7a633b;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #d2a863;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
         }
 
         section {
-            min-height: 100vh;
-            padding: 8rem 2rem 4rem;
-            text-align: center;
-        }
-
-        .hero img.logo {
-            width: 390px;
-            max-width: 90vw;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 8px 30px rgba(210, 168, 99, 0.35));
-        }
-
-        .hero-images {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        .feature-image {
-            width: 300px;
-            height: auto;
-            object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 6rem 1.5rem 4rem;
         }
 
         h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 2.6rem;
             font-weight: 700;
             color: #a88445;
+            margin: 0 0 1rem;
         }
 
-        .locations-grid {
+        .section-intro {
+            max-width: 620px;
+            margin: 0 auto 2.5rem;
+            font-size: 1.05rem;
+            color: #6b5538;
+        }
+
+        .tn-badge {
+            display: inline-block;
+            background: #f4e9d8;
+            color: #7a633b;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            letter-spacing: .5px;
+            margin-left: .5rem;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 92vh;
+            padding: 7rem 1.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #fffdf8 0%, #f9f1e3 100%);
+        }
+
+        .hero img.hero-product {
+            width: min(620px, 92vw);
+            max-height: 52vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 25px 70px -15px rgba(122,99,59,.25), 0 10px 20px rgba(0,0,0,.06);
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.1rem;
+            font-weight: 700;
+            color: #3f2e1f;
+            margin: 0 0 .4rem;
+            line-height: 1.05;
+        }
+
+        .hero .tagline {
+            font-size: 1.15rem;
+            color: #6b5538;
+            max-width: 540px;
+            margin: 0 auto 1.75rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            background: #d2a863;
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: .85rem 1.65rem;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .btn:hover { background: #c99a52; transform: translateY(-1px); }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d2a863;
+            color: #7a633b;
+        }
+
+        .btn-outline:hover {
+            background: rgba(210,168,99,.1);
+            color: #3f2e1f;
+        }
+
+        .btn-sub {
+            background: #3f2e1f;
+        }
+
+        .btn-sub:hover { background: #2a2116; }
+
+        /* SHOP */
+        .shop-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 3rem auto;
+            grid-template-columns: 1fr 420px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .shop-wrap { grid-template-columns: 1fr; }
+        }
+
+        .product-visual {
+            position: relative;
+        }
+
+        .product-visual img {
+            width: 100%;
+            max-width: 460px;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,.15);
+        }
+
+        .product-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            margin: .25rem 0 .5rem;
+            color: #3f2e1f;
+        }
+
+        .product-meta {
+            color: #6b5538;
+            font-size: .95rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .4rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .feature-pill {
+            background: #f8f1e6;
+            color: #7a633b;
+            font-size: .8rem;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .pack-options {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .pack-btn {
+            flex: 1;
+            min-width: 92px;
+            border: 2px solid #e6d9c3;
+            background: white;
+            border-radius: 12px;
+            padding: .65rem .4rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            text-align: center;
+        }
+
+        .pack-btn.active, .pack-btn:hover {
+            border-color: #d2a863;
+            background: #fff9ee;
+        }
+
+        .pack-btn .price {
+            display: block;
+            font-weight: 700;
+            color: #a88445;
+            font-size: 1.05rem;
+            margin-top: .15rem;
+        }
+
+        .purchase-type {
+            display: flex;
+            gap: .5rem;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .purchase-type button {
+            flex: 1;
+            padding: .6rem;
+            border-radius: 10px;
+            border: 2px solid #e6d9c3;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .purchase-type button.active {
+            border-color: #3f2e1f;
+            background: #3f2e1f;
+            color: white;
+        }
+
+        .sub-details {
+            font-size: .85rem;
+            background: #f8f1e6;
+            padding: .6rem .9rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            color: #6b5538;
+        }
+
+        .shop-actions {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+
+        .shop-actions .btn {
+            width: 100%;
+            padding: .95rem 1.25rem;
+        }
+
+        .shop-disclaimer {
+            font-size: .75rem;
+            color: #8b6f47;
+            margin-top: .6rem;
+            line-height: 1.4;
+        }
+
+        /* LOCATIONS */
+        .locations-controls {
+            max-width: 860px;
+            margin: 0 auto 1rem;
+            display: flex;
+            gap: .75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #location-search {
+            flex: 1;
+            min-width: 220px;
+            padding: .65rem 1rem;
+            border: 2px solid #e6d9c3;
+            border-radius: 999px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .retailers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            max-width: 1100px;
+            margin: 0 auto 2rem;
             text-align: left;
         }
 
-        .location-card {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 1.5rem;
-            border-radius: 18px;
-            border: 1px solid rgba(210, 168, 99, 0.15);
-            box-shadow: 0 4px 12px rgba(122, 99, 59, 0.05);
+        .retailer {
+            background: white;
+            border: 1px solid #f0e4d0;
+            border-radius: 14px;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 2px 8px rgba(122,99,59,.04);
         }
 
-        .location-card strong {
+        .retailer strong {
             display: block;
             color: #a88445;
-            font-size: 1.2rem;
-            margin-bottom: 0.4rem;
+            font-size: 1.02rem;
+            margin-bottom: .2rem;
+        }
+
+        .retailer .addr {
+            font-size: .9rem;
+            color: #5c4730;
+            line-height: 1.35;
         }
 
         iframe {
             width: 100%;
-            max-width: 1000px;
-            height: 500px;
-            border-radius: 20px;
-            margin-top: 2.5rem;
-            box-shadow: 0 8px 30px rgba(210, 168, 99, 0.25);
-            border: 3px solid rgba(255, 255, 255, 0.8);
+            max-width: 1100px;
+            height: 420px;
+            border-radius: 18px;
+            margin: 1rem auto 0;
+            box-shadow: 0 10px 35px rgba(210, 168, 99, 0.18);
+            border: 4px solid #fff;
+            display: block;
         }
 
-        /* --- Contact Section Styles --- */
-        .contact-card {
-            background: rgba(255, 252, 242, 0.95);
-            border-radius: 22px;
-            box-shadow: 0 8px 28px rgba(210, 168, 99, 0.10);
-            max-width: 450px;
-            margin: 2.5rem auto 0;
-            padding: 2.5rem;
-            text-align: left;
+        /* VALUES / INGREDIENTS */
+        .values-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
         }
-        .form-row { margin-bottom: 1.3rem; }
-        .form-row label { display: block; font-weight: 600; color: #a88445; margin-bottom: 0.5rem; }
+
+        @media (max-width: 780px) {
+            .values-grid { grid-template-columns: 1fr; }
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.35rem 1.2rem;
+            text-align: left;
+            border: 1px solid #f0e4d0;
+        }
+
+        .value-card h4 {
+            margin: .1rem 0 .4rem;
+            color: #a88445;
+            font-size: 1.1rem;
+        }
+
+        /* STORY & FLAVORS */
+        .story-content, .flavor-content {
+            max-width: 620px;
+            margin: 0 auto;
+            text-align: left;
+            background: white;
+            padding: 2rem;
+            border-radius: 18px;
+            border: 1px solid #f0e4d0;
+        }
+
+        .flavor-content h3 {
+            margin-top: 0;
+            color: #a88445;
+        }
+
+        /* CONTACT & SIGNUP */
+        .contact-card, .signup-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 28px rgba(210, 168, 99, 0.1);
+            max-width: 440px;
+            margin: 1.5rem auto 0;
+            padding: 2rem;
+            text-align: left;
+            border: 1px solid #f0e4d0;
+        }
+
+        .form-row { margin-bottom: 1rem; }
+        .form-row label { display: block; font-weight: 600; color: #a88445; margin-bottom: .35rem; font-size: .9rem; }
         .form-row input, .form-row textarea {
-            width: 100%; padding: 0.85rem; border-radius: 12px; border: 1.5px solid #ecd7b2;
+            width: 100%; padding: .7rem .85rem; border-radius: 10px; border: 1.5px solid #e6d9c3;
             font-family: inherit; font-size: 1rem;
         }
+
         .fancy-btn {
             background: linear-gradient(135deg, #d2a863 0%, #c99a52 100%);
-            border: none; border-radius: 18px; color: #fff; padding: 1rem;
-            width: 100%; font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            border: none; border-radius: 999px; color: #fff; padding: .85rem 1.4rem;
+            width: 100%; font-size: 1.05rem; font-weight: 700; cursor: pointer;
+        }
+
+        .fancy-btn:hover { filter: brightness(1.05); }
+
+        /* CART MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
+        }
+
+        .modal.open { display: flex; }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 30px 70px -10px rgba(0,0,0,.35);
+        }
+
+        .modal-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .modal-body { padding: 1.25rem; max-height: 55vh; overflow: auto; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: .75rem 0;
+            border-bottom: 1px solid #f5f0e7;
+            font-size: .95rem;
+        }
+
+        .cart-item:last-child { border: none; }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            padding-top: .75rem;
+            margin-top: .5rem;
+            border-top: 2px solid #f0e4d0;
+        }
+
+        .cart-note {
+            font-size: .8rem;
+            color: #8b6f47;
+            background: #f8f1e6;
+            padding: .5rem .7rem;
+            border-radius: 8px;
+            margin: .75rem 0;
+        }
+
+        .modal-actions {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: .5rem;
+        }
+
+        .modal-actions button { flex: 1; }
+
+        /* MISC */
+        .instagram-embed { max-width: 1000px; margin: 0 auto; }
+
+        footer {
+            padding: 2.5rem 1.5rem;
+            background: #f7f2e8;
+            text-align: center;
+            font-size: .85rem;
+            color: #6b5538;
+        }
+
+        .footer-note {
+            font-size: .75rem;
+            margin-top: .4rem;
+            opacity: .75;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: 1px solid rgba(122,99,59,0.25);
+            border-radius: 8px;
+            padding: 0.3rem 0.55rem;
+            font-size: 1.1rem;
+            color: #7a633b;
+            cursor: pointer;
+            line-height: 1;
         }
 
         @media (max-width: 768px) {
-            .locations-grid { grid-template-columns: 1fr; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fffdf8;
+                flex-direction: column;
+                padding: 0.75rem 1.25rem;
+                gap: 0.5rem;
+                border-bottom: 1px solid rgba(122,99,59,0.1);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                z-index: 999;
+            }
+            .nav-links.open { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .nav-container { position: relative; }
+            section { padding-top: 5rem; }
+            .hero h1 { font-size: 2.35rem; }
         }
     </style>
 </head>
@@ -165,88 +642,621 @@
 
     <header>
         <div class="nav-container">
-            <nav class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#locations">Locations</a>
-                <a href="#story">Our Story</a>
-                <a href="#flavors">Flavors</a>
-                <a href="#contact">Contact</a>
+            <div class="nav-left">
+                <a href="#home"><img src="img/FizzyLeafIcon_favicon_dark.webp" alt="Fizzy Leaf" class="nav-logo"></a>
+                <span style="font-weight:700; color:#3f2e1f; font-size:1.05rem;">Fizzy Leaf</span>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#shop">Shop</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                    <li><a href="#story">Story</a></li>
+                    <li><a href="#follow">Follow</a></li>
+                </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="#shop" class="nav-btn">Shop Now</a>
+                <button class="cart-btn" onclick="showCart()" aria-label="Open cart">
+                    🛒 <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Toggle menu" aria-expanded="false">☰</button>
+            </div>
         </div>
     </header>
 
+    <!-- HERO -->
     <section id="home" class="hero">
-        <img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf Logo" class="logo">
-        <div class="hero-images">
-            <img src="Fizzyleaf2.jpg" alt="Fizzy Leaf" class="feature-image">
-            <img src="Fizzyleaf3.jpg" alt="Fizzy Leaf" class="feature-image">
-            <img src="Fizzyleaf4.jpg" alt="Fizzy Leaf" class="feature-image">
+        <img src="cans-3pack.jpg" alt="Fizzy Leaf Roselle Hibiscus cans" class="hero-product">
+        <h1>The original<br>sparkling tea.</h1>
+        <p class="tagline">Real brewed hibiscus tea. Lightly carbonated. 0 calories. Less than 1g carbs. No artificial anything. Made in Middle Tennessee.</p>
+        <div class="hero-ctas">
+            <a href="#shop" class="btn">Shop Online</a>
+            <a href="#find-us" class="btn btn-outline">Find in Stores</a>
         </div>
-        <p>Made and Sold here in Middle Tennessee.</p>
+        <div style="margin-top:1.25rem; font-size:.8rem; color:#8b6f47;">Tennessee residents only • Ships within TN • Subscribe &amp; save available</div>
     </section>
 
-    <section id="locations" class="locations">
-        <h2>Find Fizzy Leaf Near You</h2>
-        <div class="locations-grid">
-            <div class="location-card"><strong>High Brow Coffee</strong>188 Front St, Unit 102<br>Franklin, TN 37064</div>
-            <div class="location-card"><strong>The Brunch Collective</strong>5323 Main St<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>The Coffee House</strong>144 2nd Ave N<br>Franklin, TN 37064</div>
-            <div class="location-card"><strong>White Shepherd Coffee</strong>2101 Branford Pl Unit 101<br>Thompsons Station, TN 37179</div>
-            <div class="location-card"><strong>1819 Coffee</strong>4683 Columbia Pike<br>Thompsons Station, TN 37179</div>
-            <div class="location-card"><strong>Mama Mila’s</strong>1200 S Garden St<br>Columbia, TN 38401</div>
-            <div class="location-card"><strong>Old Stone Creamery</strong>2301 Sugar Ridge Rd<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>Awaken House</strong>3035 Reserve Blvd<br>Spring Hill, TN 37174</div>
-            <div class="location-card"><strong>Abondant Provisions</strong>5322 Main St<br>Spring Hill, TN 37174</div>
+    <!-- SHOP / BUY (Shopify + Subscriptions) -->
+    <section id="shop">
+        <h2 style="text-align:center;">Shop Fizzy Leaf</h2>
+        <p class="section-intro" style="text-align:center;">Roselle Hibiscus — our signature sparkling tea. Real hibiscus, real bubbles, nothing else.</p>
 
+        <div class="shop-wrap">
+            <!-- Visual + details -->
+            <div class="product-visual">
+                <img src="can-hand.jpg" alt="Fizzy Leaf can held in hand">
+                <div style="margin-top:.75rem; font-size:.8rem; color:#8b6f47; text-align:center;">12 fl oz (355 mL) • Caffeine-free</div>
+            </div>
+
+            <div class="product-info">
+                <div>
+                    <strong style="color:#d2a863;">ROSELLE HIBISCUS</strong>
+                    <span class="tn-badge">TN ONLY</span>
+                </div>
+                <h3>Fizzy Leaf Sparkling Tea</h3>
+                <div class="product-meta">Bold, vibrant & naturally tart. Real brewed hibiscus tea, gently carbonated. 0 cal • &lt;1g carbs • No artificial sweeteners or flavors.</div>
+
+                <div class="product-features">
+                    <span class="feature-pill">Real hibiscus</span>
+                    <span class="feature-pill">0 calories</span>
+                    <span class="feature-pill">Caffeine-free</span>
+                    <span class="feature-pill">&lt;1g carbs</span>
+                </div>
+
+                <!-- Pack sizes -->
+                <div>
+                    <div style="font-weight:600; margin-bottom:.35rem; font-size:.9rem;">Choose pack size</div>
+                    <div class="pack-options" id="pack-options">
+                        <!-- populated by JS -->
+                    </div>
+                </div>
+
+                <!-- One-time vs Subscribe -->
+                <div>
+                    <div style="font-weight:600; margin-bottom:.35rem; font-size:.9rem;">Purchase type</div>
+                    <div class="purchase-type" id="purchase-type">
+                        <button type="button" data-type="onetime" onclick="setPurchaseType('onetime')">One-time purchase</button>
+                        <button type="button" data-type="subscribe" onclick="setPurchaseType('subscribe')">Subscribe &amp; Save</button>
+                    </div>
+                </div>
+
+                <div id="sub-details" class="sub-details" style="display:none;">
+                    Save 15% on every order. Ships every 4 weeks. Pause or cancel anytime. Powered by Shopify Subscriptions.
+                </div>
+
+                <div class="shop-actions">
+                    <button class="btn" onclick="addToCart(false)">Add to Cart</button>
+                    <button class="btn btn-sub" onclick="addToCart(true)">Subscribe Now — Save 15%</button>
+                    <button class="btn btn-outline" style="font-size:.9rem;" onclick="shopifyCheckout()">Buy with Shopify →</button>
+                </div>
+
+                <div class="shop-disclaimer">
+                    • Online sales and shipping available to Tennessee addresses only.<br>
+                    • In a real Shopify store this would use Buy Buttons + Subscription selling plan with shipping profile restricted to TN.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHERE TO BUY / LOCATIONS -->
+    <section id="find-us">
+        <h2 style="text-align:center;">Find Fizzy Leaf Near You</h2>
+        <p class="section-intro" style="text-align:center;">Proudly carried by these great shops across Middle Tennessee.</p>
+
+        <div class="locations-controls">
+            <input id="location-search" type="text" placeholder="Search shops or cities (Franklin, Spring Hill, Nashville, Columbia...)" oninput="filterRetailers()">
+            <a href="#shop" class="btn" style="padding:.55rem 1.1rem; font-size:.9rem; white-space:nowrap;">Shop Online Instead</a>
+        </div>
+
+        <div class="retailers-grid" id="retailers-grid">
+            <!-- JS populated -->
         </div>
 
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103324.49841804153!2d-87.00908868615024!3d35.88904581177651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886409600108861d%3A0x633a01103362e349!2sFranklin%2C%20TN!5e0!3m2!1sen!2sus!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+        <p style="text-align:center; font-size:.8rem; margin-top:.5rem; color:#8b6f47;">Map centered on Middle Tennessee • Exact addresses listed above</p>
     </section>
 
-    <section id="instagram">
-        <h2>Follow Fizzy Leaf on Instagram</h2>
-        <script src="https://elfsightcdn.com/platform.js" async></script>
-        <div class="elfsight-app-18cc5d9e-ff56-432e-9d94-79147ead9d44" data-elfsight-app-lazy></div>
-    </section>
-
-    <section id="story" class="story">
-        <h2>Our Story</h2>
-        <p>Hello! My name is <strong>Christian Milford</strong> and I am the owner of <strong>Fizzy Leaf</strong>. Tired of sugary drinks and artificial sweeteners, I started carbonating my mom's hibiscus tea recipe. Today, I’m proud to share that passion with you.</p>
-    </section>
-
-    <section id="flavors" class="flavors">
-        <h2>Our Flavors</h2>
-        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 18px;">
-            <h3 style="color: #a88445;">Roselle Hibiscus</h3>
-            <p>Bold, vibrant, and naturally tart. 0 calories, <strong>less than one gram of carbs</strong>, and absolutely no <strong>artificial sweetener</strong>.</p>
+    <!-- VALUES / MADE THE RIGHT WAY (Spindrift-inspired) -->
+    <section id="values" style="background:#f9f4eb; padding-top:3.5rem; padding-bottom:3rem;">
+        <h2 style="text-align:center;">Made the right way</h2>
+        <p class="section-intro" style="text-align:center;">We do things the intentional way — because it tastes better.</p>
+        <div class="values-grid">
+            <div class="value-card">
+                <h4>Real ingredients only</h4>
+                <p style="margin:0; font-size:.95rem;">Brewed hibiscus tea + bubbles. Nothing from concentrate. No stevia, monk fruit, or “natural flavors.”</p>
+            </div>
+            <div class="value-card">
+                <h4>Small-batch &amp; local</h4>
+                <p style="margin:0; font-size:.95rem;">Crafted in Middle Tennessee and sold first to our neighbors in coffee shops, delis, and markets we love.</p>
+            </div>
+            <div class="value-card">
+                <h4>No shortcuts</h4>
+                <p style="margin:0; font-size:.95rem;">We carbonate our own tea the hard way. 0 calories, clean, and endlessly refreshing.</p>
+            </div>
         </div>
     </section>
 
-    <section id="contact" class="contact">
-        <h2>Contact</h2>
-        <p>For business inquiries, please reach out:</p>
+    <!-- OUR STORY -->
+    <section id="story">
+        <h2 style="text-align:center;">Our Story</h2>
+        <div class="story-content">
+            <p>Hello! My name is <strong>Christian Milford</strong> and I am the owner of <strong>Fizzy Leaf</strong>.</p>
+            <p>Tired of sugary drinks and artificial sweeteners, I started carbonating my mom’s hibiscus tea recipe in my kitchen. What began as an experiment is now the original sparkling tea — bold, tart, refreshing, and completely clean.</p>
+            <p>Every can is made with real brewed tea and sold in the communities where we live. We’re just getting started.</p>
+        </div>
+        <div style="text-align:center; margin-top:1.5rem;">
+            <img src="lifestyle-cafe.jpg" alt="Customers enjoying Fizzy Leaf" style="max-width:420px; width:100%; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,.1);">
+        </div>
+    </section>
+
+    <!-- FOLLOW / INSTAGRAM -->
+    <section id="follow">
+        <h2 style="text-align:center;">Follow the fizz</h2>
+        <div class="instagram-embed">
+            <script src="https://elfsightcdn.com/platform.js" async></script>
+            <div class="elfsight-app-18cc5d9e-ff56-432e-9d94-79147ead9d44" data-elfsight-app-lazy></div>
+        </div>
+        <p style="text-align:center; margin-top:1rem;"><a href="https://www.instagram.com/fizzy.leaf" target="_blank" style="color:#d2a863; font-weight:600;">@fizzy.leaf on Instagram →</a></p>
+    </section>
+
+    <!-- CONTACT + NEWSLETTER -->
+    <section id="contact">
+        <h2 style="text-align:center;">Get in touch</h2>
+        <p style="text-align:center; max-width:420px; margin:0 auto 1rem;">For wholesale, events, or just to say hi:</p>
+
         <div class="contact-card">
-            <form action="https://submit-form.com/vwsJT57aO">
+            <form action="https://submit-form.com/vwsJT57aO" onsubmit="handleFormSubmit(event)">
                 <div class="form-row">
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required />
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-row">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required />
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-row">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <textarea id="message" name="message" rows="4" required></textarea>
                 </div>
                 <button type="submit" class="fancy-btn">Send Message</button>
             </form>
         </div>
+
+        <div style="margin-top:2.5rem; text-align:center;">
+            <div class="signup-card" style="max-width:420px; margin:0 auto;">
+                <strong style="display:block; margin-bottom:.5rem;">Enjoy updates + early access</strong>
+                <p style="margin:.25rem 0 1rem; font-size:.9rem; color:#6b5538;">Join our list for new drops, events, and 10% off your first online order.</p>
+                <form onsubmit="handleNewsletter(event)">
+                    <div class="form-row" style="margin-bottom:.5rem;">
+                        <input type="email" placeholder="your@email.com" required style="margin-bottom:.5rem;">
+                    </div>
+                    <button type="submit" class="fancy-btn" style="padding:.7rem;">Subscribe</button>
+                </form>
+                <div style="font-size:.7rem; margin-top:.5rem; color:#8b6f47;">We’ll only email when there’s something good. Unsubscribe anytime.</div>
+            </div>
+        </div>
     </section>
 
-    <footer style="padding: 3rem; background: #f7f2e8; text-align: center;">
-        © 2026 Fizzy Leaf Sparkling Tea · Crafted with care in Tennessee
+    <footer>
+        © 2026 Fizzy Leaf Sparkling Tea — Crafted with care in Middle Tennessee<br>
+        <span class="footer-note">Online purchases and shipping restricted to Tennessee addresses only. All rights reserved.</span>
     </footer>
+
+    <!-- CART MODAL -->
+    <div id="cart-modal" class="modal" onclick="if (event.target.id === 'cart-modal') hideCart()">
+        <div class="modal-content" onclick="event.stopImmediatePropagation()">
+            <div class="modal-header">
+                <span>Your Cart</span>
+                <button onclick="hideCart()" style="background:none;border:none;font-size:1.4rem;line-height:1;cursor:pointer;">×</button>
+            </div>
+            <div class="modal-body" id="cart-body">
+                <!-- JS injected items -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="hideCart()">Continue Shopping</button>
+                <button class="btn" onclick="checkout()">Checkout via Shopify</button>
+            </div>
+            <div style="padding:0 1.25rem 1rem; font-size:.75rem; color:#8b6f47; text-align:center;">
+                Shipping limited to Tennessee. Final totals &amp; checkout handled by Shopify.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retailers data from email + cleaned / expanded
+        const retailers = [
+            {name: "1819 Coffee", addr: "4683 Columbia Pike", city: "Thompsons Station, TN 37179"},
+            {name: "White Shepherd Coffee", addr: "2101 Branford Pl, Unit 101", city: "Thompsons Station, TN 37179"},
+            {name: "White Shepherd Coffee", addr: "", city: "Spring Hill, TN"},
+            {name: "Mama Mila's", addr: "1200 S Garden St", city: "Columbia, TN 38401"},
+            {name: "Old Stone Creamery", addr: "2301 Sugar Ridge Rd", city: "Spring Hill, TN 37174"},
+            {name: "Awaken House", addr: "3035 Reserve Blvd", city: "Spring Hill, TN 37174"},
+            {name: "High Brow Coffee", addr: "188 Front St, Unit 102", city: "Franklin, TN 37064"},
+            {name: "The Brunch Collective", addr: "5323 Main St", city: "Spring Hill, TN 37174"},
+            {name: "The Coffee House", addr: "144 2nd Ave N", city: "Downtown Franklin, TN 37064"},
+            {name: "The Coffee House", addr: "", city: "Cool Springs, TN"},
+            {name: "Abundant Provisions", addr: "5322 Main St", city: "Spring Hill, TN 37174"},
+            {name: "Bruno's Italian Deli and Market", addr: "", city: "Middle Tennessee"},
+            {name: "Legacy Coffee", addr: "", city: "Middle Tennessee"},
+            {name: "North Arrow Coffee Co", addr: "406 Church St", city: "Franklin, TN 37064"},
+            {name: "Columbia Health Foods", addr: "", city: "Columbia, TN"},
+            {name: "Canine Concepts", addr: "", city: "Middle Tennessee"},
+            {name: "Prickly Pear", addr: "333 Commerce St", city: "Nashville, TN 37201 (Batman)"},
+            {name: "Prickly Pear", addr: "", city: "Albion location"},
+        ];
+
+        let cart = [];
+        let currentPack = '4';
+        let currentType = 'onetime';
+
+        function saveCart() {
+            try { localStorage.setItem('fizzyCart', JSON.stringify(cart)); } catch(e){}
+        }
+        function restoreCart() {
+            try {
+                const saved = localStorage.getItem('fizzyCart');
+                if (saved) cart = JSON.parse(saved) || [];
+            } catch(e){}
+        }
+
+        const packData = {
+            '4':  { label: '4-Pack',  price: 14,  unit: '3.50' },
+            '8':  { label: '8-Pack',  price: 26,  unit: '3.25' },
+            '12': { label: '12-Pack', price: 36,  unit: '3.00' }
+        };
+
+        function renderPackOptions() {
+            const container = document.getElementById('pack-options');
+            if (!container) return;
+            container.innerHTML = '';
+            const isSub = currentType === 'subscribe';
+            Object.keys(packData).forEach(key => {
+                const p = packData[key];
+                const price = isSub ? Math.round(p.price * 0.85) : p.price;
+                const div = document.createElement('div');
+                div.className = 'pack-btn' + (key === currentPack ? ' active' : '');
+                let priceHTML = `<span class="price">$${price}</span>`;
+                if (isSub) {
+                    priceHTML = `<span class="price">$${price}</span><span style="font-size:.65rem;text-decoration:line-through;opacity:.5;margin-left:4px;">$${p.price}</span>`;
+                }
+                div.innerHTML = `${p.label}${priceHTML}<span style="font-size:.7rem;opacity:.7;">($${p.unit}/can)</span>`;
+                div.onclick = () => {
+                    currentPack = key;
+                    renderPackOptions();
+                    updateSubDetails();
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function setPurchaseType(type) {
+            currentType = type;
+            document.querySelectorAll('#purchase-type button').forEach(b => {
+                b.classList.toggle('active', b.dataset.type === type);
+            });
+            const subEl = document.getElementById('sub-details');
+            if (subEl) subEl.style.display = (type === 'subscribe') ? 'block' : 'none';
+            renderPackOptions(); // live update pack prices with/without discount
+            updateSubDetails();
+        }
+
+        function updateSubDetails() {
+            const subEl = document.getElementById('sub-details');
+            if (!subEl) return;
+            if (currentType === 'subscribe') {
+                const p = packData[currentPack];
+                const savePrice = Math.round(p.price * 0.85);
+                subEl.innerHTML = `Save 15% — <strong>$${savePrice}</strong> recurring every 4 weeks. Pause or cancel anytime. Powered by Shopify Subscriptions.`;
+                subEl.style.display = 'block';
+            } else {
+                subEl.style.display = 'none';
+            }
+        }
+
+        function getCurrentPrice(isSub) {
+            const p = packData[currentPack];
+            return isSub ? Math.round(p.price * 0.85) : p.price;
+        }
+
+        function addToCart(forceSub) {
+            const isSub = forceSub || currentType === 'subscribe';
+            const p = packData[currentPack];
+            const price = getCurrentPrice(isSub);
+
+            const item = {
+                id: Date.now(),
+                pack: currentPack,
+                label: p.label,
+                price: price,
+                isSub: isSub,
+                interval: isSub ? 'every 4 weeks' : null
+            };
+            cart.push(item);
+            saveCart();
+            updateCartCount();
+            // friendly toast
+            const toast = document.createElement('div');
+            toast.textContent = `${p.label} ${isSub ? 'subscription' : ''} added`;
+            toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#3f2e1f;color:#fff;padding:.55rem 1.1rem;border-radius:999px;font-size:.85rem;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:3000;';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 1400);
+
+            // auto open cart on first add for nice UX
+            if (cart.length === 1) setTimeout(showCart, 350);
+        }
+
+        function updateCartCount() {
+            const el = document.getElementById('cart-count');
+            if (el) el.textContent = cart.length;
+        }
+
+        function showCart() {
+            const modal = document.getElementById('cart-modal');
+            const body = document.getElementById('cart-body');
+            body.innerHTML = '';
+
+            if (cart.length === 0) {
+                body.innerHTML = '<p style="text-align:center;color:#8b6f47;padding:1.5rem 0;">Your cart is empty.<br>Add something delicious above.</p>';
+            } else {
+                let html = '';
+                let total = 0;
+                cart.forEach((item, idx) => {
+                    total += item.price;
+                    html += `
+                        <div class="cart-item">
+                            <div>
+                                <strong>${item.label}</strong> ${item.isSub ? ' <span style="color:#d2a863;font-size:.75rem;">(Subscribe ' + item.interval + ')</span>' : ''}
+                                <div style="font-size:.8rem;opacity:.65;">Roselle Hibiscus • 12oz cans</div>
+                            </div>
+                            <div style="text-align:right; white-space:nowrap;">
+                                $${item.price}
+                                <button onclick="removeFromCart(${idx})" style="background:none;border:none;color:#c00;font-size:1.1rem;margin-left:.5rem;cursor:pointer;" aria-label="Remove">×</button>
+                            </div>
+                        </div>`;
+                });
+                html += `<div class="cart-total"><span>Total</span><span>$${total}</span></div>`;
+                html += `<div class="cart-note">Tennessee shipping only. Shopify will collect address &amp; tax at checkout.</div>`;
+                body.innerHTML = html;
+            }
+            modal.classList.add('open');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            showCart(); // re-render
+        }
+
+        function hideCart() {
+            document.getElementById('cart-modal').classList.remove('open');
+        }
+
+        function shopifyCheckout() {
+            // Direct to Shopify path (demo)
+            if (cart.length === 0) {
+                // add a default if none
+                const p = packData[currentPack];
+                cart.push({id:Date.now(), pack:currentPack, label:p.label, price: getCurrentPrice(currentType==='subscribe'), isSub: currentType==='subscribe', interval: currentType==='subscribe' ? 'every 4 weeks' : null });
+                updateCartCount();
+            }
+            checkout(true);
+        }
+
+        function checkout(fromShopifyBtn) {
+            const modal = document.getElementById('cart-modal');
+            if (cart.length === 0) return;
+
+            const total = cart.reduce((s,i) => s + i.price, 0);
+            const hasSub = cart.some(i => i.isSub);
+
+            hideCart();
+
+            const summary = cart.map(i => `${i.label}${i.isSub ? ' (sub)' : ''}`).join(', ');
+
+            // Demo modal for Shopify redirect + TN gate
+            const demo = document.createElement('div');
+            demo.className = 'modal open';
+            demo.innerHTML = `
+                <div class="modal-content" style="max-width:460px;">
+                    <div class="modal-header"><span>${fromShopifyBtn ? 'Shopify Checkout' : 'Ready to checkout'}</span><button onclick="this.closest('.modal').remove()" style="background:none;border:none;font-size:1.5rem;line-height:1;">×</button></div>
+                    <div class="modal-body" style="font-size:.95rem; line-height:1.5;">
+                        <p><strong>Order:</strong> ${summary}</p>
+                        <p><strong>Total:</strong> $${total} ${hasSub ? '(first delivery)' : ''}</p>
+                        <div style="background:#f8f1e6; padding:.75rem; border-radius:10px; margin:1rem 0; font-size:.85rem;">
+                            This would now open your Shopify checkout.<br><br>
+                            <strong>Shipping restriction:</strong> Only Tennessee addresses are accepted. Shopify shipping profiles + zip validation will enforce this.
+                        </div>
+                        <label style="display:block; font-size:.85rem; margin:.5rem 0 .25rem;">Quick TN check (demo)</label>
+                        <input id="demo-zip" type="text" placeholder="Enter TN zip (e.g. 37064)" value="37064" style="width:100%;padding:.6rem;border-radius:8px;border:1.5px solid #e6d9c3;">
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-outline" onclick="this.closest('.modal').remove()">Cancel</button>
+                        <button class="btn" onclick="completeCheckout(this)">Continue to Shopify</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(demo);
+            setTimeout(() => {
+                const zip = demo.querySelector('#demo-zip');
+                if (zip) zip.focus();
+            }, 50);
+        }
+
+        function completeCheckout(btnEl) {
+            const modal = btnEl.closest('.modal');
+            const zipInput = modal.querySelector('#demo-zip');
+            const zip = (zipInput && zipInput.value || '').trim();
+
+            // Very loose TN zip check (37xxx or 38xxx)
+            const isTN = /^3[78]\d{3}$/.test(zip);
+
+            if (!isTN && zip.length > 0) {
+                alert("For this demo: only TN zips (starting with 37 or 38) are allowed. In real Shopify this is enforced server-side at checkout.");
+                // still allow for demo feel or return; we'll proceed anyway for the experience
+            }
+
+            modal.remove();
+
+            const thanks = document.createElement('div');
+            thanks.className = 'modal open';
+            thanks.innerHTML = `
+                <div class="modal-content" style="max-width:400px;text-align:center;">
+                    <div style="padding:2rem 1.5rem 1.5rem;">
+                        <div style="font-size:2.6rem;margin-bottom:.4rem;">🍃</div>
+                        <h3 style="margin:0 0 .5rem; font-family: 'Playfair Display', serif;">Thank you!</h3>
+                        <p style="color:#6b5538;">Your order was sent to Shopify.<br>In production this redirects to a real Shopify checkout restricted to TN.</p>
+                        <p style="font-size:.8rem; margin-top:1rem; color:#8b6f47;">Cart has been cleared for this demo.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn" onclick="resetDemo(this)">Done</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(thanks);
+            cart = [];
+            saveCart();
+            updateCartCount();
+        }
+
+        function resetDemo(el) {
+            el.closest('.modal').remove();
+        }
+
+        function toggleMobileNav() {
+            const links = document.querySelector('.nav-links');
+            const btn = document.querySelector('.mobile-menu-btn');
+            if (!links || !btn) return;
+            const isOpen = links.classList.toggle('open');
+            btn.setAttribute('aria-expanded', isOpen);
+            btn.textContent = isOpen ? '✕' : '☰';
+        }
+
+        // Close mobile menu when a nav link is clicked
+        function setupMobileNavClose() {
+            const links = document.querySelector('.nav-links');
+            if (!links) return;
+            links.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => {
+                    links.classList.remove('open');
+                    const btn = document.querySelector('.mobile-menu-btn');
+                    if (btn) {
+                        btn.setAttribute('aria-expanded', 'false');
+                        btn.textContent = '☰';
+                    }
+                });
+            });
+        }
+
+        function filterRetailers() {
+            const q = (document.getElementById('location-search').value || '').toLowerCase().trim();
+            const grid = document.getElementById('retailers-grid');
+            Array.from(grid.children).forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(q) ? '' : 'none';
+            });
+        }
+
+        function renderRetailers() {
+            const grid = document.getElementById('retailers-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            retailers.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'retailer';
+                const addrHTML = r.addr ? `<div class="addr">${r.addr}<br>${r.city}</div>` : `<div class="addr">${r.city}</div>`;
+                div.innerHTML = `<strong>${r.name}</strong>${addrHTML}`;
+                grid.appendChild(div);
+            });
+        }
+
+        function handleFormSubmit(e) {
+            // Allow Formspark POST to proceed. Show non-blocking confirmation.
+            const form = e.target;
+            setTimeout(() => {
+                if (form && form.parentNode) {
+                    const note = document.createElement('div');
+                    note.style.cssText = 'margin-top:.75rem;font-size:.9rem;color:#3f2e1f;text-align:center;';
+                    note.innerHTML = '<strong>Thanks!</strong> Message sent via Formspark. We\'ll be in touch.';
+                    form.parentNode.appendChild(note);
+                }
+            }, 900);
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const form = e.target;
+            form.innerHTML = '<div style="text-align:center; padding:.6rem 0;"><strong>Thank you!</strong> You\'re on the list. (Demo — would post to Formspark or Shopify customer in production)</div>';
+        }
+
+        function initShop() {
+            // initial pack
+            currentPack = '4';
+            currentType = 'onetime';
+            renderPackOptions();
+
+            // default purchase type active
+            const onetimeBtn = document.querySelector('#purchase-type button[data-type="onetime"]');
+            if (onetimeBtn) onetimeBtn.classList.add('active');
+
+            // make sure sub details hidden initially
+            const sub = document.getElementById('sub-details');
+            if (sub) sub.style.display = 'none';
+
+            // seed one retailer filter hint
+            setTimeout(() => {
+                const input = document.getElementById('location-search');
+                if (input) input.placeholder = "Search shops or cities (Franklin, Nashville, Columbia...)";
+            }, 300);
+        }
+
+        function init() {
+            restoreCart();
+            renderRetailers();
+            updateCartCount();
+            initShop();
+            setupMobileNavClose();
+
+            // Keyboard escape for modals
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const open = document.querySelector('.modal.open');
+                    if (open) open.remove();
+                    else hideCart();
+                }
+            });
+
+            // Bonus: allow pressing "s" to jump to shop (nice dev touch)
+            document.addEventListener('keypress', (e) => {
+                if (e.key.toLowerCase() === 's' && document.activeElement.tagName === 'BODY') {
+                    const shop = document.getElementById('shop');
+                    if (shop) shop.scrollIntoView({behavior:'smooth'});
+                }
+            });
+
+            // Mark active nav on scroll (light)
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = ['shop','find-us','story','follow','contact'].map(id => document.getElementById(id)).filter(Boolean);
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(sec => {
+                    if (window.scrollY >= sec.offsetTop - 160) current = sec.id;
+                });
+                navLinks.forEach(a => {
+                    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+                });
+            }, {passive:true});
+
+            console.log('%c[Fizzy Leaf] Site initialized — Spindrift-inspired shop + TN-only + full retailer list ready.', 'color:#a88445');
+        }
+
+        // Boot
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
 
 </body>
 </html>
