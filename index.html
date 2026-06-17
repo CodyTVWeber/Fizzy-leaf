@@ -193,39 +193,46 @@
                     </div>
                 </div>
                 <div class="shop-details">
-                    <h3>Roselle Hibiscus</h3>
-                    <p style="color:var(--text-muted);margin-bottom:0.5rem;">Sparkling Tea · 12 oz can</p>
+                    <h3 id="productTitle">Roselle Hibiscus</h3>
+                    <p id="productPackLine" style="color:var(--text-muted);margin-bottom:0.5rem;">12-Pack · Sparkling Tea · 12 oz cans</p>
                     <div class="shop-price" id="shopPrice">
-                        <span id="priceDisplay">$24.99</span>
+                        <span id="priceDisplay" class="price-tbd">Price TBD</span>
+                    </div>
+
+                    <p class="pack-label">Select Case Size</p>
+                    <div class="pack-selector" id="packSelector">
+                        <button type="button" class="pack-btn selected" id="pack-12" data-size="12">12-Pack</button>
+                        <button type="button" class="pack-btn" id="pack-24" data-size="24">24-Pack</button>
                     </div>
 
                     <div class="purchase-toggle" id="purchaseToggle">
-                        <button class="purchase-option active" data-type="onetime" data-price="24.99">
+                        <button class="purchase-option" data-type="onetime">
                             One-Time Purchase
                         </button>
-                        <button class="purchase-option" data-type="subscribe" data-price="22.49">
+                        <button class="purchase-option active" data-type="subscribe">
                             Subscribe &amp; Save
-                            <span class="save-tag">Save 10%</span>
+                            <span class="save-tag">Save 20%</span>
                         </button>
                     </div>
 
-                    <ul class="shop-features">
-                        <li>12-pack of 12 oz cans</li>
-                        <li id="subscribeFeature" style="display:none;">Delivered monthly — cancel anytime</li>
+                    <ul class="shop-features" id="shopFeatures">
+                        <li id="packFeature">12-pack of 12 oz cans</li>
+                        <li id="subscribeFeature">Delivered monthly — cancel anytime (save 20%)</li>
+                        <li>Free shipping on subscriptions</li>
                         <li>Free pickup available at local retailers</li>
                         <li>Tennessee shipping only</li>
                     </ul>
 
                     <div class="shopify-container" id="shopifyContainer">
                         <div class="shopify-placeholder" id="shopifyPlaceholder">
-                            Shopify Buy Button will appear here once configured.<br>
-                            <small>Update <code>SHOPIFY_CONFIG</code> in index.html with your store credentials.</small>
+                            <strong>Shopify Buy Button embed</strong>
+                            Enable Shopify Starter (~$40/mo) and add your Buy Button channel credentials to <code>SHOPIFY_CONFIG</code> in this file. The live checkout button loads here and can be embedded on any website.
                         </div>
                         <div id="shopify-buy-button"></div>
                     </div>
 
                     <button class="btn btn--primary" id="buyNowBtn" style="width:100%;margin-top:1rem;">
-                        Buy Now — Tennessee Only
+                        <span id="buyNowLabel">Subscribe &amp; Save 20%</span>
                     </button>
 
                     <div class="tn-notice">
@@ -417,7 +424,7 @@
                 </div>
                 <div class="map-container">
                     <iframe id="locationMap" title="Fizzy Leaf retail locations map"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103324.49841804153!2d-86.85908868615024!3d35.88904581177651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886409600108861d%3A0x633a01103362e349!2sMiddle%20Tennessee!5e0!3m2!1sen!2sus!4v1700000000000"
+                        src="https://maps.google.com/maps?q=35.85,-86.90&z=9&output=embed"
                         allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
@@ -537,23 +544,39 @@
        Fizzy Leaf — Site JavaScript
        ═══════════════════════════════════════════ */
 
-    // ── Shopify Configuration (update with your store credentials) ──
+    // ── Shopify Configuration (Shopify Starter ~$40/mo Buy Button channel) ──
     const SHOPIFY_CONFIG = {
-        domain: 'YOUR-STORE.myshopify.com',
-        storefrontAccessToken: 'YOUR_STOREFRONT_ACCESS_TOKEN',
-        productId: 'YOUR_PRODUCT_ID',
-        subscriptionProductId: 'YOUR_SUBSCRIPTION_PRODUCT_ID',
+        enabled: false,
+        domain: 'fizzyleaf.myshopify.com',
+        storefrontAccessToken: 'your-storefront-access-token-here',
         containerId: 'shopify-buy-button',
         moneyFormat: '%24%7B%7Bamount%7D%7D',
-        enabled: false // set to true once credentials are configured
+        products: {
+            '12': {
+                onetime: { id: '', variantId: '' },
+                subscribe: { id: '', variantId: '', sellingPlanId: '' }
+            },
+            '24': {
+                onetime: { id: '', variantId: '' },
+                subscribe: { id: '', variantId: '', sellingPlanId: '' }
+            }
+        }
     };
 
     const TN_ZIP_PREFIXES = ['37', '38'];
-    const DEFAULT_MAP_SRC = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103324.49841804153!2d-86.85908868615024!3d35.88904581177651!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886409600108861d%3A0x633a01103362e349!2sMiddle%20Tennessee!5e0!3m2!1sen!2sus!4v1700000000000';
+    const MAP_OVERVIEW_SRC = 'https://maps.google.com/maps?q=35.85,-86.90&z=9&output=embed';
+    const CITY_MAP_SRC = {
+        "Thompson's Station": 'https://maps.google.com/maps?q=35.799,-86.909&z=12&output=embed',
+        'Spring Hill': 'https://maps.google.com/maps?q=35.751,-86.930&z=12&output=embed',
+        'Franklin': 'https://maps.google.com/maps?q=35.925,-86.868&z=12&output=embed',
+        'Columbia': 'https://maps.google.com/maps?q=35.615,-87.035&z=12&output=embed',
+        'Nashville': 'https://maps.google.com/maps?q=36.155,-86.784&z=12&output=embed'
+    };
 
     // ── State ──
     let currentSlide = 0;
-    let purchaseType = 'onetime';
+    let selectedSize = '12';
+    let purchaseType = 'subscribe';
     let tnVerified = sessionStorage.getItem('fizzyleaf_tn_verified') === 'true';
     let lightboxIndex = 0;
     let carouselInterval;
@@ -563,8 +586,10 @@
         initHeader();
         initHeroCarousel();
         initShopThumbnails();
+        initPackSelector();
         initPurchaseToggle();
         initLocationFilters();
+        updateShopUI();
         initGalleryLightbox();
         initContactForm();
         initZipModal();
@@ -664,31 +689,55 @@
         });
     }
 
-    // ── Purchase Toggle (Subscribe & Save 10%) ──
+    // ── Pack Size Selector (12 / 24) ──
+    function initPackSelector() {
+        const packButtons = document.querySelectorAll('.pack-btn');
+
+        packButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                packButtons.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                selectedSize = btn.dataset.size;
+                updateShopUI();
+                if (SHOPIFY_CONFIG.enabled) initShopify();
+            });
+        });
+    }
+
+    // ── Purchase Toggle (Subscribe & Save 20%) ──
     function initPurchaseToggle() {
         const options = document.querySelectorAll('.purchase-option');
-        const priceDisplay = document.getElementById('priceDisplay');
-        const subscribeFeature = document.getElementById('subscribeFeature');
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
                 options.forEach(o => o.classList.remove('active'));
                 opt.classList.add('active');
                 purchaseType = opt.dataset.type;
-                const price = parseFloat(opt.dataset.price);
-                priceDisplay.textContent = '$' + price.toFixed(2);
-
-                if (purchaseType === 'subscribe') {
-                    subscribeFeature.style.display = '';
-                    priceDisplay.innerHTML = '<s style="font-size:1.1rem;color:var(--text-muted);font-weight:400;">$24.99</s> $' + price.toFixed(2) + '/mo';
-                } else {
-                    subscribeFeature.style.display = 'none';
-                    priceDisplay.textContent = '$' + price.toFixed(2);
-                }
-
+                updateShopUI();
                 if (SHOPIFY_CONFIG.enabled) initShopify();
             });
         });
+    }
+
+    function updateShopUI() {
+        const productPackLine = document.getElementById('productPackLine');
+        const priceDisplay = document.getElementById('priceDisplay');
+        const packFeature = document.getElementById('packFeature');
+        const subscribeFeature = document.getElementById('subscribeFeature');
+        const buyNowLabel = document.getElementById('buyNowLabel');
+
+        productPackLine.textContent = `${selectedSize}-Pack · Sparkling Tea · 12 oz cans`;
+        packFeature.textContent = `${selectedSize}-pack of 12 oz cans`;
+        priceDisplay.textContent = 'Price TBD';
+        priceDisplay.className = 'price-tbd';
+
+        if (purchaseType === 'subscribe') {
+            subscribeFeature.style.display = '';
+            buyNowLabel.textContent = `Subscribe & Save 20% — ${selectedSize}-Pack`;
+        } else {
+            subscribeFeature.style.display = 'none';
+            buyNowLabel.textContent = `Buy ${selectedSize}-Pack — Tennessee Only`;
+        }
     }
 
     // ── Location Filters & Map ──
@@ -717,7 +766,9 @@
                 filterLocations(btn.dataset.city);
 
                 if (btn.dataset.city === 'all') {
-                    map.src = DEFAULT_MAP_SRC;
+                    map.src = MAP_OVERVIEW_SRC;
+                } else if (CITY_MAP_SRC[btn.dataset.city]) {
+                    map.src = CITY_MAP_SRC[btn.dataset.city];
                 }
             });
         });
@@ -727,7 +778,7 @@
                 cards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
                 const query = card.dataset.query;
-                map.src = `https://maps.google.com/maps?q=${query}&output=embed`;
+                map.src = `https://maps.google.com/maps?q=${query}&z=16&output=embed`;
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
         });
@@ -843,7 +894,7 @@
                     /* Shopify buy button handles checkout once configured */
                 }
             } else {
-                alert('Shopify checkout is not yet configured. Please update SHOPIFY_CONFIG in index.html with your store credentials.');
+                alert(`Shopify checkout is not yet configured. Add your Buy Button credentials to SHOPIFY_CONFIG for the ${selectedSize}-pack ${purchaseType === 'subscribe' ? 'subscription' : 'one-time'} option.`);
             }
         }
 
@@ -885,12 +936,24 @@
         });
     }
 
+    function getActiveProductConfig() {
+        const pack = SHOPIFY_CONFIG.products[selectedSize];
+        return purchaseType === 'subscribe' ? pack.subscribe : pack.onetime;
+    }
+
     // ── Shopify Buy Button SDK ──
     function initShopify() {
-        if (!SHOPIFY_CONFIG.enabled) return;
-
         const placeholder = document.getElementById('shopifyPlaceholder');
+        const buyBtn = document.getElementById('buyNowBtn');
+
+        if (!SHOPIFY_CONFIG.enabled) {
+            if (placeholder) placeholder.style.display = '';
+            if (buyBtn) buyBtn.style.display = '';
+            return;
+        }
+
         if (placeholder) placeholder.style.display = 'none';
+        if (buyBtn) buyBtn.style.display = 'none';
 
         const scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
 
@@ -909,47 +972,55 @@
             });
 
             ShopifyBuy.UI.onReady(client).then(function (ui) {
-                const productId = purchaseType === 'subscribe'
-                    ? SHOPIFY_CONFIG.subscriptionProductId
-                    : SHOPIFY_CONFIG.productId;
-
+                const config = getActiveProductConfig();
                 const container = document.getElementById(SHOPIFY_CONFIG.containerId);
                 container.innerHTML = '';
 
-                ui.createComponent('product', {
-                    id: productId,
+                const productOptions = {
+                    id: config.id,
+                    variantId: config.variantId || undefined,
                     node: container,
                     moneyFormat: SHOPIFY_CONFIG.moneyFormat,
                     options: {
                         product: {
                             styles: {
                                 product: { 'max-width': '100%' },
-                                title: { 'font-family': 'Playfair Display, serif', 'color': '#7a0f33' },
-                                price: { 'font-family': 'Outfit, sans-serif', 'color': '#2d6a4f' },
+                                title: { 'font-family': 'Playfair Display, serif', 'color': '#3f2e1f' },
+                                price: { 'font-family': 'Outfit, sans-serif', 'color': '#a88445' },
                                 button: {
                                     'font-family': 'Outfit, sans-serif',
-                                    'background-color': '#a31545',
-                                    ':hover': { 'background-color': '#7a0f33' }
+                                    'background-color': '#d2a863',
+                                    ':hover': { 'background-color': '#b8893f' }
                                 }
                             },
                             buttonDestination: 'checkout',
                             contents: {
                                 img: false,
                                 title: false,
-                                price: false,
-                                options: true,
+                                price: true,
+                                options: false,
                                 quantity: true,
                                 button: true,
                                 description: false
                             },
-                            text: { button: purchaseType === 'subscribe' ? 'Subscribe & Save 10%' : 'Add to Cart' }
+                            text: {
+                                button: purchaseType === 'subscribe'
+                                    ? `Subscribe & Save 20% — ${selectedSize}-Pack`
+                                    : `Buy ${selectedSize}-Pack`
+                            }
                         },
                         cart: {
-                            styles: { button: { 'background-color': '#a31545' } },
+                            styles: { button: { 'background-color': '#d2a863' } },
                             text: { total: 'Subtotal', button: 'Checkout' }
                         }
                     }
-                });
+                };
+
+                if (purchaseType === 'subscribe' && config.sellingPlanId) {
+                    productOptions.options.product.sellingPlanId = config.sellingPlanId;
+                }
+
+                ui.createComponent('product', productOptions);
             });
         }
 

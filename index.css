@@ -2,18 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root {
-  --hibiscus: #a31545;
-  --hibiscus-dark: #7a0f33;
-  --hibiscus-light: #d4426e;
-  --leaf: #2d6a4f;
-  --leaf-dark: #1b4332;
-  --leaf-light: #52b788;
-  --cream: #fdf8f3;
-  --cream-dark: #f5ebe0;
-  --warm-white: #fffdf9;
-  --text: #2c2416;
-  --text-muted: #6b5d4d;
-  --gold: #c9a227;
+  --hibiscus: #d2a863;
+  --hibiscus-dark: #b8893f;
+  --hibiscus-light: #e8c88a;
+  --leaf: #a88445;
+  --leaf-dark: #8b6f47;
+  --leaf-light: #d2a863;
+  --cream: #fffdf8;
+  --cream-dark: #faf5eb;
+  --warm-white: #ffffff;
+  --text: #3f2e1f;
+  --text-muted: #7a633b;
+  --gold: #d2a863;
   --shadow: 0 4px 24px rgba(44, 36, 22, 0.08);
   --shadow-lg: 0 12px 48px rgba(44, 36, 22, 0.12);
   --radius: 16px;
@@ -96,7 +96,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 }
 
 .section--cream { background: var(--cream); }
-.section--green { background: linear-gradient(135deg, var(--leaf-dark) 0%, var(--leaf) 100%); color: #fff; }
+.section--green { background: linear-gradient(135deg, var(--hibiscus-dark) 0%, var(--gold) 100%); color: #fff; }
 .section--hibiscus { background: linear-gradient(135deg, var(--hibiscus-dark) 0%, var(--hibiscus) 100%); color: #fff; }
 
 .section-header {
@@ -117,7 +117,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   height: var(--header-h);
   background: rgba(255, 253, 249, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(163, 21, 69, 0.08);
+  border-bottom: 1px solid rgba(210, 168, 99, 0.08);
   z-index: 1000;
   transition: box-shadow var(--transition);
 }
@@ -161,7 +161,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 .nav-desktop a:hover,
 .nav-desktop a.active {
   color: var(--hibiscus);
-  background: rgba(163, 21, 69, 0.06);
+  background: rgba(210, 168, 99, 0.06);
 }
 
 .nav-cta {
@@ -256,7 +256,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 .btn--primary:hover {
   background: var(--hibiscus-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(163, 21, 69, 0.3);
+  box-shadow: 0 8px 24px rgba(210, 168, 99, 0.3);
 }
 
 .btn--secondary {
@@ -267,7 +267,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 .btn--secondary:hover {
   background: var(--leaf-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(45, 106, 79, 0.3);
+  box-shadow: 0 8px 24px rgba(168, 132, 69, 0.3);
 }
 
 .btn--outline {
@@ -299,7 +299,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   align-items: center;
   padding-top: var(--header-h);
   overflow: hidden;
-  background: linear-gradient(160deg, var(--cream) 0%, var(--warm-white) 50%, rgba(163, 21, 69, 0.04) 100%);
+  background: linear-gradient(160deg, var(--cream) 0%, var(--warm-white) 50%, rgba(210, 168, 99, 0.04) 100%);
 }
 
 .hero-bg {
@@ -375,7 +375,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 1rem;
-  background: rgba(45, 106, 79, 0.1);
+  background: rgba(168, 132, 69, 0.1);
   color: var(--leaf-dark);
   font-size: 0.8rem;
   font-weight: 600;
@@ -396,7 +396,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 
 .hero-can {
   width: min(380px, 80vw);
-  filter: drop-shadow(0 20px 60px rgba(163, 21, 69, 0.2));
+  filter: drop-shadow(0 20px 60px rgba(210, 168, 99, 0.2));
   animation: float 4s ease-in-out infinite;
 }
 
@@ -419,7 +419,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(163, 21, 69, 0.25);
+  background: rgba(210, 168, 99, 0.25);
   transition: all var(--transition);
   cursor: pointer;
 }
@@ -472,13 +472,13 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(163, 21, 69, 0.08);
+  background: rgba(210, 168, 99, 0.08);
   border-radius: 12px;
   font-size: 1.4rem;
 }
 
 .ingredient-icon--green {
-  background: rgba(45, 106, 79, 0.1);
+  background: rgba(168, 132, 69, 0.1);
 }
 
 .nutrition-pills {
@@ -574,6 +574,45 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   margin-right: 0.5rem;
 }
 
+.pack-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+.pack-selector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.pack-btn {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 2px solid rgba(210, 168, 99, 0.25);
+  border-radius: 12px;
+  background: var(--warm-white);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.pack-btn.selected {
+  border-color: var(--hibiscus);
+  background: var(--cream-dark);
+  color: var(--hibiscus-dark);
+}
+
+.price-tbd {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
 .purchase-toggle {
   display: flex;
   background: var(--cream-dark);
@@ -637,12 +676,26 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 
 .shopify-placeholder {
   padding: 1.25rem;
-  background: var(--cream);
-  border: 2px dashed rgba(163, 21, 69, 0.2);
+  background: var(--cream-dark);
+  border: 2px dashed rgba(210, 168, 99, 0.35);
   border-radius: var(--radius);
-  text-align: center;
+  text-align: left;
   color: var(--text-muted);
   font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.shopify-placeholder strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.shopify-placeholder code {
+  font-size: 0.85em;
+  background: rgba(210, 168, 99, 0.12);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
 }
 
 .tn-notice {
@@ -651,7 +704,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   gap: 0.6rem;
   margin-top: 1rem;
   padding: 0.75rem 1rem;
-  background: rgba(45, 106, 79, 0.08);
+  background: rgba(168, 132, 69, 0.08);
   border-radius: 10px;
   font-size: 0.85rem;
   color: var(--leaf-dark);
@@ -735,12 +788,12 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(163, 21, 69, 0);
+  background: rgba(210, 168, 99, 0);
   transition: background var(--transition);
 }
 
 .gallery-item:hover::after {
-  background: rgba(163, 21, 69, 0.15);
+  background: rgba(210, 168, 99, 0.15);
 }
 
 .gallery-item--wide {
@@ -854,7 +907,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 
 .locations-grid::-webkit-scrollbar { width: 6px; }
 .locations-grid::-webkit-scrollbar-thumb {
-  background: rgba(163, 21, 69, 0.2);
+  background: rgba(210, 168, 99, 0.2);
   border-radius: 3px;
 }
 
@@ -862,7 +915,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   padding: 1.25rem;
   background: #fff;
   border-radius: var(--radius);
-  border: 1px solid rgba(163, 21, 69, 0.08);
+  border: 1px solid rgba(210, 168, 99, 0.08);
   box-shadow: var(--shadow);
   cursor: pointer;
   transition: all var(--transition);
@@ -890,7 +943,7 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--leaf);
-  background: rgba(45, 106, 79, 0.1);
+  background: rgba(168, 132, 69, 0.1);
   padding: 0.15rem 0.6rem;
   border-radius: 100px;
   margin-bottom: 0.4rem;
@@ -1007,13 +1060,13 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); font-weight: 600; }
 
 .form-status.success {
   display: block;
-  background: rgba(45, 106, 79, 0.1);
+  background: rgba(168, 132, 69, 0.1);
   color: var(--leaf-dark);
 }
 
 .form-status.error {
   display: block;
-  background: rgba(163, 21, 69, 0.1);
+  background: rgba(210, 168, 99, 0.1);
   color: var(--hibiscus-dark);
 }
 
