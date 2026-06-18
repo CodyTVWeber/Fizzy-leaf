@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop · Fizzy Leaf</title>
+<link rel="icon" type="image/webp" href="img/FizzyLeafIcon_favicon.webp">
+<link rel="stylesheet" href="index.css">
+<style>
+.section {
+  padding: 7rem 0 5rem;
+}
+
+.section--cream { background: transparent; }
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header .lead {
+  margin: 0.75rem auto 0;
+}
+
+/* ── Shop ── */
+.shop-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* allow grid tracks to shrink so the thumbnail strip scrolls
+   instead of forcing the layout wider than the viewport */
+.shop-gallery,
+.shop-details { min-width: 0; }
+
+.shop-gallery {
+  position: relative;
+}
+
+.shop-main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: opacity 0.4s ease;
+}
+
+.shop-thumbs {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.shop-thumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition);
+  opacity: 0.65;
+  background: none;
+  padding: 0;
+}
+
+.shop-thumb.active,
+.shop-thumb:hover {
+  border-color: var(--hibiscus);
+  opacity: 1;
+}
+
+.shop-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-details h3 {
+  color: var(--hibiscus-dark);
+  font-size: 2rem;
+}
+
+.shop-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--leaf);
+  margin: 0.5rem 0 1.5rem;
+}
+
+.shop-price s {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-right: 0.5rem;
+}
+
+.pack-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+
+.pack-selector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.pack-btn {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 2px solid rgba(156, 111, 31, 0.25);
+  border-radius: 12px;
+  background: var(--warm-white);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.pack-btn.selected {
+  border-color: var(--hibiscus);
+  background: var(--cream-dark);
+  color: var(--hibiscus-dark);
+}
+
+.price-tbd {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.purchase-toggle {
+  display: flex;
+  background: var(--cream-dark);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.purchase-option {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  color: var(--text-muted);
+  transition: all var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.purchase-option.active {
+  background: #fff;
+  color: var(--hibiscus);
+  box-shadow: var(--shadow);
+}
+
+.purchase-option .save-tag {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--leaf);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.shop-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.shop-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.shop-features li::before {
+  content: '✓';
+  color: var(--leaf);
+  font-weight: 700;
+}
+
+.shopify-container {
+  margin-top: 1.5rem;
+  min-height: 60px;
+}
+
+.shopify-placeholder {
+  padding: 1.25rem;
+  background: var(--cream-dark);
+  border: 2px dashed rgba(156, 111, 31, 0.35);
+  border-radius: var(--radius);
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.shopify-placeholder strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.shopify-placeholder code {
+  font-size: 0.85em;
+  background: rgba(156, 111, 31, 0.12);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.tn-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(156, 111, 31, 0.08);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--leaf-dark);
+}
+
+/* ── Responsive ── */
+@media (max-width: 968px) {
+  .shop-layout { grid-template-columns: 1fr; gap: 2rem; max-width: 560px; margin: 0 auto; }
+  .shop-main-image { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 768px) {
+  .section { padding: 6rem 0 4rem; }
+  .shop-details h3 { font-size: 1.7rem; }
+}
+@media (max-width: 480px) {
+  .pack-selector { flex-direction: column; }
+  .purchase-toggle { flex-direction: column; gap: 4px; }
+  .shop-price { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <nav class="nav-desktop">
+      <a href="index.html">Home</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="locations.html">Locations</a>
+      <a href="contact.html">Contact</a>
+      <a href="shop.html" class="nav-cta">Shop Now</a>
+    </nav>
+  </div>
+</header>
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="locations.html">Locations</a>
+  <a href="contact.html">Contact</a>
+  <a href="shop.html" class="btn btn-primary" style="margin-top:1rem;">Shop Now</a>
+</nav>
+<main>
+<!--
+  SHOPIFY INTEGRATION TODO (store: 4nrp1u-ka.myshopify.com)
+  1. In Shopify admin, add the "Buy Button" sales channel.
+  2. Install the Subscriptions app and create 20%-off selling plans for the
+     12-Pack and 24-Pack products.
+  3. Set shipping zones to Tennessee only.
+  4. Generate the Buy Button embed snippet (or Storefront API token + product
+     IDs) and paste it into #shopify-buy-button below, replacing the
+     placeholder.
+
+  Pricing reference (client-provided, live as of build):
+    12-Pack: one-time $43.00 | Subscribe & Save 20% = $34.40/mo
+    24-Pack: one-time $79.00 | Subscribe & Save 20% = $63.20/mo
+    Free shipping on subscriptions. Tennessee shipping only.
+-->
+<section id="shop" class="section section--cream">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Shop</span>
+            <h2>Tasting is believing.</h2>
+            <p class="lead">Experience the Fizzy Leaf difference. Ships to Tennessee only — because it's made right here.</p>
+        </div>
+        <div class="shop-layout">
+            <div class="shop-gallery">
+                <img src="img/fizzy-detail1.jpg" alt="Fizzy Leaf Roselle Hibiscus" class="shop-main-image" id="shopMainImage">
+                <div class="shop-thumbs" id="shopThumbs">
+                    <button class="shop-thumb active" data-src="img/fizzy-detail1.jpg" aria-label="View image 1">
+                        <img src="img/fizzy-detail1.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/fizzy-detail2.jpg" aria-label="View image 2">
+                        <img src="img/fizzy-detail2.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/fizzy-detail3.jpg" aria-label="View image 3">
+                        <img src="img/fizzy-detail3.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/fizzy-detail4.jpg" aria-label="View image 4">
+                        <img src="img/fizzy-detail4.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/fizzy-detail5.jpg" aria-label="View image 5">
+                        <img src="img/fizzy-detail5.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/fizzy-detail6.jpg" aria-label="View image 6">
+                        <img src="img/fizzy-detail6.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/Fizzyleaf2.jpg" aria-label="View image 7">
+                        <img src="img/Fizzyleaf2.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/Fizzyleaf3.jpg" aria-label="View image 8">
+                        <img src="img/Fizzyleaf3.jpg" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="img/Fizzyleaf4.jpg" aria-label="View image 9">
+                        <img src="img/Fizzyleaf4.jpg" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="shop-details">
+                <h3 id="productTitle">Roselle Hibiscus</h3>
+                <p id="productPackLine" style="color:var(--text-muted);margin-bottom:0.5rem;">12-Pack · Sparkling Tea · 12 oz cans</p>
+                <div class="shop-price" id="shopPrice">
+                    <span id="priceDisplay"><s>$43.00</s> $34.40 <small>/mo</small></span>
+                </div>
+
+                <p class="pack-label">Select Case Size</p>
+                <div class="pack-selector" id="packSelector">
+                    <button type="button" class="pack-btn selected" id="pack-12" data-size="12">12-Pack</button>
+                    <button type="button" class="pack-btn" id="pack-24" data-size="24">24-Pack</button>
+                </div>
+
+                <div class="purchase-toggle" id="purchaseToggle">
+                    <button class="purchase-option" data-type="onetime">
+                        One-Time Purchase
+                    </button>
+                    <button class="purchase-option active" data-type="subscribe">
+                        Subscribe &amp; Save
+                        <span class="save-tag">Save 20%</span>
+                    </button>
+                </div>
+
+                <ul class="shop-features" id="shopFeatures">
+                    <li id="packFeature">12-pack of 12 oz cans</li>
+                    <li id="subscribeFeature">Delivered monthly — cancel anytime (save 20%)</li>
+                    <li>Free shipping on subscriptions</li>
+                    <li>Free pickup available at local retailers</li>
+                    <li>Tennessee shipping only</li>
+                </ul>
+
+                <div class="shopify-container" id="shopifyContainer">
+                    <div class="shopify-placeholder" id="shopifyPlaceholder">
+                        <strong>Shopify Buy Button loads here.</strong>
+                        TODO: in the Shopify admin (store <code>4nrp1u-ka.myshopify.com</code>) add the Buy Button sales channel, install the Subscriptions app to create the 20%-off selling plans for the 12 &amp; 24 packs, set shipping zones to Tennessee only, then paste the generated embed snippet / Storefront token + product IDs here.
+                    </div>
+                    <div id="shopify-buy-button"></div>
+                </div>
+
+                <button class="btn btn--primary" id="buyNowBtn" style="width:100%;margin-top:1rem;">
+                    <span id="buyNowLabel">Subscribe &amp; Save 20%</span>
+                </button>
+
+                <div class="tn-notice">
+                    <span>📍</span>
+                    <span>We currently ship to Tennessee zip codes only (37xxx &amp; 38xxx).</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-brand"><img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf"><span>Fizzy Leaf</span></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="locations.html">Locations</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom"><p>&copy; 2026 Fizzy Leaf Sparkling Tea · Handcrafted in Middle Tennessee · Unsweetened &amp; Unfiltered</p></div>
+</footer>
+<script src="nav.js"></script>
+<script>
+(function () {
+  var PRICES = {
+    12: { onetime: 43.00, subscribe: 34.40 },
+    24: { onetime: 79.00, subscribe: 63.20 }
+  };
+
+  var state = { pack: 12, type: 'subscribe' };
+
+  var priceDisplay = document.getElementById('priceDisplay');
+  var packSelector = document.getElementById('packSelector');
+  var purchaseToggle = document.getElementById('purchaseToggle');
+  var buyNowLabel = document.getElementById('buyNowLabel');
+  var productPackLine = document.getElementById('productPackLine');
+  var packFeature = document.getElementById('packFeature');
+
+  function fmt(n) {
+    return '$' + n.toFixed(2);
+  }
+
+  function render() {
+    var p = PRICES[state.pack];
+
+    // Price display
+    priceDisplay.classList.remove('price-tbd');
+    if (state.type === 'subscribe') {
+      priceDisplay.innerHTML = '<s>' + fmt(p.onetime) + '</s> ' + fmt(p.subscribe) + ' /mo';
+    } else {
+      priceDisplay.textContent = fmt(p.onetime);
+    }
+
+    // Pack buttons
+    var packBtns = packSelector.querySelectorAll('.pack-btn');
+    packBtns.forEach(function (btn) {
+      btn.classList.toggle('selected', Number(btn.dataset.size) === state.pack);
+    });
+
+    // Purchase options
+    var purchaseBtns = purchaseToggle.querySelectorAll('.purchase-option');
+    purchaseBtns.forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.type === state.type);
+    });
+
+    // Buy button label
+    if (state.type === 'subscribe') {
+      buyNowLabel.textContent = 'Subscribe & Save 20%';
+    } else {
+      buyNowLabel.textContent = 'Add to Cart — ' + fmt(p.onetime);
+    }
+
+    // Supporting copy
+    productPackLine.textContent = state.pack + '-Pack · Sparkling Tea · 12 oz cans';
+    packFeature.textContent = state.pack + '-pack of 12 oz cans';
+  }
+
+  packSelector.addEventListener('click', function (e) {
+    var btn = e.target.closest('.pack-btn');
+    if (!btn) return;
+    state.pack = Number(btn.dataset.size);
+    render();
+  });
+
+  purchaseToggle.addEventListener('click', function (e) {
+    var btn = e.target.closest('.purchase-option');
+    if (!btn) return;
+    state.type = btn.dataset.type;
+    render();
+  });
+
+  render();
+
+  // Gallery thumbnail swap
+  var shopMainImage = document.getElementById('shopMainImage');
+  var shopThumbs = document.getElementById('shopThumbs');
+  if (shopThumbs && shopMainImage) {
+    shopThumbs.addEventListener('click', function (e) {
+      var thumb = e.target.closest('.shop-thumb');
+      if (!thumb) return;
+      shopThumbs.querySelectorAll('.shop-thumb').forEach(function (t) {
+        t.classList.toggle('active', t === thumb);
+      });
+      if (thumb.dataset.src === shopMainImage.getAttribute('src')) return;
+      // cross-fade the main image to the chosen thumbnail
+      shopMainImage.style.opacity = '0';
+      shopMainImage.onload = function () { shopMainImage.style.opacity = '1'; };
+      window.setTimeout(function () { shopMainImage.src = thumb.dataset.src; }, 220);
+      window.setTimeout(function () { shopMainImage.style.opacity = '1'; }, 900); // fallback
+    });
+  }
+})();
+</script>
+</body>
+</html>
