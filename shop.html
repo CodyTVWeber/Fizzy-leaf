@@ -135,11 +135,6 @@
   color: var(--hibiscus-dark);
 }
 
-.price-tbd {
-  font-style: italic;
-  color: var(--text-muted);
-}
-
 .purchase-toggle {
   display: flex;
   background: var(--cream-dark);
@@ -397,96 +392,7 @@
   <div class="footer-bottom"><p>&copy; 2026 Fizzy Leaf Sparkling Tea · Handcrafted in Middle Tennessee · Unsweetened &amp; Unfiltered</p></div>
 </footer>
 <script src="nav.js"></script>
-<script>
-(function () {
-  var PRICES = {
-    12: { onetime: 43.00, subscribe: 34.40 },
-    24: { onetime: 79.00, subscribe: 63.20 }
-  };
-
-  var state = { pack: 12, type: 'subscribe' };
-
-  var priceDisplay = document.getElementById('priceDisplay');
-  var packSelector = document.getElementById('packSelector');
-  var purchaseToggle = document.getElementById('purchaseToggle');
-  var buyNowLabel = document.getElementById('buyNowLabel');
-  var productPackLine = document.getElementById('productPackLine');
-  var packFeature = document.getElementById('packFeature');
-
-  function fmt(n) {
-    return '$' + n.toFixed(2);
-  }
-
-  function render() {
-    var p = PRICES[state.pack];
-
-    // Price display
-    priceDisplay.classList.remove('price-tbd');
-    if (state.type === 'subscribe') {
-      priceDisplay.innerHTML = '<s>' + fmt(p.onetime) + '</s> ' + fmt(p.subscribe) + ' /mo';
-    } else {
-      priceDisplay.textContent = fmt(p.onetime);
-    }
-
-    // Pack buttons
-    var packBtns = packSelector.querySelectorAll('.pack-btn');
-    packBtns.forEach(function (btn) {
-      btn.classList.toggle('selected', Number(btn.dataset.size) === state.pack);
-    });
-
-    // Purchase options
-    var purchaseBtns = purchaseToggle.querySelectorAll('.purchase-option');
-    purchaseBtns.forEach(function (btn) {
-      btn.classList.toggle('active', btn.dataset.type === state.type);
-    });
-
-    // Buy button label
-    if (state.type === 'subscribe') {
-      buyNowLabel.textContent = 'Subscribe & Save 20%';
-    } else {
-      buyNowLabel.textContent = 'Add to Cart — ' + fmt(p.onetime);
-    }
-
-    // Supporting copy
-    productPackLine.textContent = state.pack + '-Pack · Sparkling Tea · 12 oz cans';
-    packFeature.textContent = state.pack + '-pack of 12 oz cans';
-  }
-
-  packSelector.addEventListener('click', function (e) {
-    var btn = e.target.closest('.pack-btn');
-    if (!btn) return;
-    state.pack = Number(btn.dataset.size);
-    render();
-  });
-
-  purchaseToggle.addEventListener('click', function (e) {
-    var btn = e.target.closest('.purchase-option');
-    if (!btn) return;
-    state.type = btn.dataset.type;
-    render();
-  });
-
-  render();
-
-  // Gallery thumbnail swap
-  var shopMainImage = document.getElementById('shopMainImage');
-  var shopThumbs = document.getElementById('shopThumbs');
-  if (shopThumbs && shopMainImage) {
-    shopThumbs.addEventListener('click', function (e) {
-      var thumb = e.target.closest('.shop-thumb');
-      if (!thumb) return;
-      shopThumbs.querySelectorAll('.shop-thumb').forEach(function (t) {
-        t.classList.toggle('active', t === thumb);
-      });
-      if (thumb.dataset.src === shopMainImage.getAttribute('src')) return;
-      // cross-fade the main image to the chosen thumbnail
-      shopMainImage.style.opacity = '0';
-      shopMainImage.onload = function () { shopMainImage.style.opacity = '1'; };
-      window.setTimeout(function () { shopMainImage.src = thumb.dataset.src; }, 220);
-      window.setTimeout(function () { shopMainImage.style.opacity = '1'; }, 900); // fallback
-    });
-  }
-})();
-</script>
+<script src="util.js"></script>
+<script src="shop.js"></script>
 </body>
 </html>
