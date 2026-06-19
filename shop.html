@@ -273,14 +273,16 @@
 </nav>
 <main>
 <!--
-  SHOPIFY INTEGRATION TODO (store: 4nrp1u-ka.myshopify.com)
-  1. In Shopify admin, add the "Buy Button" sales channel.
-  2. Install the Subscriptions app and create 20%-off selling plans for the
-     12-Pack and 24-Pack products.
-  3. Set shipping zones to Tennessee only.
-  4. Generate the Buy Button embed snippet (or Storefront API token + product
-     IDs) and paste it into #shopify-buy-button below, replacing the
-     placeholder.
+  SHOPIFY INTEGRATION (store: 4nrp1u-ka.myshopify.com)
+  Buy Button channel is wired up for one-time purchase (see shop.js).
+
+  REMAINING TODO:
+  1. Install the Subscriptions app and create a 20%-off selling plan for the
+     12-Pack and 24-Pack variants.
+  2. Set shipping zones to Tennessee only.
+  3. Once the selling plan exists, grab its sellingPlanId and add it to
+     SHOPIFY.sellingPlanIds in shop.js — that flips Subscribe & Save over to
+     real checkout (see TODO there).
 
   Pricing reference (client-provided, live as of build):
     12-Pack: one-time $43.00 | Subscribe & Save 20% = $34.40/mo
@@ -328,7 +330,7 @@
                 <h3 id="productTitle">Roselle Hibiscus</h3>
                 <p id="productPackLine" style="color:var(--text-muted);margin-bottom:0.5rem;">12-Pack · Sparkling Tea · 12 oz cans</p>
                 <div class="shop-price" id="shopPrice">
-                    <span id="priceDisplay"><s>$43.00</s> $34.40 <small>/mo</small></span>
+                    <span id="priceDisplay">$43.00</span>
                 </div>
 
                 <p class="pack-label">Select Case Size</p>
@@ -338,10 +340,10 @@
                 </div>
 
                 <div class="purchase-toggle" id="purchaseToggle">
-                    <button class="purchase-option" data-type="onetime">
+                    <button class="purchase-option active" data-type="onetime">
                         One-Time Purchase
                     </button>
-                    <button class="purchase-option active" data-type="subscribe">
+                    <button class="purchase-option" data-type="subscribe">
                         Subscribe &amp; Save
                         <span class="save-tag">Save 20%</span>
                     </button>
@@ -356,16 +358,12 @@
                 </ul>
 
                 <div class="shopify-container" id="shopifyContainer">
-                    <div class="shopify-placeholder" id="shopifyPlaceholder">
-                        <strong>Shopify Buy Button loads here.</strong>
-                        TODO: in the Shopify admin (store <code>4nrp1u-ka.myshopify.com</code>) add the Buy Button sales channel, install the Subscriptions app to create the 20%-off selling plans for the 12 &amp; 24 packs, set shipping zones to Tennessee only, then paste the generated embed snippet / Storefront token + product IDs here.
+                    <div class="shopify-placeholder" id="subscribeNotice" style="display:none;">
+                        <strong>Subscriptions are launching soon.</strong>
+                        Choose <strong>One-Time Purchase</strong> above to order now — Subscribe &amp; Save will go live here once the 20%-off plan is set up in Shopify.
                     </div>
                     <div id="shopify-buy-button"></div>
                 </div>
-
-                <button class="btn btn--primary" id="buyNowBtn" style="width:100%;margin-top:1rem;">
-                    <span id="buyNowLabel">Subscribe &amp; Save 20%</span>
-                </button>
 
                 <div class="tn-notice">
                     <span>📍</span>
