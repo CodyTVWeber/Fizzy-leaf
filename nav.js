@@ -43,7 +43,7 @@
   // Must stay in sync with the CSS fade-out duration (.is-leaving).
   function initPageTransitions() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var FADE_OUT_MS = 700;
+    var FADE_OUT_MS = 220;
 
     function isInternalPage(a) {
       if (a.target === '_blank' || a.hasAttribute('download')) return false;
