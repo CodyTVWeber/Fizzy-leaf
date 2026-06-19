@@ -194,33 +194,17 @@
   font-weight: 700;
 }
 
-.shopify-container {
-  margin-top: 1.5rem;
-  min-height: 60px;
-}
-
-.shopify-placeholder {
-  padding: 1.25rem;
-  background: var(--cream-dark);
-  border: 2px dashed rgba(156, 111, 31, 0.35);
-  border-radius: var(--radius);
-  text-align: left;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.shopify-placeholder strong {
+.shop-buy {
   display: block;
-  color: var(--text);
-  margin-bottom: 0.35rem;
+  width: 100%;
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 1.05rem;
+  padding: 1.05rem 2rem;
 }
-
-.shopify-placeholder code {
-  font-size: 0.85em;
-  background: rgba(156, 111, 31, 0.12);
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
+.shop-buy.is-loading {
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .tn-notice {
@@ -274,20 +258,15 @@
 <main>
 <!--
   SHOPIFY INTEGRATION (store: 4nrp1u-ka.myshopify.com)
-  Buy Button channel is wired up for one-time purchase (see shop.js).
+  Checkout uses the Storefront Cart API (see shop.js): builds a cart and
+  redirects to its checkoutUrl. Subscribe & Save attaches selling plan
+  6531121246; the checkoutUrl bypasses the store password gate.
 
-  REMAINING TODO:
-  1. Install the Subscriptions app and create a 20%-off selling plan for the
-     12-Pack and 24-Pack variants.
-  2. Set shipping zones to Tennessee only.
-  3. Once the selling plan exists, grab its sellingPlanId and add it to
-     SHOPIFY.sellingPlanIds in shop.js — that flips Subscribe & Save over to
-     real checkout (see TODO there).
+  LAUNCH GATE: restrict shipping zones to Tennessee before going live.
 
-  Pricing reference (client-provided, live as of build):
+  Pricing reference:
     12-Pack: one-time $43.00 | Subscribe & Save 20% = $34.40/mo
     24-Pack: one-time $79.00 | Subscribe & Save 20% = $63.20/mo
-    Free shipping on subscriptions. Tennessee shipping only.
 -->
 <section id="shop" class="section section--cream">
     <div class="container">
@@ -357,13 +336,7 @@
                     <li>Tennessee shipping only</li>
                 </ul>
 
-                <div class="shopify-container" id="shopifyContainer">
-                    <div class="shopify-placeholder" id="subscribeNotice" style="display:none;">
-                        <strong>Subscriptions are launching soon.</strong>
-                        Choose <strong>One-Time Purchase</strong> above to order now — Subscribe &amp; Save will go live here once the 20%-off plan is set up in Shopify.
-                    </div>
-                    <div id="shopify-buy-button"></div>
-                </div>
+                <button type="button" id="shopBuyButton" class="btn btn-primary shop-buy">Add to Cart</button>
 
                 <div class="tn-notice">
                     <span>📍</span>
