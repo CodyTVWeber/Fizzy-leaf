@@ -1,4 +1,4 @@
-/* Storefront Cart API wrapper (shared by the cart-UX prototypes).
+/* Storefront Cart API wrapper for the shop page.
    Persists a cart id in localStorage and exposes a small async API that
    returns a normalized cart: { id, checkoutUrl, count, subtotal, lines[] }.
    Each line: { id, quantity, pack, type, title, total }.
@@ -85,13 +85,13 @@ window.FizzyCart = (function () {
   function loadId() { try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; } }
   function clearId() { try { localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
 
-  function createCart(lines, persist) {
+  function createCart(lines) {
     return gql(
       'mutation($lines:[CartLineInput!]!){cartCreate(input:{lines:$lines}){cart{' + CART_FIELDS + '}userErrors{message}}}',
       { lines: lines }
     ).then(function (d) {
       var cart = d.cartCreate.cart;
-      if (persist) saveId(cart.id);
+      saveId(cart.id);
       return normalize(cart);
     });
   }
@@ -115,17 +115,17 @@ window.FizzyCart = (function () {
   function add(pack, type, qty) {
     var line = lineInput(pack, type, qty);
     var id = loadId();
-    if (!id) return createCart([line], true);
+    if (!id) return createCart([line]);
     return gql(
       'mutation($id:ID!,$lines:[CartLineInput!]!){cartLinesAdd(cartId:$id,lines:$lines){cart{' + CART_FIELDS + '}userErrors{message}}}',
       { id: id, lines: [line] }
     )
       .then(function (d) {
         var cart = d.cartLinesAdd && d.cartLinesAdd.cart;
-        if (!cart) { clearId(); return createCart([line], true); }
+        if (!cart) { clearId(); return createCart([line]); }
         return normalize(cart);
       })
-      .catch(function () { clearId(); return createCart([line], true); });
+      .catch(function () { clearId(); return createCart([line]); });
   }
 
   function updateLine(lineId, qty) {
@@ -142,19 +142,12 @@ window.FizzyCart = (function () {
     ).then(function (d) { return normalize(d.cartLinesRemove.cart); });
   }
 
-  // One-shot: build a throwaway cart and resolve its checkoutUrl (qty prototype).
-  function directCheckoutUrl(pack, type, qty) {
-    return createCart([lineInput(pack, type, qty)], false)
-      .then(function (c) { return c.checkoutUrl; });
-  }
-
   return {
     PRICES: PRICES,
     money: function (n) { return '$' + Number(n).toFixed(2); },
     get: get,
     add: add,
     updateLine: updateLine,
-    removeLine: removeLine,
-    directCheckoutUrl: directCheckoutUrl
+    removeLine: removeLine
   };
 })();

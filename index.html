@@ -90,6 +90,11 @@
     .hero-actions, .badge-row { justify-content: center; }
     .split { grid-template-columns: 1fr; }
 }
+
+/* navbar is hidden on phones, so drop the top padding that cleared it */
+@media (max-width: 768px) {
+    .hero { padding-top: 3rem; }
+}
 </style>
 </head>
 <body>

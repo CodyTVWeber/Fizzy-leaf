@@ -399,7 +399,8 @@
   .shop-main-image { aspect-ratio: 4 / 3; }
 }
 @media (max-width: 768px) {
-  .section { padding: 6rem 0 4rem; }
+  /* navbar is hidden on phones — drop the top padding that cleared it */
+  .section { padding: 3rem 0 4rem; }
   .shop-details h3 { font-size: 1.7rem; }
 }
 @media (max-width: 480px) {
