@@ -71,7 +71,7 @@ Grouping chips: All · Thompson's Station · Spring Hill · Franklin · Columbia
 | 10 | The Coffee House (Cool Springs) | Franklin | 6700 Tower Cir, 37067 |
 | 11 | Abundant Provisions | Spring Hill | 5322 Main St, 37174 |
 | 12 | Bruno's Italian Deli & Market | Columbia | 2500 Hospitality Ln, 38401 |
-| 13 | Legacy Coffee Co | Columbia | 2547 Nashville Hwy Ste A, 38401 |
+| 13 | Legacy Coffee Co | Columbia | 2549 Nashville Hwy Ste B, 38401 |
 | 14 | North Arrow Coffee Co | Franklin | 406 Church St, 37064 |
 | 15 | Columbia Health Foods | Columbia | 106 W 7th St, 38401 |
 | 16 | Canine Concepts | Nashville | 1106 Division St, 37203 |
