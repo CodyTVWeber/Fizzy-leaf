@@ -8,3 +8,11 @@
 .env.development
 .env.test
 .env.production
+
+# local design references / scratch (not part of the site)
+tmp/
+image.png
+image copy*.png
+SHOPIFY_SETUP.md
+ShopifyPreviewProductPage.html
+blah.har
