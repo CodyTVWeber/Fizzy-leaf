@@ -1,3 +1,28 @@
+.cart-main {
+  padding: 0;
+  margin: 0;
+}
+.cart-main ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cart-checkout {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.cart-line a.cl-title {
+  display: block;
+  text-decoration: none;
+}
+.buy-error {
+  margin: 0.6rem 0 0;
+  color: #8b3a2a;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .cart-fab {
   position: fixed;
   bottom: 1.3rem;

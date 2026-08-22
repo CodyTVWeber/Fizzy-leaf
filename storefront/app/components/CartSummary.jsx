@@ -15,18 +15,20 @@ export function CartSummary({cart, layout}) {
   const giftCardInputId = useId();
 
   return (
-    <div aria-labelledby={summaryId} className={className}>
-      <h4 id={summaryId}>Totals</h4>
-      <dl role="group" className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
+    <div aria-labelledby={summaryId} className={`${className} cart-foot`}>
+      <h4 id={summaryId} className="sr-only">
+        Totals
+      </h4>
+      <div className="cart-subtotal">
+        <span>Subtotal</span>
+        <span>
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
           ) : (
-            '-'
+            '$0.00'
           )}
-        </dd>
-      </dl>
+        </span>
+      </div>
       <CartDiscounts
         discountCodes={cart?.discountCodes}
         discountsHeadingId={discountsHeadingId}
@@ -49,12 +51,13 @@ function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
-      </a>
-      <br />
-    </div>
+    <a
+      className="btn btn-primary cart-checkout"
+      href={checkoutUrl}
+      target="_self"
+    >
+      Checkout →
+    </a>
   );
 }
 

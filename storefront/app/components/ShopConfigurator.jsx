@@ -136,24 +136,43 @@ export function ShopConfigurator() {
 
 function AddButton({fetcher, onAdded}) {
   const prevState = useRef(fetcher.state);
+  const [failed, setFailed] = useState(false);
   const busy = fetcher.state !== 'idle';
 
   useEffect(() => {
-    if (prevState.current !== 'idle' && fetcher.state === 'idle') {
-      onAdded();
-    }
+    const wasBusy = prevState.current !== 'idle';
     prevState.current = fetcher.state;
-  }, [fetcher.state, onAdded]);
+    if (!wasBusy || fetcher.state !== 'idle') return;
+    if (cartAddFailed(fetcher.data)) {
+      setFailed(true);
+      return;
+    }
+    setFailed(false);
+    onAdded();
+  }, [fetcher.state, fetcher.data, onAdded]);
 
   return (
-    <button
-      type="submit"
-      className={`btn btn-primary shop-buy${busy ? ' is-loading' : ''}`}
-      disabled={busy}
-    >
-      {busy ? 'Adding…' : 'Add to Cart'}
-    </button>
+    <div className="buy-submit">
+      <button
+        type="submit"
+        className={`btn btn-primary shop-buy${busy ? ' is-loading' : ''}`}
+        disabled={busy}
+        onClick={() => setFailed(false)}
+      >
+        {busy ? 'Adding…' : 'Add to Cart'}
+      </button>
+      {failed ? (
+        <p className="buy-error" role="alert">
+          Sorry — could not add to cart. Please try again.
+        </p>
+      ) : null}
+    </div>
   );
+}
+
+function cartAddFailed(data) {
+  const errors = data?.errors;
+  return Array.isArray(errors) && errors.length > 0;
 }
 
 function Gallery({mainRef, mainSrc, thumbIndex, onSelect}) {

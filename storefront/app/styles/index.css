@@ -66,16 +66,16 @@ body {
    that the page change is felt. */
 @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
 /* quick, smooth fade in; quick fade out before navigating */
-main, .site-footer { animation: pageFadeIn 0.4s ease-out both; }
-body.is-leaving main,
+.page-main, .site-footer { animation: pageFadeIn 0.4s ease-out both; }
+body.is-leaving .page-main,
 body.is-leaving .site-footer {
   animation: none;
   opacity: 0;
   transition: opacity 0.22s ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  main, .site-footer { animation: none; }
-  body.is-leaving main,
+  .page-main, .site-footer { animation: none; }
+  body.is-leaving .page-main,
   body.is-leaving .site-footer { transition: none; opacity: 1; }
 }
 

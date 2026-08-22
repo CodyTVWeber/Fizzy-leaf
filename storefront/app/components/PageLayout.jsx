@@ -14,7 +14,7 @@ export function PageLayout({cart, children = null}) {
     <Aside.Provider>
       <SiteHeader />
       <CartAside cart={cart} />
-      <main>{children}</main>
+      <main className="page-main">{children}</main>
       <SiteFooter />
       <CartFab cart={cart} />
     </Aside.Provider>
