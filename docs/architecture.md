@@ -3,7 +3,8 @@
 ## Hard constraints
 - **Plain static site**: hand-written HTML + CSS + JS. **No build step, no bundler, no framework, no node app.** `node --check` is used only as a syntax linter.
 - Open `*.html` directly or via any static server. No install.
-- Hosting target: customer's own site is the storefront; Shopify handles cart→checkout only (see [shopify.md](shopify.md)).
+- Hosting target **today**: GitHub Pages (`*.html` at repo root). Shopify handles cart→checkout only (see [shopify.md](shopify.md)).
+- **`theme/`**: unpublished Shopify Liquid wrap of the same pages. Ignored by Pages. Not the live theme until a later DNS/publish cutover.
 
 ## Pages (each a standalone `.html`)
 | Page | File | Purpose |
@@ -33,4 +34,4 @@
 - `.gitignore` excludes `tmp/`, scratch PNGs, `blah.har`.
 - `tmp/` and `ShopifyPreviewProductPage.html` are reference scratch, not part of the site.
 
-See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md)
+See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md) · [plans/2026/08/2026-08-22_shopify-theme-wrap.md](plans/2026/08/2026-08-22_shopify-theme-wrap.md)

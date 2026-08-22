@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  {%- if template.name == 'index' -%}
+    Fizzy Leaf · Tennessee Sparkling Hibiscus Tea
+  {%- elsif template.suffix == 'shop' -%}
+    Shop · Fizzy Leaf
+  {%- elsif template.suffix == 'locations' -%}
+    Locations · Fizzy Leaf
+  {%- elsif template.suffix == 'contact' -%}
+    Contact · Fizzy Leaf
+  {%- else -%}
+    {{ page_title | escape }} · Fizzy Leaf
+  {%- endif -%}
+</title>
+<link rel="icon" type="image/webp" href="{{ 'FizzyLeafIcon_favicon.webp' | asset_url }}">
+{{ 'index.css' | asset_url | stylesheet_tag }}
+{%- if template.name == 'index' -%}
+  {{ 'home.css' | asset_url | stylesheet_tag }}
+{%- elsif template.suffix == 'shop' -%}
+  {{ 'shop.css' | asset_url | stylesheet_tag }}
+{%- elsif template.suffix == 'locations' -%}
+  {{ 'locations.css' | asset_url | stylesheet_tag }}
+{%- elsif template.suffix == 'contact' -%}
+  {{ 'contact.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{{ content_for_header }}
+</head>
+<body>
+<header class="site-header" id="header">
+  <div class="header-inner">
+    {% render 'site-nav' %}
+  </div>
+</header>
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <a href="/">Home</a>
+  <a href="/pages/shop">Shop</a>
+  <a href="/pages/locations">Locations</a>
+  <a href="/pages/contact">Contact</a>
+  <a href="/pages/shop" class="btn btn-primary" style="margin-top:1rem;">Shop Now</a>
+</nav>
+<main>
+  {{ content_for_layout }}
+</main>
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-brand"><img src="{{ 'FizzyLeafLogo.webp' | asset_url }}" alt="Fizzy Leaf"><span>Fizzy Leaf</span></div>
+    <ul class="footer-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/pages/shop">Shop</a></li>
+      <li><a href="/pages/locations">Locations</a></li>
+      <li><a href="/pages/contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom"><p>&copy; {{ 'now' | date: '%Y' }} Fizzy Leaf Sparkling Tea · Handcrafted in Middle Tennessee · Unsweetened &amp; Unfiltered</p></div>
+</footer>
+<script src="{{ 'nav.js' | asset_url }}"></script>
+</body>
+</html>

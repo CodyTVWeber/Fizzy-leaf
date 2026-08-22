@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <span class="eyebrow">Get in Touch</span>
+        <h2>We'd love to hear from you.</h2>
+        <p class="lead">For business inquiries, wholesale partnerships, or just to say hello — drop us a line.</p>
+        <ul class="contact-perks">
+          <li>📦 Wholesale &amp; retail partnerships</li>
+          <li>☕ Want Fizzy Leaf at your shop?</li>
+          <li>💬 General questions &amp; feedback</li>
+        </ul>
+      </div>
+      <div class="contact-form-card">
+        <form id="contactForm" action="https://submit-form.com/vwsJT57aO" method="POST">
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width:100%;" id="submitBtn">Send Message</button>
+          <div class="form-status" id="formStatus" role="alert"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'contact.js' | asset_url }}"></script>

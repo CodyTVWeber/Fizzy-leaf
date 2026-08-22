@@ -1,6 +1,22 @@
 # Shopify integration
 
-The site is a custom storefront; Shopify only handles cart + checkout. Implemented in `cart-api.js` (data layer) and `shop.js` (UI). **No Buy Button SDK, no iframe** — it can't do subscriptions and can't be styled.
+The **live** customer site is still GitHub Pages (`fizzyleaf.com`). Shopify handles cart → checkout via Storefront Cart API (`cart-api.js` + `shop.js`). **No Buy Button SDK, no iframe.**
+
+## Unpublished theme wrap (`theme/`)
+
+Liquid wrap of the Pages HTML, pushed **unpublished** only. Does not replace Dawn until a later cutover.
+
+```bash
+shopify theme push --unpublished --path theme --store fizzyleaf.myshopify.com
+```
+
+| Do | Don't |
+|----|--------|
+| Preview via CLI `preview_url` / `?preview_theme_id=` | `shopify theme publish` |
+| Keep store password **on** | Connect `fizzyleaf.com` DNS |
+| Assign Online Store pages Shop / Locations / Contact to `page.shop` / `page.locations` / `page.contact` | GitHub “Connect from GitHub” on `main` (root is not a theme) |
+
+GitHub Pages ignores `theme/`. Root `*.html` is unchanged.
 
 ## Store / product constants (`cart-api.js`)
 | Thing | Value |

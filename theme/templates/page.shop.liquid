@@ -1,0 +1,106 @@
+<section id="shop" class="section section--cream">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Shop</span>
+            <h2>Tasting is believing.</h2>
+            <p class="lead">Experience the Fizzy Leaf difference. Ships to Tennessee only — because it's made right here.</p>
+        </div>
+        <div class="shop-layout">
+            <div class="shop-gallery">
+                <img src="{{ 'fizzy-detail1.webp' | asset_url }}" alt="Fizzy Leaf Roselle Hibiscus" class="shop-main-image" id="shopMainImage">
+                <div class="shop-thumbs" id="shopThumbs">
+                    <button class="shop-thumb active" data-src="{{ 'fizzy-detail1.webp' | asset_url }}" aria-label="View image 1">
+                        <img src="{{ 'fizzy-detail1.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'fizzy-detail2.webp' | asset_url }}" aria-label="View image 2">
+                        <img src="{{ 'fizzy-detail2.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'fizzy-detail3.webp' | asset_url }}" aria-label="View image 3">
+                        <img src="{{ 'fizzy-detail3.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'fizzy-detail4.webp' | asset_url }}" aria-label="View image 4">
+                        <img src="{{ 'fizzy-detail4.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'fizzy-detail6.webp' | asset_url }}" aria-label="View image 5">
+                        <img src="{{ 'fizzy-detail6.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'Fizzyleaf2.webp' | asset_url }}" aria-label="View image 7">
+                        <img src="{{ 'Fizzyleaf2.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'Fizzyleaf3.webp' | asset_url }}" aria-label="View image 8">
+                        <img src="{{ 'Fizzyleaf3.webp' | asset_url }}" alt="">
+                    </button>
+                    <button class="shop-thumb" data-src="{{ 'Fizzyleaf4.webp' | asset_url }}" aria-label="View image 9">
+                        <img src="{{ 'Fizzyleaf4.webp' | asset_url }}" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="shop-details">
+                <h3 id="productTitle">Roselle Hibiscus</h3>
+                <p id="productPackLine" style="color:var(--text-muted);margin-bottom:0.5rem;">12-Pack · Sparkling Tea · 12 oz cans</p>
+                <div class="shop-price" id="shopPrice">
+                    <span id="priceDisplay">$43.00</span>
+                </div>
+
+                <p class="pack-label">Select Case Size</p>
+                <div class="pack-selector" id="packSelector">
+                    <button type="button" class="pack-btn selected" id="pack-12" data-size="12">12-Pack</button>
+                    <button type="button" class="pack-btn" id="pack-24" data-size="24">24-Pack</button>
+                </div>
+
+                <div class="purchase-toggle" id="purchaseToggle">
+                    <button class="purchase-option active" data-type="onetime">
+                        One-Time Purchase
+                    </button>
+                    <button class="purchase-option" data-type="subscribe">
+                        Subscribe &amp; Save
+                        <span class="save-tag">Save 20%</span>
+                    </button>
+                </div>
+
+                <ul class="shop-features" id="shopFeatures">
+                    <li id="packFeature">12-pack of 12 oz cans</li>
+                    <li id="subscribeFeature">Delivered monthly — cancel anytime (save 20%)</li>
+                    <li>Free shipping on subscriptions</li>
+                    <li>Free pickup available at local retailers</li>
+                    <li>Tennessee shipping only</li>
+                </ul>
+
+                <div class="buy-row">
+                    <div class="qty-stepper" id="qtyStepper">
+                        <button type="button" data-step="-1" aria-label="Decrease quantity">−</button>
+                        <span id="qtyValue">1</span>
+                        <button type="button" data-step="1" aria-label="Increase quantity">+</button>
+                    </div>
+                    <button type="button" id="shopBuyButton" class="btn btn-primary shop-buy">Add to Cart</button>
+                </div>
+
+                <div class="tn-notice">
+                    <span>📍</span>
+                    <span>We currently ship to Tennessee zip codes only (37xxx &amp; 38xxx).</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<button class="cart-fab" id="cartFab" aria-label="Open cart">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="9" cy="21" r="1" fill="#fff"></circle>
+    <circle cx="20" cy="21" r="1" fill="#fff"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+  <span class="cart-count" id="cartCount" data-count="0"></span>
+</button>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Your cart">
+  <header><h3>Your Cart</h3><button class="cart-close" id="cartClose" aria-label="Close cart">×</button></header>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-foot">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <a class="btn btn-primary" id="cartCheckout" href="#" style="display:block;text-align:center;width:100%;">Checkout →</a>
+  </div>
+</aside>
+<script src="{{ 'util.js' | asset_url }}"></script>
+<script src="{{ 'cart-api.js' | asset_url }}"></script>
+<script src="{{ 'shop.js' | asset_url }}"></script>

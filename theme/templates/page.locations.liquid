@@ -1,0 +1,62 @@
+<section id="locations">
+  <div class="section-inner">
+    <span class="eyebrow">Where to Find Us</span>
+    <h2>Find Fizzy Leaf Near You</h2>
+    <p class="lead" style="margin:0 auto;">Fizzy Leaf is proudly carried by these local shops across Middle Tennessee.</p>
+
+    <div class="location-filters" id="locationFilters">
+      <button class="filter-btn active" data-city="all">All Locations</button>
+      <button class="filter-btn" data-city="Thompson's Station">Thompson's Station</button>
+      <button class="filter-btn" data-city="Spring Hill">Spring Hill</button>
+      <button class="filter-btn" data-city="Franklin">Franklin</button>
+      <button class="filter-btn" data-city="Columbia">Columbia</button>
+      <button class="filter-btn" data-city="Nashville">Nashville</button>
+      <button class="filter-btn" data-city="Old Hickory">Old Hickory</button>
+      <button class="filter-btn" data-city="College Grove">College Grove</button>
+    </div>
+
+    <div class="locations-layout">
+      <div class="locations-grid" id="locationsGrid">
+        <div class="location-card" data-city="Thompson's Station"><strong>1819 Coffee</strong><span class="addr">4683 Columbia Pike, Thompson's Station, TN 37179</span></div>
+        <div class="location-card" data-city="Thompson's Station"><strong>White Shepherd Coffee</strong><span class="addr">2101 Branford Pl Unit 101, Thompson's Station, TN 37179</span></div>
+        <div class="location-card" data-city="Thompson's Station"><strong>Settlers Coffee</strong><span class="addr">1990 Tollgate Blvd, Thompson's Station, TN 37179</span></div>
+        <div class="location-card" data-city="Spring Hill"><strong>White Shepherd Coffee</strong><span class="addr">4001 Parkfield Loop N Ste 40, Spring Hill, TN 37174</span></div>
+        <div class="location-card" data-city="Columbia"><strong>Mama Mila's</strong><span class="addr">1200 S Garden St, Columbia, TN 38401</span></div>
+        <div class="location-card" data-city="Spring Hill"><strong>Old Stone Creamery</strong><span class="addr">2301 Sugar Ridge Rd, Spring Hill, TN 37174</span></div>
+        <div class="location-card" data-city="Spring Hill"><strong>Awaken House</strong><span class="addr">3035 Reserve Blvd, Spring Hill, TN 37174</span></div>
+        <div class="location-card" data-city="Franklin"><strong>High Brow Coffee</strong><span class="addr">188 Front St Unit 102, Franklin, TN 37064</span></div>
+        <div class="location-card" data-city="Franklin"><strong>The Good Cup</strong><span class="addr">2181 Hillsboro Rd, Franklin, TN 37069</span></div>
+        <div class="location-card" data-city="Spring Hill"><strong>The Brunch Collective</strong><span class="addr">5323 Main St, Spring Hill, TN 37174</span></div>
+        <div class="location-card" data-city="Franklin"><strong>The Coffee House (Downtown Franklin)</strong><span class="addr">144 2nd Ave N, Franklin, TN 37064</span></div>
+        <div class="location-card" data-city="Franklin"><strong>The Franklin Bakehouse</strong><span class="addr">100 E Main St, Franklin, TN 37064</span></div>
+        <div class="location-card" data-city="Spring Hill"><strong>Abundant Provisions</strong><span class="addr">5322 Main St, Spring Hill, TN 37174</span></div>
+        <div class="location-card" data-city="Columbia"><strong>Bruno's Italian Deli &amp; Market</strong><span class="addr">2500 Hospitality Ln, Columbia, TN 38401</span></div>
+        <div class="location-card" data-city="Columbia"><strong>Legacy Coffee Co</strong><span class="addr">2549 Nashville Hwy Ste B, Columbia, TN 38401</span></div>
+        <div class="location-card" data-city="Franklin"><strong>North Arrow Coffee Co</strong><span class="addr">406 Church St, Franklin, TN 37064</span></div>
+        <div class="location-card" data-city="Columbia"><strong>Columbia Health Foods</strong><span class="addr">106 W 7th St, Columbia, TN 38401</span></div>
+        <div class="location-card" data-city="Franklin"><strong>SOS Counter</strong><span class="addr">701 Cool Springs Boulevard, Franklin, TN 37067</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Canine Concepts</strong><span class="addr">1106 Division St, Nashville, TN 37203</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Prickly Pear (Batman)</strong><span class="addr">333 Commerce St, Nashville, TN 37201</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Prickly Pear (Albion)</strong><span class="addr">645 Division St, Nashville, TN 37203</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Dose (West Nashville)</strong><span class="addr">3431 Murphy Rd, Nashville, TN 37203</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Dose (East Nashville)</strong><span class="addr">1400 McGavock Pike, Nashville, TN 37216</span></div>
+        <div class="location-card" data-city="Old Hickory"><strong>Dose (Old Hickory)</strong><span class="addr">700 Hadley Ave, Old Hickory, TN 37138</span></div>
+        <div class="location-card" data-city="Brentwood"><strong>Raven Book Lounge</strong><span class="addr">330 Franklin Rd #250b, Brentwood, TN 37027</span></div>
+        <div class="location-card" data-city="Brentwood"><strong>Silver Fox (Brentwood)</strong><span class="addr">7010 Executive Center Dr. Suite 106, Brentwood, TN 37027</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Silver Fox (Nashville)</strong><span class="addr">1001 16th Ave S, Nashville, TN 37203</span></div>
+        <div class="location-card" data-city="Nashville"><strong>Humphreys Street Coffee</strong><span class="addr">424 Humphreys St, Nashville, TN 37203</span></div>
+        <div class="location-card" data-city="College Grove"><strong>Delvin Farms</strong><span class="addr">6361 Cox Rd, College Grove, TN 37046</span></div>
+      </div>
+
+      <div class="map-container">
+<iframe id="locationMap" title="Fizzy Leaf retail locations map"
+          src="https://maps.google.com/maps?q=35.85,-86.90&z=9&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'util.js' | asset_url }}"></script>
+<script src="{{ 'locations.js' | asset_url }}"></script>

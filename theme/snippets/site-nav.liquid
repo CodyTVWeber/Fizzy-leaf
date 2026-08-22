@@ -1,0 +1,7 @@
+<nav class="nav-desktop">
+  <a href="/" {% if template.name == 'index' %}class="active"{% endif %}>Home</a>
+  <a href="/pages/shop" {% if template.suffix == 'shop' %}class="active"{% endif %}>Shop</a>
+  <a href="/pages/locations" {% if template.suffix == 'locations' %}class="active"{% endif %}>Locations</a>
+  <a href="/pages/contact" {% if template.suffix == 'contact' %}class="active"{% endif %}>Contact</a>
+  <a href="/pages/shop" class="nav-cta">Shop Now</a>
+</nav>

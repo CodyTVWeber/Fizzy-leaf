@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-22
 **Branch:** `plan/shopify-theme` (implement on same branch → one PR)
-**Status:** Planned
+**Status:** Implementing
 **Base:** `origin/main` @ `fb5328e`
 
 Put the GitHub Pages HTML/CSS/JS into a Shopify **Online Store theme**, pushed **unpublished** to the password-gated store. **Do not** publish, **do not** turn the password off, **do not** move `fizzyleaf.com` DNS. Live site stays GitHub Pages.

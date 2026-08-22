@@ -14,7 +14,8 @@ Marketing + commerce site for Fizzy Leaf sparkling hibiscus tea (Middle TN). Cus
 - **Don't touch Shopify constants** (store/variant/selling-plan ids, token, API version, GraphQL) without intent — see [docs/shopify.md](docs/shopify.md).
 - **Mobile (≤768px)**: navbar is hidden (floating hamburger only); keep first-section top padding at 3rem, not the desktop 7rem.
 - Images are WebP and pruned if unreferenced — wire up any new image; downscale before adding.
-- Commit only when asked. Work branch `feat/final-redesign-jun-2026`.
+- **Git:** commit + push on the current feature branch. **Never** commit or push to `main`/`master`.
+- **`theme/`:** unpublished wrap only. Do **not** `theme publish`, turn the store password off, or connect `fizzyleaf.com` DNS from this branch.
 
 ## Detailed references
 | Topic | Doc |
