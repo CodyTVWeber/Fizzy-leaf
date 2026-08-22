@@ -1,36 +1,40 @@
 # Architecture
 
-## Hard constraints
-- **Plain static site**: hand-written HTML + CSS + JS. **No build step, no bundler, no framework, no node app.** `node --check` is used only as a syntax linter.
-- Open `*.html` directly or via any static server. No install.
-- Hosting target: customer's own site is the storefront; Shopify handles cart→checkout only (see [shopify.md](shopify.md)).
+## Two storefronts
 
-## Pages (each a standalone `.html`)
-| Page | File | Purpose |
-|------|------|---------|
-| Home | `index.html` | Hero (logo + title), Our Story, Instagram (Elfsight embed) |
-| Shop | `shop.html` | Product configurator + slide-out cart drawer |
-| Locations | `locations.html` | 18 retail shops, city filter, embedded Google map |
-| Contact | `contact.html` | Async contact form |
+| | GitHub Pages (`main`) | Hydrogen (`hydrogen` / `storefront/`) |
+|--|--|--|
+| Stack | Plain HTML/CSS/JS — **no build** | Shopify Hydrogen + React Router |
+| Host | GitHub Pages — **live** | `shopify hydrogen dev` now; Oxygen later (root `storefront`) |
+| Cart | `cart-api.js` + `localStorage` | Hydrogen cookie cart (`CartForm`) |
+| Routes | `*.html` | `/`, `/shop`, `/locations`, `/contact` |
 
-## Shared chrome (loaded on every page)
-- `index.css` — palette tokens, base, navbar, footer, page-transition. See [styling.md](styling.md).
-- `nav.js` — mobile menu, header scroll shadow, page-fade transitions. See [behaviors.md](behaviors.md).
-- `util.js` — `FizzyLeaf.fadeSwap()` cross-fade helper for `<img>`/`<iframe>`.
+Root `*.html` on `hydrogen` is leftover Pages source (reference). Hydrogen does not serve it. Pages stays live until cutover.
 
-## Page-specific code
-| Page | CSS | JS |
-|------|-----|-----|
-| Home | inline `<style>` | — (nav.js only) |
-| Shop | inline `<style>` | `cart-api.js` (data layer) + `shop.js` (UI) |
-| Locations | inline `<style>` | `locations.js` |
-| Contact | inline `<style>` | `contact.js` |
+## Pages (marketing)
 
-**Pattern**: shared rules live in `index.css`; each page keeps its section CSS in its own inline `<style>` so pages stay self-contained. Page JS is a single IIFE module, ES5 style (`var` + `function`), `'use strict'`.
+| Page | Pages file | Hydrogen route |
+|------|------------|----------------|
+| Home | `index.html` | `app/routes/_index.jsx` |
+| Shop | `shop.html` | `app/routes/shop.jsx` |
+| Locations | `locations.html` | `app/routes/locations.jsx` |
+| Contact | `contact.html` | `app/routes/contact.jsx` |
+
+`products.$handle` redirects to `/shop` (single-product configurator).
+
+## Pages shared chrome
+- `index.css` — palette, nav, footer. See [styling.md](styling.md).
+- `nav.js` — hamburger, header scroll, page-fade. See [behaviors.md](behaviors.md).
+- `util.js` — `FizzyLeaf.fadeSwap()`.
+
+## Hydrogen chrome
+- Styles: `storefront/app/styles/{index,home,shop,locations,contact,shop-cart,app}.css` (no `reset.css`).
+- `SiteHeader` / `SiteFooter` — hardcoded `/` `/shop` `/locations` `/contact` (no Shopify menus).
+- Cart: `Aside` + `CartMain` + `CartFab`; add via `CartForm`.
+- Images: `storefront/public/img/`.
 
 ## Repo
-- Git repo; work branch `feat/final-redesign-jun-2026`, remote `milfordcwm/Fizzy-leaf`.
-- `.gitignore` excludes `tmp/`, scratch PNGs, `blah.har`.
-- `tmp/` and `ShopifyPreviewProductPage.html` are reference scratch, not part of the site.
+- Remote `milfordcwm/Fizzy-leaf`. Work branch for this port: `hydrogen`.
+- `.gitignore`: `tmp/`, `storefront/.env`, `storefront/node_modules`, etc.
 
-See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md)
+See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md) · [plan](plans/2026/08/2026-08-22_hydrogen-storefront.md)

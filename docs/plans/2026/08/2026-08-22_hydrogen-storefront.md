@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-22
 **Branch:** `hydrogen` (from `origin/main` @ `fb5328e`)
-**Status:** Plan + scaffold; port in progress
+**Status:** Implemented (port + build/lint green); awaiting review
 **PR:** one PR, this branch → `main`
 
 Custom Fizzy Leaf site as a **Hydrogen** app in `storefront/`. GitHub Pages on `main` stays live. Oxygen later deploys **this branch**, root directory **`storefront`**. **Do not** point `fizzyleaf.com` DNS, **do not** turn store password off, **do not** `theme publish`.

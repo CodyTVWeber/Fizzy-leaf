@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": false,
+    "baseUrl": ".",
+    "paths": { "~/*": ["app/*"] },
+    "types": ["@shopify/oxygen-workers-types"]
+  },
+  "include": ["env.d.ts", "app/**/*", "*.d.ts", ".react-router/types/**/*"],
+  "exclude": ["node_modules", "dist", "build"]
+}
