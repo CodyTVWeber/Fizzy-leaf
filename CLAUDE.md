@@ -14,7 +14,8 @@ Marketing + commerce site for Fizzy Leaf sparkling hibiscus tea (Middle TN). Cus
 - **Don't touch Shopify constants** (store/variant/selling-plan ids, token, API version, GraphQL) without intent — see [docs/shopify.md](docs/shopify.md).
 - **Mobile (≤768px)**: navbar is hidden (floating hamburger only); keep first-section top padding at 3rem, not the desktop 7rem.
 - Images are WebP and pruned if unreferenced — wire up any new image; downscale before adding.
-- Commit only when asked. Work branch `feat/final-redesign-jun-2026`.
+- **Git:** commit + push on the current feature branch. **Never** commit or push to `main`/`master` (local or origin). See [docs/rules/git-workflow.md](docs/rules/git-workflow.md).
+- **Clean code** on new + touched lines: [docs/rules/clean-code.md](docs/rules/clean-code.md) (from `~/code/AI`).
 
 ## Detailed references
 | Topic | Doc |
@@ -25,3 +26,5 @@ Marketing + commerce site for Fizzy Leaf sparkling hibiscus tea (Middle TN). Cus
 | Per-module JS behavior (nav, cart, gallery, map, form) | [docs/behaviors.md](docs/behaviors.md) |
 | Cart/checkout, subscriptions, tokens, launch gates | [docs/shopify.md](docs/shopify.md) |
 | Image conventions, optimization, history | [docs/images.md](docs/images.md) |
+| Git commit / push | [docs/rules/git-workflow.md](docs/rules/git-workflow.md) |
+| Clean-code floor | [docs/rules/clean-code.md](docs/rules/clean-code.md) |
