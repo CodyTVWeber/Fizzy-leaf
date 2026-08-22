@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Delivery · Fizzy Leaf</title>
+<link rel="icon" type="image/webp" href="img/FizzyLeafIcon_favicon.webp">
+<link rel="stylesheet" href="index.css">
+<style>
+.delivery-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.delivery-info h3 {
+  color: var(--hibiscus-dark);
+}
+
+.delivery-prices {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.delivery-prices li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--warm-white);
+  border-radius: 12px;
+}
+
+.delivery-note {
+  font-size: 0.9rem;
+  color: var(--text-muted, var(--text));
+  margin-top: 1rem;
+}
+
+.contact-form-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.form-row {
+  margin-bottom: 1.25rem;
+}
+
+.form-row label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.form-row input,
+.form-row textarea,
+.form-row select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition);
+  background: var(--warm-white);
+}
+
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: var(--hibiscus);
+}
+
+.form-status {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: none;
+}
+
+.form-status.success {
+  display: block;
+  background: rgba(168, 132, 69, 0.1);
+  color: var(--leaf-dark);
+}
+
+.form-status.error {
+  display: block;
+  background: rgba(210, 168, 99, 0.1);
+  color: var(--hibiscus-dark);
+}
+
+.section {
+  padding: 7rem 0 5rem;
+}
+
+@media (max-width: 768px) {
+  .section { padding-top: 3rem; }
+  .delivery-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+#deliveryCheckBtn,
+#deliverySignupBtn { transition: background 0.3s ease, transform 0.2s ease; }
+#deliverySignupBtn.is-success {
+  background: #4c7a3f;
+  animation: successPop 0.55s ease;
+}
+@keyframes successPop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.form-status.success,
+.form-status.error { animation: statusIn 0.45s ease both; }
+@keyframes statusIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <nav class="nav-desktop">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="locations.html">Locations</a>
+      <a href="delivery.html" class="active">Delivery</a>
+      <a href="contact.html">Contact</a>
+      <a href="shop.html" class="nav-cta">Shop Now</a>
+    </nav>
+  </div>
+</header>
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<nav class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="locations.html">Locations</a>
+  <a href="delivery.html">Delivery</a>
+  <a href="contact.html">Contact</a>
+  <a href="shop.html" class="btn btn-primary" style="margin-top:1rem;">Shop Now</a>
+</nav>
+<main>
+<section class="section">
+  <div class="container">
+    <div class="delivery-layout">
+      <div class="delivery-info">
+        <span class="eyebrow">Middle Tennessee</span>
+        <h2>Local Delivery</h2>
+        <p class="lead">If you live in the Middle TN area you might be close enough for me to just deliver Fizzy Leaf to you! Put your address below to see if you live within the 30 mile boundary. At the beginning of each month I will be doing deliveries to each person that signs up for a 12 pack, 24 pack, or 48 pack every month.</p>
+        <ul class="delivery-prices">
+          <li><span>Delivery fee</span><strong>$3</strong></li>
+          <li><span>12 pack</span><strong>$35/mo</strong></li>
+          <li><span>24 pack</span><strong>$65/mo</strong></li>
+          <li><span>48 pack</span><strong>$120/mo</strong></li>
+        </ul>
+        <p class="delivery-note"><strong>Monthly subscription only — not a one-time order.</strong> Shop one-time / Subscribe &amp; Save stay on the <a href="shop.html">Shop</a> page.</p>
+      </div>
+      <div>
+        <div class="contact-form-card">
+          <form id="deliveryCheckForm">
+            <div class="form-row">
+              <label for="deliveryAddress">Your address</label>
+              <input type="text" id="deliveryAddress" name="address" required autocomplete="street-address" placeholder="Street, city, state, ZIP">
+            </div>
+            <button type="submit" class="btn btn--primary" style="width:100%;" id="deliveryCheckBtn">Check my address</button>
+            <div class="form-status" id="deliveryCheckStatus" role="alert"></div>
+          </form>
+        </div>
+        <div class="contact-form-card" id="deliverySignup" hidden style="margin-top:1.5rem;">
+          <h3 style="margin-top:0;">Sign up for monthly delivery</h3>
+          <form id="deliverySignupForm" action="https://submit-form.com/REPLACE_FORMSPARK_DELIVERY_ID" method="POST">
+            <div class="form-row">
+              <label for="deliveryName">Name</label>
+              <input type="text" id="deliveryName" name="name" required autocomplete="name">
+            </div>
+            <div class="form-row">
+              <label for="deliveryEmail">Email</label>
+              <input type="email" id="deliveryEmail" name="email" required autocomplete="email">
+            </div>
+            <div class="form-row">
+              <label for="deliverySignupAddress">Delivery address</label>
+              <input type="text" id="deliverySignupAddress" name="address" required autocomplete="street-address">
+            </div>
+            <div class="form-row">
+              <label for="deliveryPack">Pack</label>
+              <select id="deliveryPack" name="pack" required>
+                <option value="12">12 pack — $35/mo</option>
+                <option value="24">24 pack — $65/mo</option>
+                <option value="48">48 pack — $120/mo</option>
+              </select>
+            </div>
+            <input type="hidden" name="miles" id="deliveryMiles" value="">
+            <input type="hidden" name="lat" id="deliveryLat" value="">
+            <input type="hidden" name="lng" id="deliveryLng" value="">
+            <input type="hidden" name="plan" value="monthly">
+            <input type="hidden" name="delivery_fee" value="3">
+            <button type="submit" class="btn btn--primary" style="width:100%;" id="deliverySignupBtn">Sign up for monthly delivery</button>
+            <div class="form-status" id="deliverySignupStatus" role="alert"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-brand"><img src="img/FizzyLeafLogo.webp" alt="Fizzy Leaf"><span>Fizzy Leaf</span></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="locations.html">Locations</a></li>
+      <li><a href="delivery.html">Delivery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom"><p>&copy; 2026 Fizzy Leaf Sparkling Tea · Handcrafted in Middle Tennessee · Unsweetened &amp; Unfiltered</p></div>
+</footer>
+<script src="nav.js"></script>
+<script src="delivery.js"></script>
+</body>
+</html>
