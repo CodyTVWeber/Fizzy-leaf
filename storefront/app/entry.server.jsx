@@ -33,6 +33,7 @@ export default async function handleRequest(
     ],
     connectSrc: [
       'https://elfsightcdn.com',
+      'https://*.elfsightcdn.com',
       'https://static.elfsight.com',
       'https://core.service.elfsight.com',
       'https://*.elfsight.com',
@@ -42,6 +43,7 @@ export default async function handleRequest(
       'https://www.google.com',
       'https://*.elfsight.com',
       'https://elfsightcdn.com',
+      'https://*.elfsightcdn.com',
     ],
     imgSrc: [
       "'self'",
@@ -49,6 +51,7 @@ export default async function handleRequest(
       'https://fonts.gstatic.com',
       'https://*.elfsight.com',
       'https://elfsightcdn.com',
+      'https://*.elfsightcdn.com',
       'https://maps.gstatic.com',
       'https://maps.googleapis.com',
       'data:',
