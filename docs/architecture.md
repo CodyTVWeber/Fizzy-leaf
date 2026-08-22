@@ -11,6 +11,7 @@
 | Home | `index.html` | Hero (logo + title), Our Story, Instagram (Elfsight embed) |
 | Shop | `shop.html` | Product configurator + slide-out cart drawer |
 | Locations | `locations.html` | 18 retail shops, city filter, embedded Google map |
+| Delivery | `delivery.html` | Local monthly delivery radius check + signup (not Shopify) |
 | Contact | `contact.html` | Async contact form |
 
 ## Shared chrome (loaded on every page)
@@ -24,6 +25,7 @@
 | Home | inline `<style>` | — (nav.js only) |
 | Shop | inline `<style>` | `cart-api.js` (data layer) + `shop.js` (UI) |
 | Locations | inline `<style>` | `locations.js` |
+| Delivery | inline `<style>` | `delivery.js` |
 | Contact | inline `<style>` | `contact.js` |
 
 **Pattern**: shared rules live in `index.css`; each page keeps its section CSS in its own inline `<style>` so pages stay self-contained. Page JS is a single IIFE module, ES5 style (`var` + `function`), `'use strict'`.

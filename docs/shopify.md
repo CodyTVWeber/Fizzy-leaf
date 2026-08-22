@@ -15,11 +15,15 @@ The site is a custom storefront; Shopify only handles cart + checkout. Implement
 
 GIDs: `gid://shopify/ProductVariant/<id>`, `gid://shopify/SellingPlan/6531121246`.
 
-## Pricing (display only; real prices are server-side)
-| Pack | One-time | Subscribe (−20%) |
+## Pricing (display)
+Shop UI loads display prices from Storefront API (`loadPrices` → `FizzyCart.ready`). One-time amounts come from variant `price.amount`. Subscribe amounts need `sellingPlanAllocations` — **still denied** without `unauthenticated_read_selling_plans`; fallbacks below stay until that scope is granted. Checkout prices are always live from Shopify cart + selling plan.
+
+| Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
 | 12 | $43.00 | $34.40/mo |
 | 24 | $79.00 | $63.20/mo |
+
+**Local delivery is not Shopify.** Monthly College Grove delivery (12/$35, 24/$65, 48/$120 + $3 fee) is lead-gen on `delivery.html` / Formspark — different SKUs/prices; no cart or 48-pack variant.
 
 ## How checkout works
 1. `FizzyCart.add(pack, type, qty)` → `cartCreate` (first add) or `cartLinesAdd`. Subscribe attaches `sellingPlanId`.
