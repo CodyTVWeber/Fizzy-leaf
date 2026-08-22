@@ -100,23 +100,12 @@ function CartDiscounts({
         </div>
       </dl>
 
-      {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
-        <div>
-          <label htmlFor={discountCodeInputId} className="sr-only">
-            Discount code
-          </label>
-          <input
-            id={discountCodeInputId}
-            type="text"
-            name="discountCode"
-            placeholder="Discount code"
-          />
-          &nbsp;
-          <button type="submit" aria-label="Apply discount code">
-            Apply
-          </button>
-        </div>
+        <CartCodeField
+          id={discountCodeInputId}
+          name="discountCode"
+          label="Discount code"
+        />
       </UpdateDiscountForm>
     </section>
   );
@@ -128,6 +117,26 @@ function CartDiscounts({
  *   children: React.ReactNode;
  * }}
  */
+function CartCodeField({id, name, label, inputRef, disabled}) {
+  return (
+    <div className="cart-code-row">
+      <label htmlFor={id}>{label}</label>
+      <div className="cart-code-field">
+        <input
+          id={id}
+          type="text"
+          name={name}
+          autoComplete="off"
+          ref={inputRef}
+        />
+        <button type="submit" className="btn btn-primary" disabled={disabled}>
+          Apply
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function UpdateDiscountForm({discountCodes, children}) {
   return (
     <CartForm
@@ -225,26 +234,13 @@ function CartGiftCard({giftCardCodes, giftCardHeadingId, giftCardInputId}) {
       )}
 
       <AddGiftCardForm fetcherKey="gift-card-add">
-        <div>
-          <label htmlFor={giftCardInputId} className="sr-only">
-            Gift card code
-          </label>
-          <input
-            id={giftCardInputId}
-            type="text"
-            name="giftCardCode"
-            placeholder="Gift card code"
-            ref={giftCardCodeInput}
-          />
-          &nbsp;
-          <button
-            type="submit"
-            disabled={giftCardAddFetcher.state !== 'idle'}
-            aria-label="Apply gift card code"
-          >
-            Apply
-          </button>
-        </div>
+        <CartCodeField
+          id={giftCardInputId}
+          name="giftCardCode"
+          label="Gift card code"
+          inputRef={giftCardCodeInput}
+          disabled={giftCardAddFetcher.state !== 'idle'}
+        />
       </AddGiftCardForm>
     </section>
   );
