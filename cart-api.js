@@ -142,8 +142,72 @@ window.FizzyCart = (function () {
     ).then(function (d) { return normalize(d.cartLinesRemove.cart); });
   }
 
+  function packForVariantGid(gid) {
+    var packs = Object.keys(CFG.variantIds);
+    for (var i = 0; i < packs.length; i++) {
+      var pack = Number(packs[i]);
+      if (gid === variantId(pack)) return pack;
+    }
+    return null;
+  }
+
+  function applyOnetimePrices(product) {
+    if (!product || !product.variants || !product.variants.edges) return;
+    product.variants.edges.forEach(function (e) {
+      var pack = packForVariantGid(e.node.id);
+      if (pack == null || !PRICES[pack]) return;
+      PRICES[pack].onetime = Number(e.node.price.amount);
+    });
+  }
+
+  function applySubscribePrices(product) {
+    if (!product || !product.variants || !product.variants.edges) return;
+    var any = false;
+    product.variants.edges.forEach(function (e) {
+      var pack = packForVariantGid(e.node.id);
+      if (pack == null || !PRICES[pack]) return;
+      var allocs = e.node.sellingPlanAllocations && e.node.sellingPlanAllocations.edges;
+      if (!allocs || !allocs.length) return;
+      var adj = allocs[0].node.priceAdjustments;
+      if (!adj || !adj.length || !adj[0].price) return;
+      PRICES[pack].subscribe = Number(adj[0].price.amount);
+      any = true;
+    });
+    return any;
+  }
+
+  function loadPrices() {
+    var productGid = 'gid://shopify/Product/7681726742622';
+    return gql(
+      'query($id:ID!){product(id:$id){variants(first:10){edges{node{id title price{amount}}}}}}',
+      { id: productGid }
+    )
+      .then(function (d) {
+        applyOnetimePrices(d.product);
+        return fetch('https://' + CFG.domain + '/api/' + CFG.apiVersion + '/graphql.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': CFG.token
+          },
+          body: JSON.stringify({
+            query: 'query($id:ID!){product(id:$id){variants(first:10){edges{node{id sellingPlanAllocations(first:5){edges{node{priceAdjustments{price{amount}}}}}}}}}}',
+            variables: { id: productGid }
+          })
+        }).then(function (r) { return r.json(); });
+      })
+      .then(function (res) {
+        if (!res || res.errors || !res.data || !res.data.product) return;
+        applySubscribePrices(res.data.product);
+      })
+      .catch(function () {});
+  }
+
+  var ready = loadPrices();
+
   return {
     PRICES: PRICES,
+    ready: ready,
     money: function (n) { return '$' + Number(n).toFixed(2); },
     get: get,
     add: add,

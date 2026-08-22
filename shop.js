@@ -167,6 +167,7 @@
   }
 
   renderProduct();
+  FizzyCart.ready.then(renderProduct).catch(function () {});
   initConfigurator();
   initGallery();
   initDrawer();
