@@ -40,12 +40,25 @@ export function priceDisplay(pack, purchaseType) {
   return {struck: null, live: formatMoney(prices.onetime)};
 }
 
+export const PRODUCT_HANDLE = 'roselle-hibiscus';
+export const PRODUCT_TITLE = 'Roselle Hibiscus';
+
+export function packLabel(pack) {
+  return pack === 24 ? '24-Pack' : '12-Pack';
+}
+
 export function cartLineInput({pack, purchaseType, quantity}) {
   const merchandiseId = variantGid(pack);
+  const title = packLabel(pack);
   const line = {
     merchandiseId,
     quantity,
-    selectedVariant: {id: merchandiseId},
+    selectedVariant: {
+      id: merchandiseId,
+      title,
+      product: {handle: PRODUCT_HANDLE, title: PRODUCT_TITLE},
+      selectedOptions: [{name: 'Pack Size', value: title}],
+    },
   };
   if (purchaseType === 'subscribe') {
     line.sellingPlanId = SELLING_PLAN_ID;

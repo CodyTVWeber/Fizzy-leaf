@@ -1,7 +1,11 @@
 import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from 'react-router';
 import {useAside} from './Aside';
-import {cartLinePurchaseLabel} from '~/lib/product';
+import {
+  PRODUCT_HANDLE,
+  PRODUCT_TITLE,
+  cartLinePurchaseLabel,
+} from '~/lib/product';
 import {useVariantUrl} from '~/lib/variants';
 
 /**
@@ -13,13 +17,22 @@ import {useVariantUrl} from '~/lib/variants';
  */
 export function CartLineItem({layout, line, childrenMap}) {
   const {id, merchandise} = line;
-  const {product, title, image, selectedOptions} = merchandise;
-  const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
+  const product = merchandise?.product;
+  const title = merchandise?.title;
+  const image = merchandise?.image;
+  const selectedOptions = merchandise?.selectedOptions;
+  const lineItemUrl = useVariantUrl(
+    product?.handle || PRODUCT_HANDLE,
+    selectedOptions,
+  );
   const {close} = useAside();
   const lineItemChildren = childrenMap[id];
   const childrenLabelId = `cart-line-children-${id}`;
-  const packOption = selectedOptions?.find((o) => o.name === 'Title' || o.name === 'Size');
-  const lineTitle = packOption?.value || title || product.title;
+  const packOption = selectedOptions?.find(
+    (o) => o.name === 'Title' || o.name === 'Size' || o.name === 'Pack Size',
+  );
+  const productTitle = product?.title || PRODUCT_TITLE;
+  const lineTitle = packOption?.value || title || productTitle;
 
   return (
     <li key={id}>
@@ -27,7 +40,7 @@ export function CartLineItem({layout, line, childrenMap}) {
         <div>
           {layout === 'page' && image ? (
             <Image
-              alt={title}
+              alt={title || productTitle}
               aspectRatio="1/1"
               data={image}
               height={100}
@@ -43,8 +56,8 @@ export function CartLineItem({layout, line, childrenMap}) {
               if (layout === 'aside') close();
             }}
           >
-            {product.title}
-            {lineTitle && lineTitle !== product.title ? ` · ${lineTitle}` : ''}
+            {productTitle}
+            {lineTitle && lineTitle !== productTitle ? ` · ${lineTitle}` : ''}
           </Link>
           <div className="cl-meta">{cartLinePurchaseLabel(line)}</div>
           <CartLineQuantity line={line} />
@@ -59,7 +72,7 @@ export function CartLineItem({layout, line, childrenMap}) {
       {lineItemChildren ? (
         <div>
           <p id={childrenLabelId} className="sr-only">
-            Line items with {product.title}
+            Line items with {productTitle}
           </p>
           <ul aria-labelledby={childrenLabelId} className="cart-line-children">
             {lineItemChildren.map((childLine) => (
