@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-22
 **Branch:** `plan/shopify-theme` (implement on same branch → one PR)
-**Status:** Implemented in git. Unpublished `theme push` blocked: logged-in Shopify account has no staff access to `fizzyleaf.myshopify.com` / `4nrp1u-ka.myshopify.com`.
+**Status:** Unpublished theme pushed to `4nrp1u-ka.myshopify.com` as **Fizzy Leaf custom** (id `141230276702`, role unpublished). Password still on. Not published. DNS untouched. Admin still needs Pages Shop / Locations / Contact assigned to `page.shop` / `page.locations` / `page.contact`.
 **Base:** `origin/main` @ `fb5328e`
 
 Put the GitHub Pages HTML/CSS/JS into a Shopify **Online Store theme**, pushed **unpublished** to the password-gated store. **Do not** publish, **do not** turn the password off, **do not** move `fizzyleaf.com` DNS. Live site stays GitHub Pages.
@@ -85,10 +85,16 @@ Nav/footer hrefs inside the theme: `/`, `/pages/shop`, `/pages/locations`, `/pag
 ### 3. Push unpublished only
 
 ```bash
-shopify theme push --unpublished --path theme --store fizzyleaf.myshopify.com
+# first push (done): created unpublished "Fizzy Leaf custom" id 141230276702
+shopify theme push --unpublished --theme "Fizzy Leaf custom" --path theme --store 4nrp1u-ka.myshopify.com
+
+# later pushes: overwrite that theme, do not --unpublished again
+shopify theme push --theme 141230276702 --path theme --store 4nrp1u-ka.myshopify.com
 ```
 
-Never `--publish`. Never `shopify theme publish`. If CLI store slug is still `4nrp1u-ka`, use that — confirm at login; do not change `cart-api.js` `CFG` in this PR unless preview checkout fails.
+Never `--publish`. Never `shopify theme publish`. Store slug is `4nrp1u-ka`; do not change `cart-api.js` `CFG` in this PR unless preview checkout fails.
+
+Preview: `https://4nrp1u-ka.myshopify.com?preview_theme_id=141230276702` (store password still required). Editor: `https://4nrp1u-ka.myshopify.com/admin/themes/141230276702/editor`.
 
 ### 4. Docs
 
