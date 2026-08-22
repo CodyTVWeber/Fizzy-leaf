@@ -23,7 +23,7 @@ Shop UI loads display prices from Storefront API (`loadPrices` → `FizzyCart.re
 | 12 | $43.00 | $34.40/mo |
 | 24 | $79.00 | $63.20/mo |
 
-**Local delivery is not Shopify.** Monthly College Grove delivery (12/$35, 24/$65, 48/$120 + $3 fee) is lead-gen on `delivery.html` / Formspark — different SKUs/prices; no cart or 48-pack variant.
+**Local delivery is not Shopify.** `delivery.html` is a custom 30-mile map + inquiry (Formspark `vwsJT57aO`, `topic=local-delivery-inquiry`) for a direct deal with Christian. Listed 12/$35, 24/$65, 48/$120 + $3 are informational only — no cart, no 48-pack variant, no checkout.
 
 ## How checkout works
 1. `FizzyCart.add(pack, type, qty)` → `cartCreate` (first add) or `cartLinesAdd`. Subscribe attaches `sellingPlanId`.

@@ -11,7 +11,7 @@
 | Home | `index.html` | Hero (logo + title), Our Story, Instagram (Elfsight embed) |
 | Shop | `shop.html` | Product configurator + slide-out cart drawer |
 | Locations | `locations.html` | 18 retail shops, city filter, embedded Google map |
-| Delivery | `delivery.html` | Local monthly delivery radius check + signup (not Shopify) |
+| Delivery | `delivery.html` | 30-mile map + address check, then inquiry to Christian (not Shopify) |
 | Contact | `contact.html` | Async contact form |
 
 ## Shared chrome (loaded on every page)

@@ -6,12 +6,22 @@
 <title>Local Delivery · Fizzy Leaf</title>
 <link rel="icon" type="image/webp" href="img/FizzyLeafIcon_favicon.webp">
 <link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 .delivery-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: start;
+}
+
+#deliveryMap {
+  height: 320px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  z-index: 0;
+  box-shadow: var(--shadow-lg);
 }
 
 .delivery-info h3 {
@@ -113,11 +123,12 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  #deliveryMap { height: 240px; }
 }
 
 #deliveryCheckBtn,
-#deliverySignupBtn { transition: background 0.3s ease, transform 0.2s ease; }
-#deliverySignupBtn.is-success {
+#deliveryInquiryBtn { transition: background 0.3s ease, transform 0.2s ease; }
+#deliveryInquiryBtn.is-success {
   background: #4c7a3f;
   animation: successPop 0.55s ease;
 }
@@ -163,29 +174,30 @@
       <div class="delivery-info">
         <span class="eyebrow">Middle Tennessee</span>
         <h2>Local Delivery</h2>
-        <p class="lead">If you live in the Middle TN area you might be close enough for me to just deliver Fizzy Leaf to you! Put your address below to see if you live within the 30 mile boundary. At the beginning of each month I will be doing deliveries to each person that signs up for a 12 pack, 24 pack, or 48 pack every month.</p>
+        <p class="lead">If you live in the Middle TN area you might be close enough for me to just deliver Fizzy Leaf to you. Enter your address to see if you’re inside the 30-mile area around College Grove (about a 30-minute drive). If you are, send me an inquiry — this is a direct deal with me, not a Shopify checkout.</p>
         <ul class="delivery-prices">
           <li><span>Delivery fee</span><strong>$3</strong></li>
           <li><span>12 pack</span><strong>$35/mo</strong></li>
           <li><span>24 pack</span><strong>$65/mo</strong></li>
           <li><span>48 pack</span><strong>$120/mo</strong></li>
         </ul>
-        <p class="delivery-note"><strong>Monthly subscription only — not a one-time order.</strong> Shop one-time / Subscribe &amp; Save stay on the <a href="shop.html">Shop</a> page.</p>
+        <p class="delivery-note">Typical monthly drop-off if we set something up. <strong>Not a one-time shop order</strong> — those ship TN-wide from the <a href="shop.html">Shop</a>.</p>
       </div>
       <div>
+        <div id="deliveryMap" role="img" aria-label="30-mile delivery area around College Grove"></div>
         <div class="contact-form-card">
           <form id="deliveryCheckForm">
             <div class="form-row">
-              <label for="deliveryAddress">Your address</label>
+              <label for="deliveryAddress">Enter your address to see if you are in range</label>
               <input type="text" id="deliveryAddress" name="address" required autocomplete="street-address" placeholder="Street, city, state, ZIP">
             </div>
             <button type="submit" class="btn btn--primary" style="width:100%;" id="deliveryCheckBtn">Check my address</button>
             <div class="form-status" id="deliveryCheckStatus" role="alert"></div>
           </form>
         </div>
-        <div class="contact-form-card" id="deliverySignup" hidden style="margin-top:1.5rem;">
-          <h3 style="margin-top:0;">Sign up for monthly delivery</h3>
-          <form id="deliverySignupForm" action="https://submit-form.com/REPLACE_FORMSPARK_DELIVERY_ID" method="POST">
+        <div class="contact-form-card" id="deliveryInquiry" hidden style="margin-top:1.5rem;">
+          <h3 style="margin-top:0;">Message me for an inquiry</h3>
+          <form id="deliveryInquiryForm" action="https://submit-form.com/vwsJT57aO" method="POST">
             <div class="form-row">
               <label for="deliveryName">Name</label>
               <input type="text" id="deliveryName" name="name" required autocomplete="name">
@@ -195,24 +207,16 @@
               <input type="email" id="deliveryEmail" name="email" required autocomplete="email">
             </div>
             <div class="form-row">
-              <label for="deliverySignupAddress">Delivery address</label>
-              <input type="text" id="deliverySignupAddress" name="address" required autocomplete="street-address">
+              <label for="deliveryMessage">Message</label>
+              <textarea id="deliveryMessage" name="message" rows="4" required placeholder="What you’d like delivered, and when."></textarea>
             </div>
-            <div class="form-row">
-              <label for="deliveryPack">Pack</label>
-              <select id="deliveryPack" name="pack" required>
-                <option value="12">12 pack — $35/mo</option>
-                <option value="24">24 pack — $65/mo</option>
-                <option value="48">48 pack — $120/mo</option>
-              </select>
-            </div>
+            <input type="hidden" name="address" id="deliveryInquiryAddress" value="">
             <input type="hidden" name="miles" id="deliveryMiles" value="">
             <input type="hidden" name="lat" id="deliveryLat" value="">
             <input type="hidden" name="lng" id="deliveryLng" value="">
-            <input type="hidden" name="plan" value="monthly">
-            <input type="hidden" name="delivery_fee" value="3">
-            <button type="submit" class="btn btn--primary" style="width:100%;" id="deliverySignupBtn">Sign up for monthly delivery</button>
-            <div class="form-status" id="deliverySignupStatus" role="alert"></div>
+            <input type="hidden" name="topic" value="local-delivery-inquiry">
+            <button type="submit" class="btn btn--primary" style="width:100%;" id="deliveryInquiryBtn">Message me for an inquiry</button>
+            <div class="form-status" id="deliveryInquiryStatus" role="alert"></div>
           </form>
         </div>
       </div>
@@ -233,6 +237,7 @@
   </div>
   <div class="footer-bottom"><p>&copy; 2026 Fizzy Leaf Sparkling Tea · Handcrafted in Middle Tennessee · Unsweetened &amp; Unfiltered</p></div>
 </footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="nav.js"></script>
 <script src="delivery.js"></script>
 </body>

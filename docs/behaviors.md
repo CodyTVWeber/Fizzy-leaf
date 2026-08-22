@@ -25,9 +25,10 @@ Storefront Cart API wrapper. Public: `PRICES`, `ready`, `money()`, `get()`, `add
 - Map is a plain Google Maps `output=embed` iframe (no API key).
 
 ## `delivery.js` (delivery page)
-- **Address check**: Nominatim (`/search?format=json&limit=1`) → Haversine miles vs College Grove origin `{ lat: 35.7869, lng: -86.6750 }`, radius 30. Outside/unknown: message, hide signup. Inside: show miles (1 decimal) + signup.
-- **Signup**: name, email, address (prefilled), pack 12/24/48. Hidden: `miles`, `lat`, `lng`, `plan=monthly`, `delivery_fee=3`. Monthly only — not Shopify checkout.
-- **Submit**: same async Formspark pattern as contact. If form `action` still contains `REPLACE_`, do not POST; show “Signups aren’t connected yet…”.
+- **Map**: Leaflet + OSM tiles. Gold 30-mile circle around College Grove `{ lat: 35.7869, lng: -86.6750 }`. Visitor marker after a check. Mileage gate (not drive-time — no routing key). Copy treats 30 miles ≈ 30-minute drive.
+- **Address check**: Nominatim (`/search?format=json&limit=1&countrycodes=us`) → Haversine vs origin, radius 30. Outside/unknown: message, hide inquiry. Inside: show miles (1 decimal) + inquiry.
+- **Inquiry**: name, email, message. Hidden: `address`, `miles`, `lat`, `lng`, `topic=local-delivery-inquiry`. Direct deal with Christian — **not** Shopify checkout, no pack select, no cart.
+- **Submit**: same async Formspark pattern as contact (`vwsJT57aO` + `topic` so delivery rows are distinguishable).
 
 ## `contact.js` (contact page)
 - Async submit to Formspark via `fetch`. States: Sending… → green "✓ Sent!" + success message (animated), or error message with retry. See [animations.md](animations.md).

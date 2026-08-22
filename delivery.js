@@ -1,42 +1,51 @@
-/* Local Delivery: Nominatim geocode + 30mi radius check, then Formspark signup. */
 (function () {
   'use strict';
 
   var ORIGIN = { lat: 35.7869, lng: -86.6750 };
   var RADIUS_MI = 30;
+  var METERS_PER_MI = 1609.34;
 
   var checkForm = document.getElementById('deliveryCheckForm');
   var addressInput = document.getElementById('deliveryAddress');
   var checkBtn = document.getElementById('deliveryCheckBtn');
   var checkStatus = document.getElementById('deliveryCheckStatus');
-  var signupCard = document.getElementById('deliverySignup');
-  var signupForm = document.getElementById('deliverySignupForm');
-  var signupBtn = document.getElementById('deliverySignupBtn');
-  var signupStatus = document.getElementById('deliverySignupStatus');
-  var signupAddress = document.getElementById('deliverySignupAddress');
+  var inquiryCard = document.getElementById('deliveryInquiry');
+  var inquiryForm = document.getElementById('deliveryInquiryForm');
+  var inquiryBtn = document.getElementById('deliveryInquiryBtn');
+  var inquiryStatus = document.getElementById('deliveryInquiryStatus');
+  var inquiryAddress = document.getElementById('deliveryInquiryAddress');
   var milesInput = document.getElementById('deliveryMiles');
   var latInput = document.getElementById('deliveryLat');
   var lngInput = document.getElementById('deliveryLng');
+  var mapEl = document.getElementById('deliveryMap');
 
-  if (!checkForm || !signupForm) return;
+  if (!checkForm || !inquiryForm) return;
+
+  var map, circle, originMarker, visitorMarker;
 
   function setStatus(el, type, message) {
     el.className = type ? 'form-status ' + type : 'form-status';
     el.textContent = message || '';
   }
 
-  function hideSignup() {
-    signupCard.hidden = true;
+  function hideInquiry() { inquiryCard.hidden = true; }
+
+  function resetInquiryBtn() {
+    inquiryBtn.disabled = false;
+    inquiryBtn.classList.remove('is-success');
+    inquiryBtn.textContent = 'Message me for an inquiry';
+    setStatus(inquiryStatus, '', '');
   }
 
-  function showSignup(miles, lat, lng, address) {
+  function showInquiry(miles, lat, lng, address) {
     milesInput.value = miles.toFixed(1);
     latInput.value = String(lat);
     lngInput.value = String(lng);
-    signupAddress.value = address;
-    signupCard.hidden = false;
+    inquiryAddress.value = address;
+    resetInquiryBtn();
+    inquiryCard.hidden = false;
     setStatus(checkStatus, 'success',
-      'You\'re about ' + miles.toFixed(1) + ' miles from College Grove — within our 30-mile delivery area.');
+      'You\'re about ' + miles.toFixed(1) + ' miles from College Grove — within the 30-mile delivery area.');
   }
 
   function toRad(d) { return d * Math.PI / 180; }
@@ -45,32 +54,51 @@
     var R = 3958.8;
     var dLat = toRad(b.lat - a.lat);
     var dLng = toRad(b.lng - a.lng);
-    var lat1 = toRad(a.lat);
-    var lat2 = toRad(b.lat);
     var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) *
+      Math.sin(dLng / 2) * Math.sin(dLng / 2);
     return 2 * R * Math.asin(Math.sqrt(h));
   }
 
-  function nominatimUrl(address) {
-    return 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='
-      + encodeURIComponent(address);
+  function initMap() {
+    if (!mapEl || typeof L === 'undefined') return;
+    map = L.map(mapEl, { scrollWheelZoom: false }).setView([ORIGIN.lat, ORIGIN.lng], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    circle = L.circle([ORIGIN.lat, ORIGIN.lng], {
+      radius: RADIUS_MI * METERS_PER_MI,
+      color: '#9c6f1f',
+      weight: 2,
+      fillColor: '#c9a86b',
+      fillOpacity: 0.18
+    }).addTo(map);
+    originMarker = L.marker([ORIGIN.lat, ORIGIN.lng]).addTo(map)
+      .bindPopup('College Grove — delivery start');
+    map.fitBounds(circle.getBounds(), { padding: [16, 16] });
+    setTimeout(function () { if (map) map.invalidateSize(); }, 0);
+    window.addEventListener('resize', function () {
+      if (map) map.invalidateSize();
+    });
   }
 
-  function parseMatch(data) {
-    if (!data || !data.length) return null;
-    var m = data[0];
-    if (m.lat == null || m.lon == null) return null;
-    return {
-      lat: Number(m.lat),
-      lng: Number(m.lon),
-      matched: m.display_name || ''
-    };
+  function plotVisitor(lat, lng, inRange) {
+    if (!map) return;
+    if (visitorMarker) map.removeLayer(visitorMarker);
+    visitorMarker = L.marker([lat, lng]).addTo(map)
+      .bindPopup(inRange ? 'You\'re in range' : 'Outside the delivery area');
+    if (inRange) visitorMarker.openPopup();
+    var group = L.featureGroup([circle, visitorMarker]);
+    map.fitBounds(group.getBounds(), {
+      padding: inRange ? [28, 28] : [36, 36],
+      maxZoom: inRange ? 11 : 8
+    });
+    map.invalidateSize();
   }
 
   function handleCheck(e) {
     e.preventDefault();
-    hideSignup();
+    hideInquiry();
     setStatus(checkStatus, '', '');
     var address = (addressInput.value || '').trim();
     if (!address) {
@@ -79,25 +107,30 @@
     }
     checkBtn.disabled = true;
     checkBtn.textContent = 'Checking…';
-    fetch(nominatimUrl(address), { headers: { 'Accept-Language': 'en' } })
+    var url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q='
+      + encodeURIComponent(address);
+    fetch(url, { headers: { 'Accept-Language': 'en' } })
       .then(function (r) {
         if (!r.ok) throw new Error('geocode failed');
         return r.json();
       })
       .then(function (data) {
-        var match = parseMatch(data);
-        if (!match) {
+        if (!data || !data.length || data[0].lat == null) {
           setStatus(checkStatus, 'error',
             'We couldn\'t place that address. Try a fuller street address, or email us via Contact.');
           return;
         }
-        var miles = haversineMiles(ORIGIN, { lat: match.lat, lng: match.lng });
-        if (miles > RADIUS_MI) {
+        var lat = Number(data[0].lat);
+        var lng = Number(data[0].lon);
+        var miles = haversineMiles(ORIGIN, { lat: lat, lng: lng });
+        var inRange = miles <= RADIUS_MI;
+        plotVisitor(lat, lng, inRange);
+        if (!inRange) {
           setStatus(checkStatus, 'error',
-            'That address is about ' + miles.toFixed(1) + ' miles away — outside our 30-mile delivery area for now.');
+            'That address is about ' + miles.toFixed(1) + ' miles away — outside the 30-mile delivery area for now.');
           return;
         }
-        showSignup(miles, match.lat, match.lng, match.matched || address);
+        showInquiry(miles, lat, lng, data[0].display_name || address);
       })
       .catch(function () {
         setStatus(checkStatus, 'error',
@@ -109,42 +142,33 @@
       });
   }
 
-  function formsparkNotConnected() {
-    return String(signupForm.action || '').indexOf('REPLACE_') !== -1;
-  }
-
-  function handleSignup(e) {
+  function handleInquiry(e) {
     e.preventDefault();
-    if (formsparkNotConnected()) {
-      setStatus(signupStatus, 'error',
-        'Signups aren\'t connected yet. Email us via Contact.');
-      return;
-    }
-    signupBtn.disabled = true;
-    signupBtn.textContent = 'Sending…';
-    setStatus(signupStatus, '', '');
-    fetch(signupForm.action, {
+    inquiryBtn.disabled = true;
+    inquiryBtn.textContent = 'Sending…';
+    setStatus(inquiryStatus, '', '');
+    fetch(inquiryForm.action, {
       method: 'POST',
-      body: new FormData(signupForm),
+      body: new FormData(inquiryForm),
       headers: { Accept: 'application/json' }
     })
       .then(function (r) {
         if (!r.ok) throw new Error('submit failed');
-        signupForm.reset();
-        hideSignup();
-        signupBtn.classList.add('is-success');
-        signupBtn.textContent = '✓ Sent!';
-        setStatus(signupStatus, 'success', '✓ You\'re on the list — we\'ll be in touch.');
+        inquiryForm.reset();
+        inquiryBtn.classList.add('is-success');
+        inquiryBtn.textContent = '✓ Sent!';
+        setStatus(inquiryStatus, 'success', '✓ Got it — Christian will message you back.');
       })
       .catch(function () {
-        signupBtn.disabled = false;
-        signupBtn.textContent = 'Sign up for monthly delivery';
-        setStatus(signupStatus, 'error',
+        inquiryBtn.disabled = false;
+        inquiryBtn.textContent = 'Message me for an inquiry';
+        setStatus(inquiryStatus, 'error',
           'Something went wrong. Please try again or email us via Contact.');
       });
   }
 
+  initMap();
+  hideInquiry();
   checkForm.addEventListener('submit', handleCheck);
-  signupForm.addEventListener('submit', handleSignup);
-  hideSignup();
+  inquiryForm.addEventListener('submit', handleInquiry);
 })();
