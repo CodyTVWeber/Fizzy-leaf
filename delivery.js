@@ -1,4 +1,4 @@
-/* Local Delivery: Census geocode + 30mi radius check, then Formspark signup. */
+/* Local Delivery: Nominatim geocode + 30mi radius check, then Formspark signup. */
 (function () {
   'use strict';
 
@@ -52,21 +52,19 @@
     return 2 * R * Math.asin(Math.sqrt(h));
   }
 
-  function censusUrl(address) {
-    return 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress'
-      + '?address=' + encodeURIComponent(address)
-      + '&benchmark=4&format=json';
+  function nominatimUrl(address) {
+    return 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q='
+      + encodeURIComponent(address);
   }
 
   function parseMatch(data) {
-    var matches = data && data.result && data.result.addressMatches;
-    if (!matches || !matches.length) return null;
-    var m = matches[0];
-    if (!m.coordinates) return null;
+    if (!data || !data.length) return null;
+    var m = data[0];
+    if (m.lat == null || m.lon == null) return null;
     return {
-      lat: Number(m.coordinates.y),
-      lng: Number(m.coordinates.x),
-      matched: m.matchedAddress || ''
+      lat: Number(m.lat),
+      lng: Number(m.lon),
+      matched: m.display_name || ''
     };
   }
 
@@ -81,7 +79,7 @@
     }
     checkBtn.disabled = true;
     checkBtn.textContent = 'Checking…';
-    fetch(censusUrl(address))
+    fetch(nominatimUrl(address), { headers: { 'Accept-Language': 'en' } })
       .then(function (r) {
         if (!r.ok) throw new Error('geocode failed');
         return r.json();

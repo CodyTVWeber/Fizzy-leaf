@@ -25,7 +25,7 @@ Storefront Cart API wrapper. Public: `PRICES`, `ready`, `money()`, `get()`, `add
 - Map is a plain Google Maps `output=embed` iframe (no API key).
 
 ## `delivery.js` (delivery page)
-- **Address check**: US Census one-line geocoder (no API key) → Haversine miles vs College Grove origin `{ lat: 35.7869, lng: -86.6750 }`, radius 30. Outside/unknown: message, hide signup. Inside: show miles (1 decimal) + signup.
+- **Address check**: Nominatim (`/search?format=json&limit=1`) → Haversine miles vs College Grove origin `{ lat: 35.7869, lng: -86.6750 }`, radius 30. Outside/unknown: message, hide signup. Inside: show miles (1 decimal) + signup.
 - **Signup**: name, email, address (prefilled), pack 12/24/48. Hidden: `miles`, `lat`, `lng`, `plan=monthly`, `delivery_fee=3`. Monthly only — not Shopify checkout.
 - **Submit**: same async Formspark pattern as contact. If form `action` still contains `REPLACE_`, do not POST; show “Signups aren’t connected yet…”.
 
