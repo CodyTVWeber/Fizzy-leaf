@@ -22,6 +22,37 @@ export default async function handleRequest(
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
+    styleSrc: ['https://fonts.googleapis.com'],
+    fontSrc: ['https://fonts.gstatic.com'],
+    scriptSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://elfsightcdn.com',
+      'https://static.elfsight.com',
+      'https://core.service.elfsight.com',
+    ],
+    connectSrc: [
+      'https://elfsightcdn.com',
+      'https://static.elfsight.com',
+      'https://core.service.elfsight.com',
+      'https://*.elfsight.com',
+    ],
+    frameSrc: [
+      'https://maps.google.com',
+      'https://www.google.com',
+      'https://*.elfsight.com',
+      'https://elfsightcdn.com',
+    ],
+    imgSrc: [
+      "'self'",
+      'https://cdn.shopify.com',
+      'https://fonts.gstatic.com',
+      'https://*.elfsight.com',
+      'https://elfsightcdn.com',
+      'https://maps.gstatic.com',
+      'https://maps.googleapis.com',
+      'data:',
+    ],
   });
 
   const body = await renderToReadableStream(

@@ -41,9 +41,11 @@ export function priceDisplay(pack, purchaseType) {
 }
 
 export function cartLineInput({pack, purchaseType, quantity}) {
+  const merchandiseId = variantGid(pack);
   const line = {
-    merchandiseId: variantGid(pack),
+    merchandiseId,
     quantity,
+    selectedVariant: {id: merchandiseId},
   };
   if (purchaseType === 'subscribe') {
     line.sellingPlanId = SELLING_PLAN_ID;
