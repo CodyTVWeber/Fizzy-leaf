@@ -1,12 +1,7 @@
-import locationsStyles from '~/styles/locations.css?url';
 import {LocationsExplorer} from '~/components/LocationsExplorer';
 
 export const meta = () => {
   return [{title: 'Locations · Fizzy Leaf'}];
-};
-
-export const links = () => {
-  return [{rel: 'stylesheet', href: locationsStyles}];
 };
 
 export default function LocationsPage() {

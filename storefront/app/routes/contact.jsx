@@ -1,12 +1,7 @@
-import contactStyles from '~/styles/contact.css?url';
 import {ContactForm} from '~/components/ContactForm';
 
 export const meta = () => {
   return [{title: 'Contact · Fizzy Leaf'}];
-};
-
-export const links = () => {
-  return [{rel: 'stylesheet', href: contactStyles}];
 };
 
 export default function ContactPage() {

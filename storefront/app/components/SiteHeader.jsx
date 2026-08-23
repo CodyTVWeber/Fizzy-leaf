@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
-import {NavLink} from 'react-router';
+import {NavLink, useLocation} from 'react-router';
 import {useAside} from '~/components/Aside';
 import {NAV_LINKS} from '~/lib/nav';
 
 export function SiteHeader() {
+  const location = useLocation();
   const {type: asideType} = useAside();
   const cartOpen = asideType === 'cart';
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,6 +16,10 @@ export function SiteHeader() {
     window.addEventListener('scroll', onScroll, {passive: true});
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (cartOpen) setMenuOpen(false);

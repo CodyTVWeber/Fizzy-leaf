@@ -13,6 +13,10 @@ import {PageLayout} from './components/PageLayout';
 import appStyles from '~/styles/app.css?url';
 import indexStyles from '~/styles/index.css?url';
 import shopCartStyles from '~/styles/shop-cart.css?url';
+import homeStyles from '~/styles/home.css?url';
+import shopStyles from '~/styles/shop.css?url';
+import locationsStyles from '~/styles/locations.css?url';
+import contactStyles from '~/styles/contact.css?url';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') return true;
@@ -69,6 +73,10 @@ export function Layout({children}) {
         <link rel="stylesheet" href={indexStyles} />
         <link rel="stylesheet" href={appStyles} />
         <link rel="stylesheet" href={shopCartStyles} />
+        <link rel="stylesheet" href={homeStyles} />
+        <link rel="stylesheet" href={shopStyles} />
+        <link rel="stylesheet" href={locationsStyles} />
+        <link rel="stylesheet" href={contactStyles} />
         <Meta />
         <Links />
       </head>

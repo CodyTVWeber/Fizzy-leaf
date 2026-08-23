@@ -1,5 +1,5 @@
 import {Await, useLocation, useNavigate} from 'react-router';
-import {Suspense, useEffect} from 'react';
+import {Suspense, useEffect, useRef} from 'react';
 import {Aside} from '~/components/Aside';
 import {CartFab} from '~/components/CartFab';
 import {CartMain} from '~/components/CartMain';
@@ -11,14 +11,13 @@ import {FADE_OUT_MS, internalFadeUrl} from '~/lib/page-fade';
  * @param {PageLayoutProps}
  */
 export function PageLayout({cart, children = null}) {
-  const location = useLocation();
   useInternalPageFade();
 
   return (
     <Aside.Provider>
       <SiteHeader />
       <CartAside cart={cart} />
-      <div className="page-shell" key={location.pathname}>
+      <div className="page-shell is-entering">
         <main className="page-main">{children}</main>
         <SiteFooter />
       </div>
@@ -29,6 +28,22 @@ export function PageLayout({cart, children = null}) {
 
 function useInternalPageFade() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const firstPath = useRef(true);
+
+  useEffect(() => {
+    document.body.classList.remove('is-leaving');
+    if (firstPath.current) {
+      firstPath.current = false;
+      return undefined;
+    }
+    const shell = document.querySelector('.page-shell');
+    if (!shell) return undefined;
+    shell.classList.remove('is-entering');
+    void shell.offsetWidth;
+    shell.classList.add('is-entering');
+    return undefined;
+  }, [location.pathname]);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -40,10 +55,8 @@ function useInternalPageFade() {
       const next = internalFadeUrl(anchor, event);
       if (!next) return;
       event.preventDefault();
-      event.stopPropagation();
       document.body.classList.add('is-leaving');
       window.setTimeout(() => {
-        document.body.classList.remove('is-leaving');
         navigate(next.pathname + next.search + next.hash);
       }, FADE_OUT_MS);
     }

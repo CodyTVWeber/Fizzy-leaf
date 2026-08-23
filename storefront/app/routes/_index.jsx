@@ -1,15 +1,10 @@
 import {Link} from 'react-router';
 import {ElfsightEmbed} from '~/components/ElfsightEmbed';
-import homeStyles from '~/styles/home.css?url';
 
 export const meta = () => {
   return [
     {title: 'Fizzy Leaf · Tennessee Sparkling Hibiscus Tea'},
   ];
-};
-
-export const links = () => {
-  return [{rel: 'stylesheet', href: homeStyles}];
 };
 
 export default function Homepage() {

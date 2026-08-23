@@ -1,12 +1,7 @@
-import shopStyles from '~/styles/shop.css?url';
 import {ShopConfigurator} from '~/components/ShopConfigurator';
 
 export const meta = () => {
   return [{title: 'Shop · Fizzy Leaf'}];
-};
-
-export const links = () => {
-  return [{rel: 'stylesheet', href: shopStyles}];
 };
 
 export default function ShopPage() {
