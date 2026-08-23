@@ -1,0 +1,15 @@
+node_modules/
+.shopify/
+.env
+.env.*
+!.env.example
+dist/
+build/
+.react-router/
+.cache/
+*.tsbuildinfo
+.DS_Store
+.cursor/
+customer-accountapi.generated.d.ts
+storefrontapi.generated.d.ts
+app/routes/+types/

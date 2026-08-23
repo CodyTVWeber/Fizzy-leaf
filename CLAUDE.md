@@ -1,27 +1,40 @@
 # Fizzy Leaf — site guide
 
-Marketing + commerce site for Fizzy Leaf sparkling hibiscus tea (Middle TN). Custom storefront; Shopify handles checkout only.
+Marketing + commerce for Fizzy Leaf sparkling hibiscus tea (Middle TN).
 
-## Run / verify (no build step)
-- View: open any `*.html`, or `python3 -m http.server` then load `http://localhost:PORT/index.html`.
-- Lint JS: `node --check <file>.js` (syntax only — this is NOT a node app).
-- Manual test: serve + click through (cart/checkout, locations map, contact form). Checkout reaching `/checkouts/cn/...` = success.
+## Two surfaces
+
+| Branch / path | What |
+|---|---|
+| `main` + repo-root `*.html` | **Live** GitHub Pages — plain HTML/CSS/JS, no build |
+| `hydrogen` + `storefront/` | Hydrogen (React Router) storefront — Shopify cart/session; Oxygen later |
+
+## Run / verify
+
+**Pages (`main` / root HTML):** open any `*.html`, or `python3 -m http.server` → `index.html`. Lint: `node --check <file>.js`.
+
+**Hydrogen:**
+```bash
+cd storefront && npm install && npm run dev
+# or: shopify hydrogen dev --path storefront
+npm run build && npm run lint
+```
 
 ## Red lines
-- **No build step, bundler, framework, or dependencies.** Plain HTML/CSS/JS only.
-- **Don't break the no-flash background**: page bg stays on `<html>`; transitions fade `main`/`.site-footer` only — never the navbar/hamburger.
-- **Page-fade timing is coupled**: `FADE_OUT_MS` in `nav.js` must equal the CSS fade-out duration. Change together.
-- **Don't touch Shopify constants** (store/variant/selling-plan ids, token, API version, GraphQL) without intent — see [docs/shopify.md](docs/shopify.md).
-- **Mobile (≤768px)**: navbar is hidden (floating hamburger only); keep first-section top padding at 3rem, not the desktop 7rem.
-- Images are WebP and pruned if unreferenced — wire up any new image; downscale before adding.
-- Commit only when asked. Work branch `feat/final-redesign-jun-2026`.
+- **`main` / root HTML:** no bundler/framework; page bg on `<html>`; fade `main`/`.site-footer` only; `FADE_OUT_MS` ↔ CSS; mobile ≤768px first-section padding 3rem.
+- **Do not** point `fizzyleaf.com` DNS, turn store password off, `shopify theme publish`, or push straight to `main` for Hydrogen cutover.
+- **Don't touch Shopify constants** (variant/selling-plan ids, token, API version) without intent — [docs/shopify.md](docs/shopify.md).
+- Images: WebP, wire new ones, downscale first.
+- Commit only when asked (PIR implementer may commit/push `hydrogen` only).
 
 ## Detailed references
 | Topic | Doc |
 |-------|-----|
-| Structure, pages, shared-chrome pattern, constraints | [docs/architecture.md](docs/architecture.md) |
-| Palette, tokens + aliasing, typography, breakpoints | [docs/styling.md](docs/styling.md) |
-| Page transitions, button/drawer/FAB motion, reduced-motion | [docs/animations.md](docs/animations.md) |
-| Per-module JS behavior (nav, cart, gallery, map, form) | [docs/behaviors.md](docs/behaviors.md) |
-| Cart/checkout, subscriptions, tokens, launch gates | [docs/shopify.md](docs/shopify.md) |
-| Image conventions, optimization, history | [docs/images.md](docs/images.md) |
+| Structure / Hydrogen vs Pages | [docs/architecture.md](docs/architecture.md) |
+| Palette, tokens, typography | [docs/styling.md](docs/styling.md) |
+| Motion | [docs/animations.md](docs/animations.md) |
+| Behaviors | [docs/behaviors.md](docs/behaviors.md) |
+| Cart / `/discount` / Oxygen | [docs/shopify.md](docs/shopify.md) |
+| Images | [docs/images.md](docs/images.md) |
+| Hydrogen port plan | [docs/plans/2026/08/2026-08-22_hydrogen-storefront.md](docs/plans/2026/08/2026-08-22_hydrogen-storefront.md) |
+| Oxygen / DNS cutover | [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md) |
