@@ -37,6 +37,7 @@ export default async function handleRequest(
       'https://static.elfsight.com',
       'https://core.service.elfsight.com',
       'https://*.elfsight.com',
+      'https://submit-form.com',
     ],
     frameSrc: [
       'https://maps.google.com',

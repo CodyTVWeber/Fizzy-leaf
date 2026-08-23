@@ -70,7 +70,7 @@ export function ContactForm() {
         {status === STATUS.success
           ? '✓ Thank you! Your message has been sent.'
           : status === STATUS.error
-            ? 'Something went wrong. Please try again or email us directly.'
+            ? 'Something went wrong. Please try again.'
             : ''}
       </div>
     </form>
