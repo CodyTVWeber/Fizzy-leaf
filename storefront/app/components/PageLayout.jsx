@@ -17,7 +17,7 @@ export function PageLayout({cart, children = null}) {
     <Aside.Provider>
       <SiteHeader />
       <CartAside cart={cart} />
-      <div className="page-shell is-entering">
+      <div className="page-shell">
         <main className="page-main">{children}</main>
         <SiteFooter />
       </div>
