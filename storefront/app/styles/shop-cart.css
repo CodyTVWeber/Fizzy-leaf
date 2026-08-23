@@ -225,20 +225,34 @@
   padding: 0;
 }
 
+html:has(.overlay.expanded) { overflow: hidden; }
+
 .overlay {
-  z-index: 1190;
+  z-index: 1300;
   background: rgba(58, 48, 36, 0.45);
+  transition: opacity 0.3s;
 }
 .overlay aside {
   background: var(--cream);
   box-shadow: -12px 0 40px rgba(92, 68, 32, 0.25);
   width: min(380px, 90vw);
   --aside-width: 380px;
+  right: 0;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.overlay.expanded aside {
+  transform: translateX(0);
 }
 .overlay aside header {
   border-bottom: 1px solid var(--border-color);
   padding: 1.3rem 1.4rem;
   height: auto;
+  flex-shrink: 0;
 }
 .overlay aside header h3 {
   font-size: 1.3rem;
@@ -247,12 +261,72 @@
 .overlay aside header .close {
   font-size: 1.7rem;
   color: var(--maroon-dark);
-  width: auto;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
+.overlay aside header .close:active { transform: scale(0.85); }
 .overlay aside main {
   margin: 0;
-  padding: 1.2rem 1.4rem;
+  padding: 0;
+  overflow: hidden;
+  height: auto;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.overlay aside .cart-main {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1.2rem 1.4rem 0;
+}
+.overlay aside .cart-details {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.overlay aside .cart-lines {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
-  height: calc(100vh - 5rem);
+}
+.overlay aside .cart-foot {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.menu-toggle.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@media (max-width: 768px) {
+  .overlay aside {
+    width: 100vw;
+    max-width: 100vw;
+    --aside-width: 100vw;
+  }
+  .overlay .close-outside { display: none; }
+  .overlay.expanded ~ .cart-fab,
+  body:has(.overlay.expanded) .cart-fab {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay { transition: none; }
+  .overlay aside { transition: none; }
+  .cart-fab.bump { animation: none; }
 }

@@ -1,8 +1,11 @@
 import {useEffect, useState} from 'react';
 import {NavLink} from 'react-router';
+import {useAside} from '~/components/Aside';
 import {NAV_LINKS} from '~/lib/nav';
 
 export function SiteHeader() {
+  const {type: asideType} = useAside();
+  const cartOpen = asideType === 'cart';
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -14,11 +17,15 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    if (cartOpen) setMenuOpen(false);
+  }, [cartOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen || cartOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [menuOpen]);
+  }, [menuOpen, cartOpen]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -61,10 +68,11 @@ export function SiteHeader() {
         </div>
       </header>
       <button
-        className={`menu-toggle${menuOpen ? ' open' : ''}`}
+        className={`menu-toggle${menuOpen ? ' open' : ''}${cartOpen ? ' is-hidden' : ''}`}
         type="button"
         aria-label="Toggle menu"
         aria-expanded={menuOpen}
+        hidden={cartOpen}
         onClick={() => setMenuOpen((open) => !open)}
       >
         <span />

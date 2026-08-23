@@ -1,24 +1,56 @@
-import {Await} from 'react-router';
-import {Suspense} from 'react';
+import {Await, useLocation, useNavigate} from 'react-router';
+import {Suspense, useEffect} from 'react';
 import {Aside} from '~/components/Aside';
 import {CartFab} from '~/components/CartFab';
 import {CartMain} from '~/components/CartMain';
 import {SiteFooter} from '~/components/SiteFooter';
 import {SiteHeader} from '~/components/SiteHeader';
+import {FADE_OUT_MS, internalFadeUrl} from '~/lib/page-fade';
 
 /**
  * @param {PageLayoutProps}
  */
 export function PageLayout({cart, children = null}) {
+  const location = useLocation();
+  useInternalPageFade();
+
   return (
     <Aside.Provider>
       <SiteHeader />
       <CartAside cart={cart} />
-      <main className="page-main">{children}</main>
-      <SiteFooter />
+      <div className="page-shell" key={location.pathname}>
+        <main className="page-main">{children}</main>
+        <SiteFooter />
+      </div>
       <CartFab cart={cart} />
     </Aside.Provider>
   );
+}
+
+function useInternalPageFade() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined;
+    }
+
+    function onClick(event) {
+      const anchor = event.target.closest?.('a[href]');
+      const next = internalFadeUrl(anchor, event);
+      if (!next) return;
+      event.preventDefault();
+      event.stopPropagation();
+      document.body.classList.add('is-leaving');
+      window.setTimeout(() => {
+        document.body.classList.remove('is-leaving');
+        navigate(next.pathname + next.search + next.hash);
+      }, FADE_OUT_MS);
+    }
+
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, [navigate]);
 }
 
 /**
