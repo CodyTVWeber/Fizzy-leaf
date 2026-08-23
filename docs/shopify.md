@@ -45,8 +45,12 @@ Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`
 ## `/discount/:code` (Hydrogen)
 `storefront/app/routes/discount.$code.jsx`: applies code, 303 redirects. Keeps leftover query (`dt_id`). First-party redirect only (`//` → `/`).
 
-## Oxygen (later)
-Deploy **`hydrogen`** branch, root directory **`storefront`**. Do **not** DNS cutover / password off / theme publish until ready.
+## Oxygen / cutover
+Order (do not skip): merge PR #10 to **`main`** (delete `hydrogen`) → Oxygen production **`main`**, root **`storefront`** → verify Oxygen URL → **DNS** `fizzyleaf.com` → **then** turn off GitHub Pages.
+
+Full walkthrough: [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md).
+
+Do **not** DNS / password off / theme publish until that plan’s step is explicitly approved.
 
 ## Gotchas / launch gates
 - **Store password**: checkout completes when password is OFF (also exposes themed store).

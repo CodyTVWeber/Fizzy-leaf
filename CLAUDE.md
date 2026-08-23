@@ -37,3 +37,4 @@ npm run build && npm run lint
 | Cart / `/discount` / Oxygen | [docs/shopify.md](docs/shopify.md) |
 | Images | [docs/images.md](docs/images.md) |
 | Hydrogen port plan | [docs/plans/2026/08/2026-08-22_hydrogen-storefront.md](docs/plans/2026/08/2026-08-22_hydrogen-storefront.md) |
+| Oxygen / DNS cutover | [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md) |

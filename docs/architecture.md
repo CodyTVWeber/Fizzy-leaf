@@ -9,7 +9,7 @@
 | Cart | `cart-api.js` + `localStorage` | Hydrogen cookie cart (`CartForm`) |
 | Routes | `*.html` | `/`, `/shop`, `/locations`, `/contact` |
 
-Root `*.html` on `hydrogen` is leftover Pages source (reference). Hydrogen does not serve it. Pages stays live until cutover.
+Root `*.html` on `hydrogen` / `main` is leftover Pages source until cutover. Hydrogen (Oxygen) does not serve it. Pages stays live until DNS + Pages off — see [cutover plan](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md).
 
 ## Pages (marketing)
 
@@ -34,7 +34,7 @@ Root `*.html` on `hydrogen` is leftover Pages source (reference). Hydrogen does 
 - Images: `storefront/public/img/`.
 
 ## Repo
-- Remote `milfordcwm/Fizzy-leaf`. Work branch for this port: `hydrogen`.
+- Remote `milfordcwm/Fizzy-leaf`. Work branch: `hydrogen` until cutover ([plan](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md)).
 - `.gitignore`: `tmp/`, `storefront/.env`, `storefront/node_modules`, etc.
 
 See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md) · [plan](plans/2026/08/2026-08-22_hydrogen-storefront.md)
