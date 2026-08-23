@@ -86,3 +86,18 @@
 @media (max-width: 768px) {
     .hero { padding-top: 3rem; }
 }
+
+#instagram { overflow: hidden; }
+#instagram [class^="elfsight-app-"] { max-width: 100%; }
+#instagram img { max-width: none; }
+
+@media (max-width: 768px) {
+    #instagram { padding: 3.5rem 1rem 3rem; }
+    #instagram h2 {
+        font-size: 1.75rem;
+        line-height: 1.2;
+        max-width: 12ch;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
