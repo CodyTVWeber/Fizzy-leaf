@@ -15,10 +15,12 @@ Marketing + commerce for Fizzy Leaf sparkling hibiscus tea (Middle TN).
 
 **Hydrogen (live):**
 ```bash
-cd storefront && npm install && npm run dev
+./scripts/run-local.sh
+# same as: cd storefront && npm install && npm run dev
 # or: shopify hydrogen dev --path storefront
 npm run build && npm run lint
 ```
+`./scripts/run-local.sh` copies `storefront/.env.example` → `storefront/.env` if needed, then starts Hydrogen at http://localhost:3000/.
 
 ## Red lines
 - **`main` / root HTML:** no bundler/framework; page bg on `<html>`; fade `main`/`.site-footer` only; `FADE_OUT_MS` ↔ CSS; mobile ≤768px first-section padding 3rem.
