@@ -4,11 +4,54 @@ export const VARIANT_24 =
   'gid://shopify/ProductVariant/42907503067230';
 export const SELLING_PLAN_ID =
   'gid://shopify/SellingPlan/6531121246';
+export const PRODUCT_GID = 'gid://shopify/Product/7681726742622';
 
 export const PRICES = {
   12: {onetime: 43, subscribe: 34.4},
   24: {onetime: 79, subscribe: 63.2},
 };
+
+const ONETIME_PRICES_QUERY = `#graphql
+  query ProductOnetimePrices($id: ID!) {
+    product(id: $id) {
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            price {
+              amount
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SUBSCRIBE_PRICES_QUERY = `#graphql
+  query ProductSubscribePrices($id: ID!) {
+    product(id: $id) {
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            sellingPlanAllocations(first: 5) {
+              edges {
+                node {
+                  priceAdjustments {
+                    price {
+                      amount
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export const GALLERY_IMAGES = [
   '/img/fizzy-detail1.webp',
@@ -29,15 +72,15 @@ export function formatMoney(amount) {
   return `$${Number(amount).toFixed(2)}`;
 }
 
-export function priceDisplay(pack, purchaseType) {
-  const prices = PRICES[pack];
+export function priceDisplay(pack, purchaseType, prices = PRICES) {
+  const packPrices = prices[pack] ?? PRICES[pack];
   if (purchaseType === 'subscribe') {
     return {
-      struck: formatMoney(prices.onetime),
-      live: `${formatMoney(prices.subscribe)} /mo`,
+      struck: formatMoney(packPrices.onetime),
+      live: `${formatMoney(packPrices.subscribe)} /mo`,
     };
   }
-  return {struck: null, live: formatMoney(prices.onetime)};
+  return {struck: null, live: formatMoney(packPrices.onetime)};
 }
 
 export const PRODUCT_HANDLE = 'roselle-hibiscus';
@@ -85,4 +128,63 @@ export function cartLinePurchaseLabel(line) {
   return type === 'subscribe'
     ? 'Subscribe & Save · monthly'
     : 'One-time purchase';
+}
+
+export async function loadDisplayPrices(storefront) {
+  const prices = clonePrices();
+  try {
+    const {errors: onetimeErrors, product: onetimeProduct} =
+      await storefront.query(ONETIME_PRICES_QUERY, {
+        variables: {id: PRODUCT_GID},
+      });
+    if (onetimeErrors?.length || !onetimeProduct) return prices;
+    applyOnetimePrices(onetimeProduct, prices);
+
+    const {errors: subscribeErrors, product: subscribeProduct} =
+      await storefront.query(SUBSCRIBE_PRICES_QUERY, {
+        variables: {id: PRODUCT_GID},
+      });
+    if (subscribeErrors?.length || !subscribeProduct) return prices;
+    applySubscribePrices(subscribeProduct, prices);
+  } catch {
+    return prices;
+  }
+  return prices;
+}
+
+function clonePrices() {
+  return {
+    12: {...PRICES[12]},
+    24: {...PRICES[24]},
+  };
+}
+
+function packForVariantGid(gid) {
+  if (gid === VARIANT_12) return 12;
+  if (gid === VARIANT_24) return 24;
+  return null;
+}
+
+function applyOnetimePrices(product, prices) {
+  const edges = product?.variants?.edges;
+  if (!edges) return;
+  for (const edge of edges) {
+    const pack = packForVariantGid(edge.node.id);
+    if (!pack || !prices[pack]) continue;
+    prices[pack].onetime = Number(edge.node.price.amount);
+  }
+}
+
+function applySubscribePrices(product, prices) {
+  const edges = product?.variants?.edges;
+  if (!edges) return;
+  for (const edge of edges) {
+    const pack = packForVariantGid(edge.node.id);
+    if (!pack || !prices[pack]) continue;
+    const allocs = edge.node.sellingPlanAllocations?.edges;
+    if (!allocs?.length) continue;
+    const adjustments = allocs[0].node.priceAdjustments;
+    if (!adjustments?.length || !adjustments[0].price) continue;
+    prices[pack].subscribe = Number(adjustments[0].price.amount);
+  }
 }

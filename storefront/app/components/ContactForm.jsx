@@ -1,6 +1,5 @@
 import {useState} from 'react';
-
-const FORMSPARK_URL = 'https://submit-form.com/vwsJT57aO';
+import {FORMSPARK_URL, postFormspark} from '~/lib/formspark';
 
 const STATUS = {
   idle: 'idle',
@@ -75,13 +74,4 @@ export function ContactForm() {
       </div>
     </form>
   );
-}
-
-async function postFormspark(form) {
-  const response = await fetch(form.action, {
-    method: 'POST',
-    body: new FormData(form),
-    headers: {Accept: 'application/json'},
-  });
-  if (!response.ok) throw new Error('Submission failed');
 }

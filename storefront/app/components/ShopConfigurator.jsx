@@ -1,8 +1,10 @@
 import {useEffect, useRef, useState} from 'react';
+import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import {
   GALLERY_IMAGES,
+  PRICES,
   cartLineInput,
   priceDisplay,
 } from '~/lib/product';
@@ -10,6 +12,7 @@ import {
 const FADE_MS = 220;
 
 export function ShopConfigurator() {
+  const {prices = PRICES} = useLoaderData() ?? {};
   const {open} = useAside();
   const [pack, setPack] = useState(12);
   const [purchaseType, setPurchaseType] = useState('onetime');
@@ -17,7 +20,7 @@ export function ShopConfigurator() {
   const [mainSrc, setMainSrc] = useState(GALLERY_IMAGES[0]);
   const [thumbIndex, setThumbIndex] = useState(0);
   const mainRef = useRef(null);
-  const price = priceDisplay(pack, purchaseType);
+  const price = priceDisplay(pack, purchaseType, prices);
   const lines = [cartLineInput({pack, purchaseType, quantity: qty})];
 
   return (

@@ -17,6 +17,7 @@ import homeStyles from '~/styles/home.css?url';
 import shopStyles from '~/styles/shop.css?url';
 import locationsStyles from '~/styles/locations.css?url';
 import contactStyles from '~/styles/contact.css?url';
+import deliveryStyles from '~/styles/delivery.css?url';
 
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   if (formMethod && formMethod !== 'GET') return true;
@@ -77,6 +78,7 @@ export function Layout({children}) {
         <link rel="stylesheet" href={shopStyles} />
         <link rel="stylesheet" href={locationsStyles} />
         <link rel="stylesheet" href={contactStyles} />
+        <link rel="stylesheet" href={deliveryStyles} />
         <Meta />
         <Links />
       </head>

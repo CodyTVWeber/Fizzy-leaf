@@ -38,6 +38,7 @@ export default async function handleRequest(
       'https://core.service.elfsight.com',
       'https://*.elfsight.com',
       'https://submit-form.com',
+      'https://nominatim.openstreetmap.org',
     ],
     frameSrc: [
       'https://maps.google.com',
@@ -55,6 +56,8 @@ export default async function handleRequest(
       'https://*.elfsightcdn.com',
       'https://maps.gstatic.com',
       'https://maps.googleapis.com',
+      'https://*.tile.openstreetmap.org',
+      'https://tile.openstreetmap.org',
       'data:',
     ],
   });
