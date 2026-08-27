@@ -6,7 +6,7 @@ export const meta = () => {
 };
 
 export async function loader({context}) {
-  const prices = await loadDisplayPrices(context.storefront);
+  const prices = await loadDisplayPrices(context.storefront, context.env);
   return {prices};
 }
 

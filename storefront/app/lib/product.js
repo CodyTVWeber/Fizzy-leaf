@@ -130,26 +130,58 @@ export function cartLinePurchaseLabel(line) {
     : 'One-time purchase';
 }
 
-export async function loadDisplayPrices(storefront) {
+export async function loadDisplayPrices(storefront, env) {
   const prices = clonePrices();
-  try {
-    const {errors: onetimeErrors, product: onetimeProduct} =
-      await storefront.query(ONETIME_PRICES_QUERY, {
-        variables: {id: PRODUCT_GID},
-      });
-    if (onetimeErrors?.length || !onetimeProduct) return prices;
-    applyOnetimePrices(onetimeProduct, prices);
-
-    const {errors: subscribeErrors, product: subscribeProduct} =
-      await storefront.query(SUBSCRIBE_PRICES_QUERY, {
-        variables: {id: PRODUCT_GID},
-      });
-    if (subscribeErrors?.length || !subscribeProduct) return prices;
-    applySubscribePrices(subscribeProduct, prices);
-  } catch {
-    return prices;
-  }
+  await applyOnetimeFromStorefront(storefront, prices);
+  await applySubscribeFromApi(env, prices);
   return prices;
+}
+
+async function applyOnetimeFromStorefront(storefront, prices) {
+  try {
+    const {product} = await storefront.query(ONETIME_PRICES_QUERY, {
+      variables: {id: PRODUCT_GID},
+    });
+    if (product) applyOnetimePrices(product, prices);
+  } catch {
+    return;
+  }
+}
+
+async function applySubscribeFromApi(env, prices) {
+  const product = await fetchSubscribeProduct(env);
+  if (product) applySubscribePrices(product, prices);
+}
+
+async function fetchSubscribeProduct(env) {
+  const domain = env?.PUBLIC_STORE_DOMAIN;
+  const token = env?.PUBLIC_STOREFRONT_API_TOKEN;
+  const version = env?.PUBLIC_STOREFRONT_API_VERSION || '2025-01';
+  if (!domain || !token) return null;
+
+  let json;
+  try {
+    const response = await fetch(
+      `https://${domain}/api/${version}/graphql.json`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': token,
+        },
+        body: JSON.stringify({
+          query: SUBSCRIBE_PRICES_QUERY,
+          variables: {id: PRODUCT_GID},
+        }),
+      },
+    );
+    if (!response.ok) return null;
+    json = await response.json();
+  } catch {
+    return null;
+  }
+  if (json.errors || !json.data?.product) return null;
+  return json.data.product;
 }
 
 function clonePrices() {

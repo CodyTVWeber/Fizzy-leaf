@@ -3,7 +3,7 @@
 ## Hydrogen (`storefront/`)
 
 ### Shop loader + `ShopConfigurator`
-- **`loadDisplayPrices(storefront)`** (`app/lib/product.js`): server-side Storefront API fetch for variant one-time `price.amount`, then a separate query for `sellingPlanAllocations` subscribe amounts. On errors/null/empty allocations, keeps hardcoded `PRICES` fallbacks. Never throws to the shop UI.
+- **`loadDisplayPrices(storefront, env)`** (`app/lib/product.js`): one-time `price.amount` via Hydrogen `storefront.query`. Subscribe `sellingPlanAllocations` via a raw Storefront fetch (token still lacks that scope; ACCESS_DENIED is swallowed, hardcoded `PRICES.subscribe` stays). Never throws to the shop UI.
 - **`shop.jsx` loader** returns `{prices}`; `ShopConfigurator` reads them via `useLoaderData()` and renders with `priceDisplay(pack, purchaseType, prices)`.
 - Pack selector (12/24), one-time/subscribe toggle, quantity stepper, gallery fade-swap, `CartForm` add-to-cart → aside drawer.
 

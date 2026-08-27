@@ -25,7 +25,7 @@ GIDs: `gid://shopify/ProductVariant/<id>`, `gid://shopify/SellingPlan/6531121246
 Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`PUBLIC_STORE_DOMAIN`, `PUBLIC_STOREFRONT_API_TOKEN`, …).
 
 ## Pricing (display)
-Shop UI loads display prices server-side via `loadDisplayPrices(storefront)` in the shop loader. One-time amounts come from variant `price.amount`. Subscribe amounts need `sellingPlanAllocations` — **still denied** without `unauthenticated_read_selling_plans`; fallbacks below stay until that scope is granted. Checkout prices are always live from Shopify cart + selling plan.
+Shop UI loads one-time display prices from Storefront API (`loadDisplayPrices` in the shop loader). Subscribe amounts need `sellingPlanAllocations` — **still denied** without `unauthenticated_read_selling_plans`. That query is a raw Storefront fetch (not Hydrogen `storefront.query`) so ACCESS_DENIED does not dump a MiniOxygen error; fallbacks below stay until that scope is granted. Checkout prices are always live from Shopify cart + selling plan.
 
 | Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
