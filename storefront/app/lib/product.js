@@ -155,7 +155,8 @@ async function applySubscribeFromApi(env, prices) {
 
 async function fetchSubscribeProduct(env) {
   const domain = env?.PUBLIC_STORE_DOMAIN;
-  const token = env?.PUBLIC_STOREFRONT_API_TOKEN;
+  const token =
+    env?.PRIVATE_STOREFRONT_API_TOKEN || env?.PUBLIC_STOREFRONT_API_TOKEN;
   const version = env?.PUBLIC_STOREFRONT_API_VERSION || '2025-01';
   if (!domain || !token) return null;
 

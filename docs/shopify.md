@@ -25,9 +25,9 @@ GIDs: `gid://shopify/ProductVariant/<id>`, `gid://shopify/SellingPlan/6531121246
 Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`PUBLIC_STORE_DOMAIN`, `PUBLIC_STOREFRONT_API_TOKEN`, …).
 
 ## Pricing (display)
-Shop UI loads one-time display prices from Storefront API (`loadDisplayPrices` in the shop loader). Subscribe amounts need `sellingPlanAllocations` — **still denied** without `unauthenticated_read_selling_plans`. That query is a raw Storefront fetch (not Hydrogen `storefront.query`) so ACCESS_DENIED does not dump a MiniOxygen error; fallbacks below stay until that scope is granted. Checkout prices are always live from Shopify cart + selling plan.
+Shop UI loads one-time display prices from Storefront API (`loadDisplayPrices` in the shop loader). Subscribe amounts need `sellingPlanAllocations`. The token in `storefront/.env` (`PUBLIC_STOREFRONT_API_TOKEN`) is the old Pages public token — it still **ACCESS_DENIED** even when **Selling plans** is checked in admin. Checking the box does not retrofit that old token.
 
-To grant the scope (admin, store owner): **Sales channels** → **Headless** or **Hydrogen** → the Fizzy storefront → **Storefront API permissions** → **Edit** → enable **Selling plans** / `unauthenticated_read_selling_plans` → **Save**. Same tokens usually pick it up; only replace `PUBLIC_STOREFRONT_API_TOKEN` (Oxygen + `storefront/.env`) if Shopify shows a new token. Custom app path: app → **API credentials** → Storefront API scopes → same permission → reinstall/redeploy if asked. Do not change variant or selling-plan ids.
+To get live subscribe display: open the **same** Headless/Hydrogen storefront whose permissions you edited → **Storefront API tokens** (or **Manage API access**) → copy the **public** token → put it in `storefront/.env` as `PUBLIC_STOREFRONT_API_TOKEN` (and Oxygen env if deployed) → restart `./scripts/run-local.sh`. If you generate a new private token, you can set `PRIVATE_STOREFRONT_API_TOKEN` instead for server queries. Do not change variant or selling-plan ids. Checkout subscribe prices already work without this.
 
 | Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
