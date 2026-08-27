@@ -1,5 +1,7 @@
 # Plan: Hydrogen live on Oxygen, then DNS, then Pages off
 
+> **Note:** Hydrogen later moved to the repository root — see [2026-08-27_hydrogen-to-repo-root.md](2026-08-27_hydrogen-to-repo-root.md).
+
 **Date:** 2026-08-23  
 **Branch:** `hydrogen` (PR #10 → `main`)  
 **Status:** Not started — wait for explicit go on each step  

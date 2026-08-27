@@ -1,6 +1,6 @@
 # Styling
 
-All tokens + shared rules live in `index.css`. Page sections style themselves in their own inline `<style>`.
+Tokens and shared rules live in `app/styles/index.css`. Page-specific styles in `app/styles/{home,shop,locations,delivery,contact,shop-cart,app}.css`.
 
 ## Palette (canonical tokens)
 | Token | Value | Use |
@@ -49,10 +49,10 @@ Phone navbar behavior: `.site-header` collapses to `height:0` transparent; `.men
 ## Hydrogen page CSS
 | Page | File |
 |------|------|
-| Delivery | `storefront/app/styles/delivery.css` — map, price list, inquiry layout; first-section padding 7rem desktop / 3rem ≤768px |
-| Contact | `storefront/app/styles/contact.css` |
-| Shop | `storefront/app/styles/shop.css` + `shop-cart.css` |
-| Locations | `storefront/app/styles/locations.css` |
-| Home | `storefront/app/styles/home.css` |
+| Delivery | `app/styles/delivery.css` — map, price list, inquiry layout; first-section padding 7rem desktop / 3rem ≤768px |
+| Contact | `app/styles/contact.css` |
+| Shop | `app/styles/shop.css` + `shop-cart.css` |
+| Locations | `app/styles/locations.css` |
+| Home | `app/styles/home.css` |
 
-Loaded from `storefront/app/root.jsx` like other page styles.
+Loaded from `app/root.jsx` like other page styles.
