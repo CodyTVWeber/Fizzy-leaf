@@ -1,5 +1,6 @@
 import {DeliveryChecker} from '~/components/DeliveryChecker';
 import {checkDeliveryAddress} from '~/lib/deliveryGeo';
+import {logInfo, logWarn} from '~/lib/log';
 import {Link} from 'react-router';
 
 export const meta = () => {
@@ -9,9 +10,19 @@ export const meta = () => {
 export async function action({request}) {
   const formData = await request.formData();
   if (formData.get('intent') !== 'check-address') {
+    logWarn('delivery', 'action ignored — unknown intent', {
+      intent: formData.get('intent'),
+    });
     return {status: 'failed'};
   }
-  return checkDeliveryAddress(String(formData.get('address') || ''));
+  const result = await checkDeliveryAddress(String(formData.get('address') || ''));
+  logInfo('delivery', 'check result', {
+    status: result.status,
+    miles: result.miles,
+    precision: result.hit?.precision,
+    zip: result.hit?.zip,
+  });
+  return result;
 }
 
 export default function DeliveryPage() {

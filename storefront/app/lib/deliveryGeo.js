@@ -1,3 +1,5 @@
+import {logError, logInfo, logWarn} from '~/lib/log';
+
 export const ORIGIN = {lat: 35.7869, lng: -86.675};
 export const DELIVERY_RADIUS_MI = 30;
 export const EARTH_RADIUS_MI = 3958.8;
@@ -39,17 +41,32 @@ export async function checkDeliveryAddress(address) {
   let hit;
   try {
     hit = await geocodeAddress(trimmed);
-  } catch {
+  } catch (error) {
+    logError('delivery', 'geocode threw', {
+      query: trimmed,
+      message: error instanceof Error ? error.message : String(error),
+    });
     return {status: CHECK_STATUS.failed, query: trimmed};
   }
-  if (!hit) return {status: CHECK_STATUS.notFound, query: trimmed};
+  if (!hit) {
+    logWarn('delivery', 'geocode found nothing', {query: trimmed});
+    return {status: CHECK_STATUS.notFound, query: trimmed};
+  }
 
   const miles = haversineMiles(ORIGIN.lat, ORIGIN.lng, hit.lat, hit.lng);
+  const status =
+    miles <= DELIVERY_RADIUS_MI
+      ? CHECK_STATUS.inRange
+      : CHECK_STATUS.outOfRange;
+  logInfo('delivery', 'geocode ok', {
+    query: trimmed,
+    status,
+    miles: Number(miles.toFixed(1)),
+    precision: hit.precision,
+    displayName: hit.displayName,
+  });
   return {
-    status:
-      miles <= DELIVERY_RADIUS_MI
-        ? CHECK_STATUS.inRange
-        : CHECK_STATUS.outOfRange,
+    status,
     query: trimmed,
     hit,
     miles,
@@ -60,13 +77,23 @@ export async function geocodeAddress(address) {
   const queries = addressQueries(address);
   for (const query of queries) {
     const hit = await geocodeWithCensus(query);
-    if (hit) return withPrecision(hit, GEOCODE_PRECISION.street);
+    if (hit) {
+      logInfo('delivery', 'census hit', {query});
+      return withPrecision(hit, GEOCODE_PRECISION.street);
+    }
   }
+  logInfo('delivery', 'census miss — trying Nominatim', {queries});
   for (const query of queries) {
     const hit = await geocodeWithNominatim(query);
-    if (hit) return withPrecision(hit, GEOCODE_PRECISION.street);
+    if (hit) {
+      logInfo('delivery', 'nominatim hit', {query});
+      return withPrecision(hit, GEOCODE_PRECISION.street);
+    }
   }
-  return geocodeExtractedZip(address);
+  logInfo('delivery', 'nominatim miss — trying ZIP');
+  const zipHit = await geocodeExtractedZip(address);
+  if (zipHit) logInfo('delivery', 'zip hit', {zip: zipHit.zip});
+  return zipHit;
 }
 
 function addressQueries(address) {

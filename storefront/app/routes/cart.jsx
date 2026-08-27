@@ -1,6 +1,7 @@
 import {useLoaderData, data} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {CartMain} from '~/components/CartMain';
+import {logError, logInfo, logWarn} from '~/lib/log';
 
 /**
  * @type {Route.MetaFunction}
@@ -79,6 +80,13 @@ export async function action({request, context}) {
   const cartId = result?.cart?.id;
   const headers = cartId ? cart.setCartId(result.cart.id) : new Headers();
   const {cart: cartResult, errors, warnings} = result;
+  if (errors?.length) logError('cart', 'action errors', errors);
+  if (warnings?.length) logWarn('cart', 'action warnings', warnings);
+  logInfo('cart', 'action ok', {
+    action,
+    lineCount: cartResult?.lines?.nodes?.length ?? cartResult?.totalQuantity,
+    checkoutPresent: Boolean(cartResult?.checkoutUrl),
+  });
 
   const redirectTo = formData.get('redirectTo') ?? null;
   if (typeof redirectTo === 'string') {

@@ -8,11 +8,14 @@ import {
   cartLineInput,
   priceDisplay,
 } from '~/lib/product';
+import {logError, logInfo, logWarn} from '~/lib/log';
 
 const FADE_MS = 220;
 
 export function ShopConfigurator() {
-  const {prices = PRICES} = useLoaderData() ?? {};
+  const data = useLoaderData() ?? {};
+  const prices = data.prices ?? PRICES;
+  const source = data.source;
   const {open} = useAside();
   const [pack, setPack] = useState(12);
   const [purchaseType, setPurchaseType] = useState('onetime');
@@ -22,6 +25,14 @@ export function ShopConfigurator() {
   const mainRef = useRef(null);
   const price = priceDisplay(pack, purchaseType, prices);
   const lines = [cartLineInput({pack, purchaseType, quantity: qty})];
+
+  useEffect(() => {
+    if (!data.prices) {
+      logWarn('shop-ui', 'no loader prices — rendering hardcoded PRICES');
+    } else {
+      logInfo('shop-ui', 'rendering', {prices, source, pack, purchaseType, price});
+    }
+  }, [data.prices, prices, source, pack, purchaseType, price]);
 
   return (
     <div className="shop-layout">
@@ -147,9 +158,11 @@ function AddButton({fetcher, onAdded}) {
     prevState.current = fetcher.state;
     if (!wasBusy || fetcher.state !== 'idle') return;
     if (cartAddFailed(fetcher.data)) {
+      logError('cart', 'add failed', fetcher.data?.errors);
       setFailed(true);
       return;
     }
+    logInfo('cart', 'add ok', {state: fetcher.state});
     setFailed(false);
     onAdded();
   }, [fetcher.state, fetcher.data, onAdded]);

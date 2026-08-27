@@ -1,3 +1,5 @@
+import {logError, logInfo, logWarn, maskSecret} from '~/lib/log';
+
 export const VARIANT_12 =
   'gid://shopify/ProductVariant/42907503034462';
 export const VARIANT_24 =
@@ -132,25 +134,60 @@ export function cartLinePurchaseLabel(line) {
 
 export async function loadDisplayPrices(storefront, env) {
   const prices = clonePrices();
-  await applyOnetimeFromStorefront(storefront, prices);
-  await applySubscribeFromApi(env, prices);
-  return prices;
+  const source = {
+    12: {onetime: 'fallback', subscribe: 'fallback'},
+    24: {onetime: 'fallback', subscribe: 'fallback'},
+  };
+  logInfo('prices', 'load start', {
+    domain: env?.PUBLIC_STORE_DOMAIN || '(missing)',
+    apiVersion: env?.PUBLIC_STOREFRONT_API_VERSION || '2025-01',
+    publicToken: maskSecret(env?.PUBLIC_STOREFRONT_API_TOKEN),
+    privateToken: maskSecret(env?.PRIVATE_STOREFRONT_API_TOKEN),
+    fallbacks: PRICES,
+  });
+  await applyOnetimeFromStorefront(storefront, prices, source);
+  await applySubscribeFromApi(env, prices, source);
+  logInfo('prices', 'load done', {prices, source});
+  return {prices, source};
 }
 
-async function applyOnetimeFromStorefront(storefront, prices) {
+async function applyOnetimeFromStorefront(storefront, prices, source) {
+  if (!storefront?.query) {
+    logWarn('prices', 'onetime skipped — no storefront.query');
+    return;
+  }
   try {
-    const {product} = await storefront.query(ONETIME_PRICES_QUERY, {
+    const result = await storefront.query(ONETIME_PRICES_QUERY, {
       variables: {id: PRODUCT_GID},
     });
-    if (product) applyOnetimePrices(product, prices);
-  } catch {
-    return;
+    const product = result?.product;
+    logInfo('prices', 'onetime GraphQL ok', summarizeProduct(product, result));
+    if (!product) {
+      logWarn('prices', 'onetime fallback — product missing', {
+        resultKeys: result ? Object.keys(result) : [],
+      });
+      return;
+    }
+    const applied = applyOnetimePrices(product, prices);
+    markLive(source, 'onetime', applied);
+    if (!applied.length) {
+      logWarn('prices', 'onetime fallback — no variant ids matched', {
+        expected: {12: VARIANT_12, 24: VARIANT_24},
+      });
+    }
+  } catch (error) {
+    logError('prices', 'onetime GraphQL failed — using fallbacks', errorMessage(error));
   }
 }
 
-async function applySubscribeFromApi(env, prices) {
+async function applySubscribeFromApi(env, prices, source) {
   const product = await fetchSubscribeProduct(env);
-  if (product) applySubscribePrices(product, prices);
+  if (!product) return;
+  const applied = applySubscribePrices(product, prices);
+  markLive(source, 'subscribe', applied);
+  if (!applied.length) {
+    logWarn('prices', 'subscribe fallback — allocations missing or ids unmatched');
+  }
 }
 
 async function fetchSubscribeProduct(env) {
@@ -158,7 +195,10 @@ async function fetchSubscribeProduct(env) {
   const token =
     env?.PRIVATE_STOREFRONT_API_TOKEN || env?.PUBLIC_STOREFRONT_API_TOKEN;
   const version = env?.PUBLIC_STOREFRONT_API_VERSION || '2025-01';
-  if (!domain || !token) return null;
+  if (!domain || !token) {
+    logWarn('prices', 'subscribe skipped — missing domain or token');
+    return null;
+  }
 
   let json;
   try {
@@ -176,13 +216,27 @@ async function fetchSubscribeProduct(env) {
         }),
       },
     );
-    if (!response.ok) return null;
+    if (!response.ok) {
+      logWarn('prices', 'subscribe HTTP not ok — using fallback', {
+        status: response.status,
+      });
+      return null;
+    }
     json = await response.json();
-  } catch {
+  } catch (error) {
+    logError('prices', 'subscribe fetch failed — using fallback', errorMessage(error));
     return null;
   }
-  if (json.errors || !json.data?.product) return null;
-  return json.data.product;
+  if (json.errors) {
+    logWarn('prices', 'subscribe GraphQL errors — using fallback', json.errors);
+  }
+  const product = json.data?.product;
+  logInfo('prices', 'subscribe GraphQL ok', summarizeProduct(product, json));
+  if (!product) {
+    logWarn('prices', 'subscribe fallback — product missing');
+    return null;
+  }
+  return product;
 }
 
 function clonePrices() {
@@ -193,31 +247,75 @@ function clonePrices() {
 }
 
 function packForVariantGid(gid) {
-  if (gid === VARIANT_12) return 12;
-  if (gid === VARIANT_24) return 24;
+  const id = String(gid || '');
+  if (id === VARIANT_12 || id.endsWith('42907503034462')) return 12;
+  if (id === VARIANT_24 || id.endsWith('42907503067230')) return 24;
   return null;
 }
 
 function applyOnetimePrices(product, prices) {
+  const applied = [];
   const edges = product?.variants?.edges;
-  if (!edges) return;
-  for (const edge of edges) {
-    const pack = packForVariantGid(edge.node.id);
-    if (!pack || !prices[pack]) continue;
-    prices[pack].onetime = Number(edge.node.price.amount);
+  if (!edges) {
+    logWarn('prices', 'onetime product has no variants.edges', {
+      keys: product ? Object.keys(product) : [],
+    });
+    return applied;
   }
+  for (const edge of edges) {
+    const gid = edge?.node?.id;
+    const pack = packForVariantGid(gid);
+    const amount = edge?.node?.price?.amount;
+    logInfo('prices', 'onetime variant', {gid, pack, amount});
+    if (!pack || !prices[pack] || amount == null) continue;
+    prices[pack].onetime = Number(amount);
+    applied.push(pack);
+  }
+  return applied;
 }
 
 function applySubscribePrices(product, prices) {
+  const applied = [];
   const edges = product?.variants?.edges;
-  if (!edges) return;
-  for (const edge of edges) {
-    const pack = packForVariantGid(edge.node.id);
-    if (!pack || !prices[pack]) continue;
-    const allocs = edge.node.sellingPlanAllocations?.edges;
-    if (!allocs?.length) continue;
-    const adjustments = allocs[0].node.priceAdjustments;
-    if (!adjustments?.length || !adjustments[0].price) continue;
-    prices[pack].subscribe = Number(adjustments[0].price.amount);
+  if (!edges) {
+    logWarn('prices', 'subscribe product has no variants.edges');
+    return applied;
   }
+  for (const edge of edges) {
+    const gid = edge?.node?.id;
+    const pack = packForVariantGid(gid);
+    const allocs = edge?.node?.sellingPlanAllocations?.edges;
+    const amount = allocs?.[0]?.node?.priceAdjustments?.[0]?.price?.amount;
+    logInfo('prices', 'subscribe variant', {
+      gid,
+      pack,
+      allocationCount: allocs?.length ?? 0,
+      amount,
+    });
+    if (!pack || !prices[pack] || amount == null) continue;
+    prices[pack].subscribe = Number(amount);
+    applied.push(pack);
+  }
+  return applied;
+}
+
+function markLive(source, field, packs) {
+  for (const pack of packs) {
+    source[pack][field] = 'live';
+  }
+}
+
+function summarizeProduct(product, raw) {
+  const edges = product?.variants?.edges;
+  return {
+    hasProduct: Boolean(product),
+    variantCount: edges?.length ?? 0,
+    variantIds: (edges || []).map((edge) => edge?.node?.id),
+    graphqlErrorCount: Array.isArray(raw?.errors) ? raw.errors.length : 0,
+  };
+}
+
+function errorMessage(error) {
+  if (error instanceof Error) return {name: error.name, message: error.message};
+  return {message: String(error)};
 }

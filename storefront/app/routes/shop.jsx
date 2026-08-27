@@ -1,13 +1,15 @@
 import {ShopConfigurator} from '~/components/ShopConfigurator';
 import {loadDisplayPrices} from '~/lib/product';
+import {logInfo} from '~/lib/log';
 
 export const meta = () => {
   return [{title: 'Shop · Fizzy Leaf'}];
 };
 
 export async function loader({context}) {
-  const prices = await loadDisplayPrices(context.storefront, context.env);
-  return {prices};
+  const loaded = await loadDisplayPrices(context.storefront, context.env);
+  logInfo('shop-loader', 'returning prices to UI', loaded);
+  return loaded;
 }
 
 export default function ShopPage() {
