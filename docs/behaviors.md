@@ -9,7 +9,7 @@
 
 ### `DeliveryChecker` (`/delivery`)
 - **Map**: Leaflet + OSM tiles (npm `leaflet`, client-only `useEffect`). Gold 30-mile circle around College Grove `{ lat: 35.7869, lng: -86.6750 }`. Visitor marker after a check.
-- **Address check**: Nominatim → Haversine vs origin, radius 30 mi. Outside/unknown: message, hide inquiry. Inside: show miles (1 decimal) + inquiry form.
+- **Address check**: server action on `/delivery`. US Census geocoder first (rural / highway addresses), Nominatim fallback. Haversine vs origin, radius 30 mi. Outside/unknown: message, hide inquiry. Inside: show miles (1 decimal) + inquiry form.
 - **Inquiry**: name, email, message. Hidden: `address`, `miles`, `lat`, `lng`, `topic=local-delivery-inquiry`. Formspark `vwsJT57aO` — direct deal with Christian, **not** Shopify checkout.
 - **Submit**: same async Formspark pattern as `ContactForm`.
 

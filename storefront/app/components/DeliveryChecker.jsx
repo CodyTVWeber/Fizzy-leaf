@@ -1,10 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
-import {
-  DELIVERY_RADIUS_MI,
-  ORIGIN,
-  geocodeAddress,
-  haversineMiles,
-} from '~/lib/deliveryGeo';
+import {useFetcher} from 'react-router';
+import {CHECK_STATUS} from '~/lib/deliveryGeo';
 import {
   buildDeliveryMap,
   loadLeaflet,
@@ -20,10 +16,11 @@ const STATUS = {
 };
 
 export function DeliveryChecker() {
+  const fetcher = useFetcher();
   const mapRef = useRef(null);
   const mapStateRef = useRef(null);
   const [checkStatus, setCheckStatus] = useState({type: '', message: ''});
-  const [checking, setChecking] = useState(false);
+  const checking = fetcher.state !== 'idle';
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [inquiryFields, setInquiryFields] = useState({
     address: '',
@@ -59,74 +56,44 @@ export function DeliveryChecker() {
     };
   }, []);
 
-  async function handleAddressCheck(event) {
+  useEffect(() => {
+    if (fetcher.state !== 'idle') {
+      setInquiryOpen(false);
+      setCheckStatus({type: '', message: ''});
+      return;
+    }
+    if (!fetcher.data) return;
+    const ui = checkFeedback(fetcher.data);
+    setCheckStatus({type: ui.type, message: ui.message});
+    if (ui.inquiry) {
+      setInquiryFields(ui.inquiry);
+      setInquiryStatus(STATUS.idle);
+      setInquiryOpen(true);
+    } else {
+      setInquiryOpen(false);
+    }
+    if (ui.plot && mapStateRef.current) {
+      mapStateRef.current = placeVisitorMarker(
+        mapStateRef.current.L,
+        mapStateRef.current,
+        ui.plot.lat,
+        ui.plot.lng,
+        ui.plot.inRange,
+      );
+    }
+  }, [fetcher.state, fetcher.data]);
+
+  function handleAddressCheck(event) {
     event.preventDefault();
     const form = event.currentTarget;
-    const address = form.address.value.trim();
-    setInquiryOpen(false);
-    setCheckStatus({type: '', message: ''});
-
-    if (!address) {
+    if (!form.address.value.trim()) {
       setCheckStatus({
         type: 'error',
         message: 'Enter a street address to check.',
       });
       return;
     }
-
-    setChecking(true);
-    try {
-      const hit = await geocodeAddress(address);
-      if (!hit) {
-        setCheckStatus({
-          type: 'error',
-          message:
-            "We couldn't place that address. Try a fuller street address, or email us via Contact.",
-        });
-        return;
-      }
-
-      const miles = haversineMiles(ORIGIN.lat, ORIGIN.lng, hit.lat, hit.lng);
-      const inRange = miles <= DELIVERY_RADIUS_MI;
-      const mapState = mapStateRef.current;
-      if (mapState) {
-        mapStateRef.current = placeVisitorMarker(
-          mapState.L,
-          mapState,
-          hit.lat,
-          hit.lng,
-          inRange,
-        );
-      }
-
-      if (!inRange) {
-        setCheckStatus({
-          type: 'error',
-          message: `That address is about ${miles.toFixed(1)} miles away — outside the 30-mile delivery area for now.`,
-        });
-        return;
-      }
-
-      setInquiryFields({
-        address: hit.displayName || address,
-        miles: miles.toFixed(1),
-        lat: String(hit.lat),
-        lng: String(hit.lng),
-      });
-      setInquiryStatus(STATUS.idle);
-      setInquiryOpen(true);
-      setCheckStatus({
-        type: 'success',
-        message: `You're about ${miles.toFixed(1)} miles from College Grove — within the 30-mile delivery area.`,
-      });
-    } catch {
-      setCheckStatus({
-        type: 'error',
-        message: 'Address check failed. Please try again or email us via Contact.',
-      });
-    } finally {
-      setChecking(false);
-    }
+    fetcher.submit(form);
   }
 
   async function handleInquirySubmit(event) {
@@ -154,7 +121,13 @@ export function DeliveryChecker() {
         aria-label="30-mile delivery area around College Grove"
       />
       <div className="contact-form-card">
-        <form id="deliveryCheckForm" onSubmit={handleAddressCheck}>
+        <form
+          id="deliveryCheckForm"
+          method="post"
+          action="/delivery"
+          onSubmit={handleAddressCheck}
+        >
+          <input type="hidden" name="intent" value="check-address" />
           <div className="form-row">
             <label htmlFor="deliveryAddress">
               Enter your address to see if you are in range
@@ -165,7 +138,7 @@ export function DeliveryChecker() {
               name="address"
               required
               autoComplete="street-address"
-              placeholder="Street, city, state, ZIP"
+              placeholder="1000 Highway 96, Franklin, TN 37064"
             />
           </div>
           <button
@@ -268,6 +241,48 @@ export function DeliveryChecker() {
       ) : null}
     </div>
   );
+}
+
+function checkFeedback(result) {
+  const hit = result.hit;
+  const miles = result.miles;
+  if (result.status === CHECK_STATUS.empty) {
+    return errorUi('Enter a street address to check.');
+  }
+  if (result.status === CHECK_STATUS.notFound) {
+    return errorUi(
+      "We couldn't find that address. Include a city and ZIP — highway names are fine.",
+    );
+  }
+  if (result.status === CHECK_STATUS.failed || !hit) {
+    return errorUi(
+      'Address check failed. Please try again or email us via Contact.',
+    );
+  }
+  const plot = {lat: hit.lat, lng: hit.lng, inRange: false};
+  if (result.status === CHECK_STATUS.outOfRange) {
+    return {
+      type: 'error',
+      message: `That address is about ${miles.toFixed(1)} miles away — outside the 30-mile delivery area for now.`,
+      inquiry: null,
+      plot,
+    };
+  }
+  return {
+    type: 'success',
+    message: `You're about ${miles.toFixed(1)} miles from College Grove — within the 30-mile delivery area.`,
+    inquiry: {
+      address: hit.displayName || '',
+      miles: miles.toFixed(1),
+      lat: String(hit.lat),
+      lng: String(hit.lng),
+    },
+    plot: {...plot, inRange: true},
+  };
+}
+
+function errorUi(message) {
+  return {type: 'error', message, inquiry: null, plot: null};
 }
 
 function CheckStatus({status}) {

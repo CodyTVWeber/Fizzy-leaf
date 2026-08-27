@@ -1,9 +1,18 @@
 import {DeliveryChecker} from '~/components/DeliveryChecker';
+import {checkDeliveryAddress} from '~/lib/deliveryGeo';
 import {Link} from 'react-router';
 
 export const meta = () => {
   return [{title: 'Local Delivery · Fizzy Leaf'}];
 };
+
+export async function action({request}) {
+  const formData = await request.formData();
+  if (formData.get('intent') !== 'check-address') {
+    return {status: 'failed'};
+  }
+  return checkDeliveryAddress(String(formData.get('address') || ''));
+}
 
 export default function DeliveryPage() {
   return (

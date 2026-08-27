@@ -32,7 +32,7 @@ Shop UI loads display prices server-side via `loadDisplayPrices(storefront)` in 
 | 12 | $43.00 | $34.40/mo |
 | 24 | $79.00 | $63.20/mo |
 
-**Local delivery is not Shopify.** `/delivery` is a custom 30-mile map + inquiry (Formspark `vwsJT57aO`, `topic=local-delivery-inquiry`) for a direct deal with Christian. Listed 12/$35, 24/$65, 48/$120 + $3 are informational only — no cart, no 48-pack variant, no checkout.
+**Local delivery is not Shopify.** `/delivery` is a custom 30-mile map + inquiry (Formspark `vwsJT57aO`, `topic=local-delivery-inquiry`) for a direct deal with Christian. Address check geocodes on the server (US Census first, Nominatim fallback). Listed 12/$35, 24/$65, 48/$120 + $3 are informational only — no cart, no 48-pack variant, no checkout.
 
 ## Checkout
 
