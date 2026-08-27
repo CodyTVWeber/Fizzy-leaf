@@ -14,7 +14,7 @@ Hydrogen (`storefront/`) is the **live** storefront. Root Pages `*.html` + `cart
 |-------|-------|
 | Store domain | `4nrp1u-ka.myshopify.com` |
 | Storefront API | `https://{domain}/api/2025-01/graphql.json` |
-| Public Storefront token | `b42a54c4c455ccdc767511135953a5bb` |
+| Public Storefront token | `bf82cd9640240e8199e973551385c407` |
 | Product | Roselle Hibiscus, id `7681726742622` |
 | Variant 12-Pack | `42907503034462` |
 | Variant 24-Pack | `42907503067230` |
@@ -25,9 +25,7 @@ GIDs: `gid://shopify/ProductVariant/<id>`, `gid://shopify/SellingPlan/6531121246
 Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`PUBLIC_STORE_DOMAIN`, `PUBLIC_STOREFRONT_API_TOKEN`, …).
 
 ## Pricing (display)
-Shop UI loads one-time display prices from Storefront API (`loadDisplayPrices` in the shop loader). Subscribe amounts need `sellingPlanAllocations`. The token in `storefront/.env` (`PUBLIC_STOREFRONT_API_TOKEN`) is the old Pages public token — it still **ACCESS_DENIED** even when **Selling plans** is checked in admin. Checking the box does not retrofit that old token.
-
-To get live subscribe display: open the **same** Headless/Hydrogen storefront whose permissions you edited → **Storefront API tokens** (or **Manage API access**) → copy the **public** token → put it in `storefront/.env` as `PUBLIC_STOREFRONT_API_TOKEN` (and Oxygen env if deployed) → restart `./scripts/run-local.sh`. If you generate a new private token, you can set `PRIVATE_STOREFRONT_API_TOKEN` instead for server queries. Do not change variant or selling-plan ids. Checkout subscribe prices already work without this.
+Shop UI loads display prices from Storefront API (`loadDisplayPrices`). One-time amounts come from variant `price.amount`. Subscribe amounts come from `sellingPlanAllocations` (this token has `unauthenticated_read_selling_plans`). Fallbacks below are used only if that fetch fails. Checkout prices are always live from Shopify cart + selling plan.
 
 | Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
