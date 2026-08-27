@@ -49,25 +49,20 @@
 
 .delivery-anyway {
   display: inline-block;
-  margin-top: 0.7rem;
+  margin-top: 0.65rem;
   padding: 0;
   border: none;
   background: none;
   font: inherit;
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--text-muted);
-  text-decoration: underline;
-  text-decoration-color: rgba(107, 85, 68, 0.35);
-  text-underline-offset: 0.22em;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(58, 48, 36, 0.38);
   cursor: pointer;
 }
 
 .delivery-anyway:hover,
 .delivery-anyway:focus-visible {
-  color: var(--maroon);
-  text-decoration-color: var(--maroon);
+  color: rgba(58, 48, 36, 0.55);
 }
 
 .delivery-section {

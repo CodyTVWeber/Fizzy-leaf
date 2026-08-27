@@ -27,6 +27,8 @@ Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`
 ## Pricing (display)
 Shop UI loads one-time display prices from Storefront API (`loadDisplayPrices` in the shop loader). Subscribe amounts need `sellingPlanAllocations` — **still denied** without `unauthenticated_read_selling_plans`. That query is a raw Storefront fetch (not Hydrogen `storefront.query`) so ACCESS_DENIED does not dump a MiniOxygen error; fallbacks below stay until that scope is granted. Checkout prices are always live from Shopify cart + selling plan.
 
+To grant the scope (admin, store owner): **Sales channels** → **Headless** or **Hydrogen** → the Fizzy storefront → **Storefront API permissions** → **Edit** → enable **Selling plans** / `unauthenticated_read_selling_plans` → **Save**. Same tokens usually pick it up; only replace `PUBLIC_STOREFRONT_API_TOKEN` (Oxygen + `storefront/.env`) if Shopify shows a new token. Custom app path: app → **API credentials** → Storefront API scopes → same permission → reinstall/redeploy if asked. Do not change variant or selling-plan ids.
+
 | Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
 | 12 | $43.00 | $34.40/mo |
