@@ -1,40 +1,36 @@
 # Architecture
 
-## Two storefronts
+## Live storefront
 
-| | GitHub Pages (`main`) | Hydrogen (`hydrogen` / `storefront/`) |
-|--|--|--|
-| Stack | Plain HTML/CSS/JS — **no build** | Shopify Hydrogen + React Router |
-| Host | GitHub Pages — **live** | `shopify hydrogen dev` now; Oxygen later (root `storefront`) |
-| Cart | `cart-api.js` + `localStorage` | Hydrogen cookie cart (`CartForm`) |
-| Routes | `*.html` | `/`, `/shop`, `/locations`, `/contact` |
+**Hydrogen** at the **repository root**, deployed on Oxygen — live at fizzyleaf.com.
 
-Root `*.html` on `hydrogen` / `main` is leftover Pages source until cutover. Hydrogen (Oxygen) does not serve it. Pages stays live until DNS + Pages off — see [cutover plan](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md).
+| | Hydrogen (repo root) |
+|--|--|
+| Stack | Shopify Hydrogen + React Router |
+| Host | Oxygen (production) |
+| Cart | Hydrogen cookie cart (`CartForm`) |
+| Routes | `/`, `/shop`, `/locations`, `/delivery`, `/contact` |
 
-## Pages (marketing)
+## Pages (Hydrogen routes)
 
-| Page | Pages file | Hydrogen route |
-|------|------------|----------------|
-| Home | `index.html` | `app/routes/_index.jsx` |
-| Shop | `shop.html` | `app/routes/shop.jsx` |
-| Locations | `locations.html` | `app/routes/locations.jsx` |
-| Contact | `contact.html` | `app/routes/contact.jsx` |
+| Page | Hydrogen route |
+|------|----------------|
+| Home | `app/routes/_index.jsx` |
+| Shop | `app/routes/shop.jsx` |
+| Locations | `app/routes/locations.jsx` |
+| Delivery | `app/routes/delivery.jsx` |
+| Contact | `app/routes/contact.jsx` |
 
 `products.$handle` redirects to `/shop` (single-product configurator).
 
-## Pages shared chrome
-- `index.css` — palette, nav, footer. See [styling.md](styling.md).
-- `nav.js` — hamburger, header scroll, page-fade. See [behaviors.md](behaviors.md).
-- `util.js` — `FizzyLeaf.fadeSwap()`.
-
 ## Hydrogen chrome
-- Styles: `storefront/app/styles/{index,home,shop,locations,contact,shop-cart,app}.css` (no `reset.css`).
-- `SiteHeader` / `SiteFooter` — hardcoded `/` `/shop` `/locations` `/contact` (no Shopify menus).
+- Styles: `app/styles/{index,home,shop,locations,delivery,contact,shop-cart,app}.css` (no `reset.css`).
+- `SiteHeader` / `SiteFooter` — `NAV_LINKS` (`/`, `/shop`, `/locations`, `/delivery`, `/contact`); Shop Now stays `/shop`.
 - Cart: `Aside` + `CartMain` + `CartFab`; add via `CartForm`.
-- Images: `storefront/public/img/`.
+- Images: `public/img/`.
 
 ## Repo
-- Remote `milfordcwm/Fizzy-leaf`. Work branch: `hydrogen` until cutover ([plan](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md)).
-- `.gitignore`: `tmp/`, `storefront/.env`, `storefront/node_modules`, etc.
+- Remote `milfordcwm/Fizzy-leaf`. Feature branches off `main`.
+- `.gitignore`: `tmp/`, `.env`, `node_modules`, etc.
 
 See also: [styling.md](styling.md) · [animations.md](animations.md) · [behaviors.md](behaviors.md) · [shopify.md](shopify.md) · [images.md](images.md) · [plan](plans/2026/08/2026-08-22_hydrogen-storefront.md)

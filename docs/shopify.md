@@ -1,11 +1,10 @@
 # Shopify integration
 
-Two storefront paths share the same store + product constants.
+Hydrogen at the **repository root** is the **live** storefront on Oxygen.
 
 | Surface | Cart | Status |
 |---|---|---|
-| GitHub Pages (`main`, root `*.html`) | `cart-api.js` + `localStorage` cart id | **Live** |
-| Hydrogen (`hydrogen`, `storefront/`) | Cookie cart via `@shopify/hydrogen` `CartForm` | Preview / Oxygen later |
+| Hydrogen (repo root) | Cookie cart via `@shopify/hydrogen` `CartForm` | **Live** (Oxygen) |
 
 **No Buy Button SDK / iframe** — can't do subscriptions cleanly and can't match Fizzy chrome.
 
@@ -14,7 +13,7 @@ Two storefront paths share the same store + product constants.
 |-------|-------|
 | Store domain | `4nrp1u-ka.myshopify.com` |
 | Storefront API | `https://{domain}/api/2025-01/graphql.json` |
-| Public Storefront token | `b42a54c4c455ccdc767511135953a5bb` |
+| Public Storefront token | `bf82cd9640240e8199e973551385c407` |
 | Product | Roselle Hibiscus, id `7681726742622` |
 | Variant 12-Pack | `42907503034462` |
 | Variant 24-Pack | `42907503067230` |
@@ -22,20 +21,19 @@ Two storefront paths share the same store + product constants.
 
 GIDs: `gid://shopify/ProductVariant/<id>`, `gid://shopify/SellingPlan/6531121246`.
 
-Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`PUBLIC_STORE_DOMAIN`, `PUBLIC_STOREFRONT_API_TOKEN`, …).
+Hydrogen mirrors these in `app/lib/product.js` + `.env` (`PUBLIC_STORE_DOMAIN`, `PUBLIC_STOREFRONT_API_TOKEN`, …).
 
-## Pricing (display only; real prices are server-side)
-| Pack | One-time | Subscribe (−20%) |
+## Pricing (display)
+Shop UI loads display prices from Storefront API (`loadDisplayPrices`). One-time amounts come from variant `price.amount`. Subscribe amounts come from `sellingPlanAllocations` (this token has `unauthenticated_read_selling_plans`). Fallbacks below are used only if that fetch fails. Checkout prices are always live from Shopify cart + selling plan.
+
+| Pack | One-time (fallback) | Subscribe (−20%, fallback) |
 |------|----------|------------------|
 | 12 | $43.00 | $34.40/mo |
 | 24 | $79.00 | $63.20/mo |
 
-## Checkout
+**Local delivery is not Shopify.** `/delivery` is a custom 30-mile map + inquiry (Formspark `vwsJT57aO`, `topic=local-delivery-inquiry`) for a direct deal with Christian. Address check geocodes on the server (US Census first, Nominatim fallback). Listed 12/$35, 24/$65, 48/$120 + $3 are informational only — no cart, no 48-pack variant, no checkout.
 
-### Pages (`cart-api.js`)
-1. `FizzyCart.add` → `cartCreate` / `cartLinesAdd` (+ `sellingPlanId` on subscribe).
-2. Cart id in `localStorage['fizzy_cart_id']`.
-3. Drawer → `checkoutUrl` (`/cart/c/...` → `/checkouts/cn/...`) bypasses store password (permalinks do not).
+## Checkout
 
 ### Hydrogen
 1. Shop configurator → `CartForm` `LinesAdd` with `merchandiseId` + optional `sellingPlanId`.
@@ -43,10 +41,10 @@ Hydrogen mirrors these in `storefront/app/lib/product.js` + `storefront/.env` (`
 3. Aside drawer + `cart.checkoutUrl` in `CartSummary`.
 
 ## `/discount/:code` (Hydrogen)
-`storefront/app/routes/discount.$code.jsx`: applies code, 303 redirects. Keeps leftover query (`dt_id`). First-party redirect only (`//` → `/`).
+`app/routes/discount.$code.jsx`: applies code, 303 redirects. Keeps leftover query (`dt_id`). First-party redirect only (`//` → `/`).
 
 ## Oxygen / cutover
-Order (do not skip): merge PR #10 to **`main`** (delete `hydrogen`) → Oxygen production **`main`**, root **`storefront`** → verify Oxygen URL → **DNS** `fizzyleaf.com` → **then** turn off GitHub Pages.
+Order (do not skip): merge PR #10 to **`main`** (delete `hydrogen`) → Oxygen production **`main`**, app root = **repo root** → verify Oxygen URL → **DNS** `fizzyleaf.com` → **then** turn off GitHub Pages.
 
 Full walkthrough: [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md).
 
@@ -58,4 +56,4 @@ Do **not** DNS / password off / theme publish until that plan’s step is explic
 - API version pinned (`2025-01`).
 
 ## Contact form
-Formspark `https://submit-form.com/vwsJT57aO` (Pages `contact.js` / Hydrogen `ContactForm`). Not Shopify.
+Formspark `https://submit-form.com/vwsJT57aO` (`~/lib/formspark.js` — `ContactForm`, delivery inquiry). Not Shopify.

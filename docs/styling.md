@@ -1,6 +1,6 @@
 # Styling
 
-All tokens + shared rules live in `index.css`. Page sections style themselves in their own inline `<style>`.
+Tokens and shared rules live in `app/styles/index.css`. Page-specific styles in `app/styles/{home,shop,locations,delivery,contact,shop-cart,app}.css`.
 
 ## Palette (canonical tokens)
 | Token | Value | Use |
@@ -41,7 +41,18 @@ Page bg is set on `<html>` (not `body`) so the page-transition opacity fade neve
 |-------|--------|
 | ≤968px | Shop layout → 1 column |
 | ≤900px | Hero + story split stack to 1 column |
-| ≤768px | **Navbar hidden, floating hamburger only**; first-section top padding drops 7rem→3rem (no navbar to clear); locations/contact stack |
+| ≤768px | **Navbar hidden, floating hamburger only**; first-section top padding drops 7rem→3rem (no navbar to clear); locations/contact/delivery stack |
 | ≤480px | Shop pack selector + purchase toggle stack vertically |
 
 Phone navbar behavior: `.site-header` collapses to `height:0` transparent; `.menu-toggle` becomes a fixed maroon circle top-right. Mobile pages must NOT keep the desktop 7rem top padding (it reads as an empty navbar gap) — use 3rem.
+
+## Hydrogen page CSS
+| Page | File |
+|------|------|
+| Delivery | `app/styles/delivery.css` — map, price list, inquiry layout; first-section padding 7rem desktop / 3rem ≤768px |
+| Contact | `app/styles/contact.css` |
+| Shop | `app/styles/shop.css` + `shop-cart.css` |
+| Locations | `app/styles/locations.css` |
+| Home | `app/styles/home.css` |
+
+Loaded from `app/root.jsx` like other page styles.

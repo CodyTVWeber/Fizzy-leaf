@@ -1,5 +1,7 @@
 # Plan: Hydrogen storefront on `hydrogen` branch
 
+> **Note:** Hydrogen later moved to the repository root — see [2026-08-27_hydrogen-to-repo-root.md](2026-08-27_hydrogen-to-repo-root.md).
+
 **Date:** 2026-08-22
 **Branch:** `hydrogen` (from `origin/main` @ `fb5328e`)
 **Status:** Implemented + reviewed. Cutover: [2026-08-23_hydrogen-oxygen-cutover.md](2026-08-23_hydrogen-oxygen-cutover.md)
