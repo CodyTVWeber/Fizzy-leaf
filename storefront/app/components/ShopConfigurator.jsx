@@ -29,9 +29,17 @@ export function ShopConfigurator() {
   useEffect(() => {
     if (!data.prices) {
       logWarn('shop-ui', 'no loader prices — rendering hardcoded PRICES');
-    } else {
-      logInfo('shop-ui', 'rendering', {prices, source, pack, purchaseType, price});
+      return;
     }
+    logInfo('shop-ui', 'rendering', {
+      pack,
+      purchaseType,
+      display: price,
+      '12.onetime': `${prices[12]?.onetime} (${source?.[12]?.onetime || '?'})`,
+      '12.subscribe': `${prices[12]?.subscribe} (${source?.[12]?.subscribe || '?'})`,
+      '24.onetime': `${prices[24]?.onetime} (${source?.[24]?.onetime || '?'})`,
+      '24.subscribe': `${prices[24]?.subscribe} (${source?.[24]?.subscribe || '?'})`,
+    });
   }, [data.prices, prices, source, pack, purchaseType, price]);
 
   return (
