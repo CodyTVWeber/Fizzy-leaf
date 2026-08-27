@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
-import {CHECK_STATUS} from '~/lib/deliveryGeo';
+import {CHECK_STATUS, GEOCODE_PRECISION} from '~/lib/deliveryGeo';
 import {
   buildDeliveryMap,
   loadLeaflet,
@@ -260,17 +260,21 @@ function checkFeedback(result) {
     );
   }
   const plot = {lat: hit.lat, lng: hit.lng, inRange: false};
+  const zipNote =
+    hit.precision === GEOCODE_PRECISION.zip && hit.zip
+      ? ` Using ZIP ${hit.zip} (couldn't pin the street).`
+      : '';
   if (result.status === CHECK_STATUS.outOfRange) {
     return {
       type: 'error',
-      message: `That address is about ${miles.toFixed(1)} miles away — outside the 30-mile delivery area for now.`,
+      message: `That address is about ${miles.toFixed(1)} miles away — outside the 30-mile delivery area for now.${zipNote}`,
       inquiry: null,
       plot,
     };
   }
   return {
     type: 'success',
-    message: `You're about ${miles.toFixed(1)} miles from College Grove — within the 30-mile delivery area.`,
+    message: `You're about ${miles.toFixed(1)} miles from College Grove — within the 30-mile delivery area.${zipNote}`,
     inquiry: {
       address: hit.displayName || '',
       miles: miles.toFixed(1),
