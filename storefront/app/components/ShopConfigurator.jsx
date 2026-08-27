@@ -1,15 +1,21 @@
 import {useEffect, useRef, useState} from 'react';
+import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
 import {
   GALLERY_IMAGES,
+  PRICES,
   cartLineInput,
   priceDisplay,
 } from '~/lib/product';
+import {logError, logInfo, logWarn} from '~/lib/log';
 
 const FADE_MS = 220;
 
 export function ShopConfigurator() {
+  const data = useLoaderData() ?? {};
+  const prices = data.prices ?? PRICES;
+  const source = data.source;
   const {open} = useAside();
   const [pack, setPack] = useState(12);
   const [purchaseType, setPurchaseType] = useState('onetime');
@@ -17,8 +23,24 @@ export function ShopConfigurator() {
   const [mainSrc, setMainSrc] = useState(GALLERY_IMAGES[0]);
   const [thumbIndex, setThumbIndex] = useState(0);
   const mainRef = useRef(null);
-  const price = priceDisplay(pack, purchaseType);
+  const price = priceDisplay(pack, purchaseType, prices);
   const lines = [cartLineInput({pack, purchaseType, quantity: qty})];
+
+  useEffect(() => {
+    if (!data.prices) {
+      logWarn('shop-ui', 'no loader prices — rendering hardcoded PRICES');
+      return;
+    }
+    logInfo('shop-ui', 'rendering', {
+      pack,
+      purchaseType,
+      display: price,
+      '12.onetime': `${prices[12]?.onetime} (${source?.[12]?.onetime || '?'})`,
+      '12.subscribe': `${prices[12]?.subscribe} (${source?.[12]?.subscribe || '?'})`,
+      '24.onetime': `${prices[24]?.onetime} (${source?.[24]?.onetime || '?'})`,
+      '24.subscribe': `${prices[24]?.subscribe} (${source?.[24]?.subscribe || '?'})`,
+    });
+  }, [data.prices, prices, source, pack, purchaseType, price]);
 
   return (
     <div className="shop-layout">
@@ -144,9 +166,11 @@ function AddButton({fetcher, onAdded}) {
     prevState.current = fetcher.state;
     if (!wasBusy || fetcher.state !== 'idle') return;
     if (cartAddFailed(fetcher.data)) {
+      logError('cart', 'add failed', fetcher.data?.errors);
       setFailed(true);
       return;
     }
+    logInfo('cart', 'add ok', {state: fetcher.state});
     setFailed(false);
     onAdded();
   }, [fetcher.state, fetcher.data, onAdded]);
