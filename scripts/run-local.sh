@@ -2,9 +2,8 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-STOREFRONT="$ROOT/storefront"
-EXAMPLE="$STOREFRONT/.env.example"
-ENV_FILE="$STOREFRONT/.env"
+EXAMPLE="$ROOT/.env.example"
+ENV_FILE="$ROOT/.env"
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   cat <<'EOF'
@@ -12,7 +11,7 @@ Run the Hydrogen storefront locally.
 
   ./scripts/run-local.sh
 
-Creates storefront/.env from .env.example if missing, installs npm
+Creates .env from .env.example if missing, installs npm
 deps, then starts `shopify hydrogen dev` at http://localhost:3000/
 EOF
   exit 0
@@ -34,11 +33,6 @@ if [[ "$node_major" != "22" && "$node_major" != "24" ]]; then
   exit 1
 fi
 
-if [[ ! -d "$STOREFRONT" ]]; then
-  echo "Missing $STOREFRONT" >&2
-  exit 1
-fi
-
 ensure_env() {
   if [[ -f "$ENV_FILE" ]]; then
     return
@@ -55,7 +49,7 @@ ensure_env() {
 
 ensure_env
 
-cd "$STOREFRONT"
+cd "$ROOT"
 if [[ ! -d node_modules ]]; then
   npm install
 fi

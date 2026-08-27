@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-27  
 **Branch:** `cursor/hydrogen-to-repo-root-ab48`  
-**Status:** Implementing
+**Status:** Implemented
 
 Shopify Oxygen / Hydrogen GitHub deploy is simplest when the Hydrogen app is the **repository root** (`package.json`, `server.js`, `app/`, `public/`). Today it lives in `storefront/` with leftover GitHub Pages `*.html` / `*.js` / `*.css` at root. Move the app up; delete Pages leftovers.
 

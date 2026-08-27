@@ -1,11 +1,11 @@
 # Images
 
-All images live in `img/` and are **WebP**. Photos were downscaled to ≤1400px / quality 80; the logo to 600px.
+All images live in `public/img/` and are **WebP**. Photos were downscaled to ≤1400px / quality 80; the logo to 600px.
 
 ## Conventions
 - Format: `.webp` only. Convert with ImageMagick: `magick in.jpg -resize '1400x1400>' -quality 80 -define webp:method=6 out.webp` (`>` only shrinks, never upscales). Preserve alpha for logo/icons.
 - Keep files lean: photos target <200KB; logo/icons small. Re-check after adding.
-- Reference by exact basename in HTML/CSS/JS. **Unreferenced files get pruned** — if you add an image, wire it up in the same change.
+- Reference by exact basename in components/CSS. **Unreferenced files get pruned** — if you add an image, wire it up in the same change.
 
 ## Current assets
 | File | Used by | Notes |

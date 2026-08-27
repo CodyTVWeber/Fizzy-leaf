@@ -1,5 +1,7 @@
 # Plan: Hydrogen Local Delivery + live shop prices
 
+> **Note:** Hydrogen later moved to the repository root — see [2026-08-27_hydrogen-to-repo-root.md](2026-08-27_hydrogen-to-repo-root.md).
+
 **Date:** 2026-08-26
 **Branch:** `cursor/hydrogen-delivery-live-prices-31d7`
 **Status:** Implement on Hydrogen (`storefront/`). Pages root `*.html` is leftover — do not port by editing those files.
