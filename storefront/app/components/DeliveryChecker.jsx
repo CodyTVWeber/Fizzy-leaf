@@ -22,6 +22,7 @@ export function DeliveryChecker() {
   const [checkStatus, setCheckStatus] = useState({type: '', message: ''});
   const checking = fetcher.state !== 'idle';
   const [inquiryOpen, setInquiryOpen] = useState(false);
+  const [inviteInquiry, setInviteInquiry] = useState(false);
   const [inquiryFields, setInquiryFields] = useState({
     address: '',
     miles: '',
@@ -59,19 +60,19 @@ export function DeliveryChecker() {
   useEffect(() => {
     if (fetcher.state !== 'idle') {
       setInquiryOpen(false);
+      setInviteInquiry(false);
       setCheckStatus({type: '', message: ''});
       return;
     }
     if (!fetcher.data) return;
     const ui = checkFeedback(fetcher.data);
     setCheckStatus({type: ui.type, message: ui.message});
+    setInviteInquiry(ui.inviteInquiry);
     if (ui.inquiry) {
       setInquiryFields(ui.inquiry);
       setInquiryStatus(STATUS.idle);
-      setInquiryOpen(true);
-    } else {
-      setInquiryOpen(false);
     }
+    setInquiryOpen(ui.openInquiry);
     if (ui.plot && mapStateRef.current) {
       mapStateRef.current = placeVisitorMarker(
         mapStateRef.current.L,
@@ -151,6 +152,19 @@ export function DeliveryChecker() {
             {checking ? 'Checking…' : 'Check my address'}
           </button>
           <CheckStatus status={checkStatus} />
+          {inviteInquiry && !inquiryOpen ? (
+            <button
+              type="button"
+              className="delivery-anyway"
+              onClick={() => {
+                setInquiryOpen(true);
+                setInquiryStatus(STATUS.idle);
+                setInviteInquiry(false);
+              }}
+            >
+              Still want to message me anyway?
+            </button>
+          ) : null}
         </form>
       </div>
 
@@ -246,15 +260,29 @@ export function DeliveryChecker() {
 function checkFeedback(result) {
   const hit = result.hit;
   const miles = result.miles;
+  const typed = result.query || '';
   if (result.status === CHECK_STATUS.empty) {
     return errorUi('Enter a street address to check.');
   }
   if (result.status === CHECK_STATUS.notFound) {
-    return errorUi(
-      "We couldn't find that address. Include a city and ZIP — highway names are fine.",
-    );
+    return {
+      ...errorUi(
+        "We couldn't find that address. Include a city and ZIP — highway names are fine.",
+      ),
+      inviteInquiry: true,
+      inquiry: blankInquiry(typed),
+    };
   }
-  if (result.status === CHECK_STATUS.failed || !hit) {
+  if (result.status === CHECK_STATUS.failed) {
+    return {
+      ...errorUi(
+        'Address check failed. Please try again or email us via Contact.',
+      ),
+      inviteInquiry: true,
+      inquiry: blankInquiry(typed),
+    };
+  }
+  if (!hit) {
     return errorUi(
       'Address check failed. Please try again or email us via Contact.',
     );
@@ -264,29 +292,45 @@ function checkFeedback(result) {
     hit.precision === GEOCODE_PRECISION.zip && hit.zip
       ? ` Using ZIP ${hit.zip} (couldn't pin the street).`
       : '';
+  const inquiry = {
+    address: hit.displayName || typed,
+    miles: miles != null ? miles.toFixed(1) : '',
+    lat: String(hit.lat),
+    lng: String(hit.lng),
+  };
   if (result.status === CHECK_STATUS.outOfRange) {
     return {
       type: 'error',
       message: `That address is about ${miles.toFixed(1)} miles away — outside the 30-mile delivery area for now.${zipNote}`,
-      inquiry: null,
+      openInquiry: false,
+      inviteInquiry: true,
+      inquiry,
       plot,
     };
   }
   return {
     type: 'success',
     message: `You're about ${miles.toFixed(1)} miles from College Grove — within the 30-mile delivery area.${zipNote}`,
-    inquiry: {
-      address: hit.displayName || '',
-      miles: miles.toFixed(1),
-      lat: String(hit.lat),
-      lng: String(hit.lng),
-    },
+    openInquiry: true,
+    inviteInquiry: false,
+    inquiry,
     plot: {...plot, inRange: true},
   };
 }
 
+function blankInquiry(address) {
+  return {address, miles: '', lat: '', lng: ''};
+}
+
 function errorUi(message) {
-  return {type: 'error', message, inquiry: null, plot: null};
+  return {
+    type: 'error',
+    message,
+    openInquiry: false,
+    inviteInquiry: false,
+    inquiry: null,
+    plot: null,
+  };
 }
 
 function CheckStatus({status}) {

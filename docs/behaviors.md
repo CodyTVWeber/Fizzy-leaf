@@ -10,7 +10,7 @@
 ### `DeliveryChecker` (`/delivery`)
 - **Map**: Leaflet + OSM tiles (npm `leaflet`, client-only `useEffect`). Gold 30-mile circle around College Grove `{ lat: 35.7869, lng: -86.6750 }`. Visitor marker after a check.
 - **Address check**: server action on `/delivery`. US Census geocoder first (rural / highway addresses), Nominatim fallback, then last 5-digit ZIP (Nominatim postalcode, then Zippopotam). Haversine vs origin, radius 30 mi. Outside/unknown: message, hide inquiry. Inside: show miles (1 decimal) + inquiry form. ZIP fallback is approximate and labeled in the status copy.
-- **Inquiry**: name, email, message. Hidden: `address`, `miles`, `lat`, `lng`, `topic=local-delivery-inquiry`. Formspark `vwsJT57aO` — direct deal with Christian, **not** Shopify checkout.
+- **Inquiry**: name, email, message. Hidden: `address`, `miles`, `lat`, `lng`, `topic=local-delivery-inquiry`. Formspark `vwsJT57aO` — direct deal with Christian, **not** Shopify checkout. Out of range / not found: inquiry stays closed; a quiet “Still want to message me anyway?” control opens the same form.
 - **Submit**: same async Formspark pattern as `ContactForm`.
 
 ### Contact

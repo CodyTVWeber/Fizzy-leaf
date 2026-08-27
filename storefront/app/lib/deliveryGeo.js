@@ -34,15 +34,15 @@ export function haversineMiles(lat1, lng1, lat2, lng2) {
 
 export async function checkDeliveryAddress(address) {
   const trimmed = address.trim();
-  if (!trimmed) return {status: CHECK_STATUS.empty};
+  if (!trimmed) return {status: CHECK_STATUS.empty, query: trimmed};
 
   let hit;
   try {
     hit = await geocodeAddress(trimmed);
   } catch {
-    return {status: CHECK_STATUS.failed};
+    return {status: CHECK_STATUS.failed, query: trimmed};
   }
-  if (!hit) return {status: CHECK_STATUS.notFound};
+  if (!hit) return {status: CHECK_STATUS.notFound, query: trimmed};
 
   const miles = haversineMiles(ORIGIN.lat, ORIGIN.lng, hit.lat, hit.lng);
   return {
@@ -50,6 +50,7 @@ export async function checkDeliveryAddress(address) {
       miles <= DELIVERY_RADIUS_MI
         ? CHECK_STATUS.inRange
         : CHECK_STATUS.outOfRange,
+    query: trimmed,
     hit,
     miles,
   };
