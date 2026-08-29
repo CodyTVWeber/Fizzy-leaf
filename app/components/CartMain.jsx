@@ -70,6 +70,7 @@ export function CartMain({layout, cart: originalCart}) {
                   line={line}
                   layout={layout}
                   childrenMap={childrenMap}
+                  cart={cart}
                 />
               );
             })}

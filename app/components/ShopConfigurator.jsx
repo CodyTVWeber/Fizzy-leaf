@@ -2,11 +2,11 @@ import {useEffect, useRef, useState} from 'react';
 import {useLoaderData} from 'react-router';
 import {CartForm} from '@shopify/hydrogen';
 import {useAside} from '~/components/Aside';
+import {ShopPrice} from '~/components/ShopPrice';
 import {
   GALLERY_IMAGES,
   PRICES,
   cartLineInput,
-  priceDisplay,
 } from '~/lib/product';
 import {logError, logInfo, logWarn} from '~/lib/log';
 
@@ -23,7 +23,6 @@ export function ShopConfigurator() {
   const [mainSrc, setMainSrc] = useState(GALLERY_IMAGES[0]);
   const [thumbIndex, setThumbIndex] = useState(0);
   const mainRef = useRef(null);
-  const price = priceDisplay(pack, purchaseType, prices);
   const lines = [cartLineInput({pack, purchaseType, quantity: qty})];
 
   useEffect(() => {
@@ -34,13 +33,13 @@ export function ShopConfigurator() {
     logInfo('shop-ui', 'rendering', {
       pack,
       purchaseType,
-      display: price,
+      display: `${pack} ${purchaseType}`,
       '12.onetime': `${prices[12]?.onetime} (${source?.[12]?.onetime || '?'})`,
       '12.subscribe': `${prices[12]?.subscribe} (${source?.[12]?.subscribe || '?'})`,
       '24.onetime': `${prices[24]?.onetime} (${source?.[24]?.onetime || '?'})`,
       '24.subscribe': `${prices[24]?.subscribe} (${source?.[24]?.subscribe || '?'})`,
     });
-  }, [data.prices, prices, source, pack, purchaseType, price]);
+  }, [data.prices, prices, source, pack, purchaseType]);
 
   return (
     <div className="shop-layout">
@@ -58,17 +57,7 @@ export function ShopConfigurator() {
         <p style={{color: 'var(--text-muted)', marginBottom: '0.5rem'}}>
           {pack}-Pack · Sparkling Tea · 12 oz cans
         </p>
-        <div className="shop-price">
-          <span>
-            {price.struck ? (
-              <>
-                <s>{price.struck}</s> {price.live}
-              </>
-            ) : (
-              price.live
-            )}
-          </span>
-        </div>
+        <ShopPrice pack={pack} purchaseType={purchaseType} prices={prices} />
 
         <p className="pack-label">Select Case Size</p>
         <div className="pack-selector">

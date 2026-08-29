@@ -129,6 +129,11 @@
 .cl-title { font-weight: 700; color: var(--maroon-dark); }
 .cl-meta { font-size: 0.8rem; color: var(--text-muted); }
 .cl-price { font-weight: 700; white-space: nowrap; }
+.cl-price s {
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-right: 0.35rem;
+}
 .cl-qty { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; }
 .cl-qty button {
   width: 26px;

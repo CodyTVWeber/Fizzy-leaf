@@ -6,16 +6,14 @@ import {
   PRODUCT_TITLE,
   cartLinePurchaseLabel,
 } from '~/lib/product';
+import {
+  lineListTotal,
+  linePaidTotal,
+  lineShowsDiscount,
+} from '~/lib/discountedPrice';
 import {useVariantUrl} from '~/lib/variants';
 
-/**
- * @param {{
- *   layout: CartLayout;
- *   line: CartLine;
- *   childrenMap: LineItemChildrenMap;
- * }}
- */
-export function CartLineItem({layout, line, childrenMap}) {
+export function CartLineItem({layout, line, childrenMap, cart}) {
   const {id, merchandise} = line;
   const product = merchandise?.product;
   const title = merchandise?.title;
@@ -63,9 +61,7 @@ export function CartLineItem({layout, line, childrenMap}) {
           <CartLineQuantity line={line} />
         </div>
         <div className="cl-price">
-          {line?.cost?.totalAmount ? (
-            <Money data={line.cost.totalAmount} />
-          ) : null}
+          <CartLinePrice line={line} cart={cart} />
         </div>
       </div>
 
@@ -77,6 +73,7 @@ export function CartLineItem({layout, line, childrenMap}) {
           <ul aria-labelledby={childrenLabelId} className="cart-line-children">
             {lineItemChildren.map((childLine) => (
               <CartLineItem
+                cart={cart}
                 childrenMap={childrenMap}
                 key={childLine.id}
                 line={childLine}
@@ -90,9 +87,21 @@ export function CartLineItem({layout, line, childrenMap}) {
   );
 }
 
-/**
- * @param {{line: CartLine}}
- */
+function CartLinePrice({line, cart}) {
+  const paid = linePaidTotal(line, cart);
+  if (!paid) return null;
+  if (!lineShowsDiscount(line, cart)) return <Money data={paid} />;
+
+  return (
+    <>
+      <s>
+        <Money data={lineListTotal(line)} as="span" />
+      </s>
+      <Money data={paid} as="span" />
+    </>
+  );
+}
+
 function CartLineQuantity({line}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
   const {id: lineId, quantity, isOptimistic} = line;
