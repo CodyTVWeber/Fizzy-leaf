@@ -1,5 +1,5 @@
 import {Money} from '@shopify/hydrogen';
-import {useId, useRef} from 'react';
+import {useEffect, useId, useRef} from 'react';
 import {CartDiscountCode} from '~/components/CartDiscountCode';
 import {appliedDiscountCodes, cartDiscountLines} from '~/lib/cartDiscounts';
 
@@ -9,6 +9,8 @@ export function CartDiscountDialog({cart}) {
   const appliedCount = appliedDiscountCodes(cart).length;
   const discounts = cartDiscountLines(cart);
   const label = appliedCount > 0 ? `Discounts (${appliedCount})` : 'Discounts';
+
+  useEffect(() => stopEscapeBubblingFromDialog(dialogRef.current), []);
 
   return (
     <div className="cart-discount-dialog-wrap">
@@ -23,7 +25,6 @@ export function CartDiscountDialog({cart}) {
         ref={dialogRef}
         className="cart-discount-dialog"
         aria-labelledby={titleId}
-        onKeyDown={stopEscapeFromClosingAside}
       >
         <div className="cart-discount-dialog-head">
           <h3 id={titleId}>Discounts</h3>
@@ -65,7 +66,16 @@ function openDiscountDialog(dialog) {
   dialog?.showModal();
 }
 
-function stopEscapeFromClosingAside(event) {
-  if (event.key !== 'Escape') return;
-  event.stopPropagation();
+function stopEscapeBubblingFromDialog(dialog) {
+  if (!dialog) return undefined;
+
+  const onKeyDown = (event) => {
+    if (event.key !== 'Escape') return;
+    event.stopPropagation();
+  };
+
+  dialog.addEventListener('keydown', onKeyDown);
+  return () => {
+    dialog.removeEventListener('keydown', onKeyDown);
+  };
 }
