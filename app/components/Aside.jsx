@@ -27,9 +27,9 @@ export function Aside({children, heading, type}) {
       document.addEventListener(
         'keydown',
         function handler(event) {
-          if (event.key === 'Escape') {
-            close();
-          }
+          if (event.key !== 'Escape') return;
+          if (escapeTargetIsNativeDialog(event.target)) return;
+          close();
         },
         {signal: abortController.signal},
       );
@@ -82,6 +82,10 @@ export function useAside() {
     throw new Error('useAside must be used within an AsideProvider');
   }
   return aside;
+}
+
+function escapeTargetIsNativeDialog(target) {
+  return target instanceof Element && Boolean(target.closest('dialog'));
 }
 
 /** @typedef {'search' | 'cart' | 'mobile' | 'closed'} AsideType */

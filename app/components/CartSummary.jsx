@@ -1,44 +1,60 @@
 import {Money} from '@shopify/hydrogen';
 import {useId} from 'react';
+import {CartDiscountDialog} from '~/components/CartDiscountDialog';
+import {cartDiscountLines, summedDiscountMoney} from '~/lib/cartDiscounts';
 
-/**
- * @param {CartSummaryProps}
- */
 export function CartSummary({cart, layout}) {
   const className =
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
   const summaryId = useId();
-  const codes =
-    cart?.discountCodes
-      ?.filter((discount) => discount.applicable)
-      ?.map(({code}) => code) || [];
 
   return (
     <div aria-labelledby={summaryId} className={`${className} cart-foot`}>
       <h4 id={summaryId} className="sr-only">
         Totals
       </h4>
-      {codes.length > 0 ? (
-        <p className="cart-discount">Discount: {codes.join(', ')}</p>
-      ) : null}
-      <div className="cart-subtotal">
-        <span>Subtotal</span>
-        <span>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
-          ) : (
-            '$0.00'
-          )}
-        </span>
-      </div>
+      <CartDiscountDialog cart={cart} />
+      <CartCostLines cart={cart} />
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
 }
 
-/**
- * @param {{checkoutUrl?: string}}
- */
+function CartCostLines({cart}) {
+  const saved = summedDiscountMoney(cartDiscountLines(cart));
+  const subtotal = cart?.cost?.subtotalAmount;
+  const total = cart?.cost?.totalAmount;
+
+  return (
+    <>
+      <div
+        className={saved ? 'cart-subtotal cart-amount-was' : 'cart-subtotal'}
+      >
+        <span>Subtotal</span>
+        <span>
+          {subtotal?.amount ? <Money data={subtotal} /> : '$0.00'}
+        </span>
+      </div>
+      {saved ? (
+        <div className="cart-discount-saved">
+          <span>Discount</span>
+          <span className="cart-money-negative">
+            −<Money data={saved} as="span" />
+          </span>
+        </div>
+      ) : null}
+      {saved && total?.amount ? (
+        <div className="cart-total">
+          <span>Total</span>
+          <span>
+            <Money data={total} />
+          </span>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
@@ -52,14 +68,3 @@ function CartCheckoutActions({checkoutUrl}) {
     </a>
   );
 }
-
-/**
- * @typedef {{
- *   cart: OptimisticCart<CartApiQueryFragment | null>;
- *   layout: CartLayout;
- * }} CartSummaryProps
- */
-
-/** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */
-/** @typedef {import('~/components/CartMain').CartLayout} CartLayout */
-/** @typedef {import('@shopify/hydrogen').OptimisticCart} OptimisticCart */
