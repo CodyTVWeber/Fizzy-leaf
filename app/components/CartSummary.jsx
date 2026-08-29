@@ -1,44 +1,55 @@
 import {Money} from '@shopify/hydrogen';
 import {useId} from 'react';
+import {CartDiscountCode} from '~/components/CartDiscountCode';
+import {cartDiscountLines} from '~/lib/cartDiscounts';
 
-/**
- * @param {CartSummaryProps}
- */
 export function CartSummary({cart, layout}) {
   const className =
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
   const summaryId = useId();
-  const codes =
-    cart?.discountCodes
-      ?.filter((discount) => discount.applicable)
-      ?.map(({code}) => code) || [];
+  const discounts = cartDiscountLines(cart);
+  const total = cart?.cost?.totalAmount;
 
   return (
     <div aria-labelledby={summaryId} className={`${className} cart-foot`}>
       <h4 id={summaryId} className="sr-only">
         Totals
       </h4>
-      {codes.length > 0 ? (
-        <p className="cart-discount">Discount: {codes.join(', ')}</p>
-      ) : null}
+      <CartDiscountCode cart={cart} />
+      {discounts.map((row) => (
+        <p
+          key={`${row.label}-${row.amount.amount}-${row.amount.currencyCode}`}
+          className="cart-discount"
+        >
+          <span>{row.label}</span>
+          <span>
+            −<Money data={row.amount} />
+          </span>
+        </p>
+      ))}
       <div className="cart-subtotal">
         <span>Subtotal</span>
         <span>
           {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
+            <Money data={cart.cost.subtotalAmount} />
           ) : (
             '$0.00'
           )}
         </span>
       </div>
+      {total?.amount && discounts.length > 0 ? (
+        <div className="cart-total">
+          <span>Total</span>
+          <span>
+            <Money data={total} />
+          </span>
+        </div>
+      ) : null}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
 }
 
-/**
- * @param {{checkoutUrl?: string}}
- */
 function CartCheckoutActions({checkoutUrl}) {
   if (!checkoutUrl) return null;
 
@@ -52,14 +63,3 @@ function CartCheckoutActions({checkoutUrl}) {
     </a>
   );
 }
-
-/**
- * @typedef {{
- *   cart: OptimisticCart<CartApiQueryFragment | null>;
- *   layout: CartLayout;
- * }} CartSummaryProps
- */
-
-/** @typedef {import('storefrontapi.generated').CartApiQueryFragment} CartApiQueryFragment */
-/** @typedef {import('~/components/CartMain').CartLayout} CartLayout */
-/** @typedef {import('@shopify/hydrogen').OptimisticCart} OptimisticCart */
