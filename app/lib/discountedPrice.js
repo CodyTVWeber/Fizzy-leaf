@@ -1,6 +1,8 @@
 import {cartDiscountLines, summedDiscountMoney} from '~/lib/cartDiscounts';
 import {formatMoney, priceDisplay, variantGid} from '~/lib/product';
 
+const PURCHASE_TYPES = ['onetime', 'subscribe'];
+
 export function lineListTotal(line) {
   if (line?.cost?.subtotalAmount?.amount) return line.cost.subtotalAmount;
   const paid = line?.cost?.totalAmount;
@@ -24,10 +26,13 @@ export function linePaidTotal(line, cart) {
       currencyCode: list.currencyCode,
     };
   }
-  const pct = cartPercentageOff(cart);
-  if (pct == null) return line?.cost?.totalAmount ?? list;
+  if (!purchaseTypeGetsDiscount(cart, purchaseTypeOf(line))) {
+    return line?.cost?.totalAmount ?? list;
+  }
+  const rate = entitledDiscountRate(cart);
+  if (rate == null) return line?.cost?.totalAmount ?? list;
   return {
-    amount: (Math.round(moneyCents(list) * (1 - pct / 100)) / 100).toFixed(2),
+    amount: (Math.round(moneyCents(list) * (1 - rate)) / 100).toFixed(2),
     currencyCode: list.currencyCode,
   };
 }
@@ -64,13 +69,93 @@ export function shopPriceDisplay({pack, purchaseType, prices, cart}) {
 }
 
 function discountedCatalogAmount({pack, purchaseType, catalog, cart}) {
+  if (!purchaseTypeGetsDiscount(cart, purchaseType)) return null;
   const line = matchingCartLine(cart, pack, purchaseType);
-  if (line?.quantity && lineShowsDiscount(line, cart)) {
+  if (line) {
+    if (!line.quantity || !lineShowsDiscount(line, cart)) return null;
     return moneyCents(linePaidTotal(line, cart)) / 100 / line.quantity;
   }
-  const pct = cartPercentageOff(cart);
-  if (pct == null) return null;
-  return catalog * (1 - pct / 100);
+  const rate = entitledDiscountRate(cart);
+  if (rate == null) return null;
+  return catalog * (1 - rate);
+}
+
+function purchaseTypeGetsDiscount(cart, purchaseType) {
+  return entitledPurchaseTypes(cart).has(purchaseType);
+}
+
+function entitledPurchaseTypes(cart) {
+  const fromLines = typesWithLineDiscounts(cart);
+  if (fromLines.size) return fromLines;
+
+  const saved = cartSavedCents(cart);
+  const groups = subtotalByPurchaseType(cart);
+  const present = PURCHASE_TYPES.filter((type) => groups[type] > 0);
+  if (saved <= 0 || present.length === 0) return new Set();
+  if (present.length === 1) return new Set(present);
+
+  const declared = declaredPercentage(cart);
+  for (const combo of [
+    ['onetime'],
+    ['subscribe'],
+    ['onetime', 'subscribe'],
+  ]) {
+    const sub = combo.reduce((sum, type) => sum + groups[type], 0);
+    if (sub <= 0) continue;
+    if (comboMatchesSaved(saved, sub, declared)) return new Set(combo);
+  }
+  return new Set();
+}
+
+function typesWithLineDiscounts(cart) {
+  const types = new Set();
+  for (const line of cart?.lines?.nodes ?? []) {
+    const list = lineListTotal(line);
+    const paid = line?.cost?.totalAmount;
+    if (lineDiscountCents(line) > 0 || moneyCents(paid) < moneyCents(list)) {
+      types.add(purchaseTypeOf(line));
+    }
+  }
+  return types;
+}
+
+function entitledDiscountRate(cart) {
+  const saved = cartSavedCents(cart);
+  const types = entitledPurchaseTypes(cart);
+  const groups = subtotalByPurchaseType(cart);
+  const sub = [...types].reduce((sum, type) => sum + groups[type], 0);
+  if (saved <= 0 || sub <= 0) return null;
+  return saved / sub;
+}
+
+function comboMatchesSaved(saved, sub, declared) {
+  if (declared != null) {
+    return Math.abs(Math.round((sub * declared) / 100) - saved) <= 1;
+  }
+  const implied = (saved / sub) * 100;
+  if (implied <= 0 || implied > 100) return false;
+  return Math.abs(implied - Math.round(implied)) < 0.05;
+}
+
+function declaredPercentage(cart) {
+  for (const row of cart?.discountAllocations ?? []) {
+    const pct = row?.discountApplication?.value?.percentage;
+    if (typeof pct === 'number' && pct > 0) return pct;
+  }
+  return null;
+}
+
+function subtotalByPurchaseType(cart) {
+  const groups = {onetime: 0, subscribe: 0};
+  for (const line of cart?.lines?.nodes ?? []) {
+    groups[purchaseTypeOf(line)] += moneyCents(lineListTotal(line));
+  }
+  return groups;
+}
+
+function cartSavedCents(cart) {
+  const saved = summedDiscountMoney(cartDiscountLines(cart));
+  return saved ? moneyCents(saved) : 0;
 }
 
 function matchingCartLine(cart, pack, purchaseType) {
@@ -87,15 +172,12 @@ function merchandiseMatches(id, wantId) {
   return id === wantId || String(id).endsWith(String(wantId).split('/').pop());
 }
 
-function cartPercentageOff(cart) {
-  for (const row of cart?.discountAllocations ?? []) {
-    const pct = row?.discountApplication?.value?.percentage;
-    if (typeof pct === 'number' && pct > 0) return pct;
-  }
-  const saved = summedDiscountMoney(cartDiscountLines(cart));
-  const sub = moneyCents(cart?.cost?.subtotalAmount);
-  if (!saved || sub <= 0) return null;
-  return (moneyCents(saved) / sub) * 100;
+function purchaseTypeOf(line) {
+  return lineIsSubscribe(line) ? 'subscribe' : 'onetime';
+}
+
+function lineIsSubscribe(line) {
+  return Boolean(line?.sellingPlanAllocation?.sellingPlan?.id);
 }
 
 function lineDiscountCents(line) {
@@ -103,10 +185,6 @@ function lineDiscountCents(line) {
     (sum, row) => sum + moneyCents(row?.discountedAmount),
     0,
   );
-}
-
-function lineIsSubscribe(line) {
-  return Boolean(line?.sellingPlanAllocation?.sellingPlan?.id);
 }
 
 function moneyCents(money) {
