@@ -1,14 +1,12 @@
 import {Money} from '@shopify/hydrogen';
 import {useId} from 'react';
 import {CartDiscountDialog} from '~/components/CartDiscountDialog';
-import {cartDiscountLines} from '~/lib/cartDiscounts';
+import {cartDiscountLines, summedDiscountMoney} from '~/lib/cartDiscounts';
 
 export function CartSummary({cart, layout}) {
   const className =
     layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
   const summaryId = useId();
-  const discounts = cartDiscountLines(cart);
-  const total = cart?.cost?.totalAmount;
 
   return (
     <div aria-labelledby={summaryId} className={`${className} cart-foot`}>
@@ -16,17 +14,36 @@ export function CartSummary({cart, layout}) {
         Totals
       </h4>
       <CartDiscountDialog cart={cart} />
-      <div className="cart-subtotal">
+      <CartCostLines cart={cart} />
+      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+    </div>
+  );
+}
+
+function CartCostLines({cart}) {
+  const saved = summedDiscountMoney(cartDiscountLines(cart));
+  const subtotal = cart?.cost?.subtotalAmount;
+  const total = cart?.cost?.totalAmount;
+
+  return (
+    <>
+      <div
+        className={saved ? 'cart-subtotal cart-amount-was' : 'cart-subtotal'}
+      >
         <span>Subtotal</span>
         <span>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart.cost.subtotalAmount} />
-          ) : (
-            '$0.00'
-          )}
+          {subtotal?.amount ? <Money data={subtotal} /> : '$0.00'}
         </span>
       </div>
-      {total?.amount && discounts.length > 0 ? (
+      {saved ? (
+        <div className="cart-discount-saved">
+          <span>Discount</span>
+          <span>
+            −<Money data={saved} />
+          </span>
+        </div>
+      ) : null}
+      {saved && total?.amount ? (
         <div className="cart-total">
           <span>Total</span>
           <span>
@@ -34,8 +51,7 @@ export function CartSummary({cart, layout}) {
           </span>
         </div>
       ) : null}
-      <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
-    </div>
+    </>
   );
 }
 
