@@ -204,6 +204,11 @@
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+.cart-money-negative {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+}
 .cart-discount-compare {
   margin: 0 0 0.85rem;
 }

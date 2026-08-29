@@ -84,8 +84,8 @@ function DiscountRows({discounts}) {
       className="cart-discount"
     >
       <span>{row.label}</span>
-      <span>
-        −<Money data={row.amount} />
+      <span className="cart-money-negative">
+        −<Money data={row.amount} as="span" />
       </span>
     </p>
   ));

@@ -38,8 +38,8 @@ function CartCostLines({cart}) {
       {saved ? (
         <div className="cart-discount-saved">
           <span>Discount</span>
-          <span>
-            −<Money data={saved} />
+          <span className="cart-money-negative">
+            −<Money data={saved} as="span" />
           </span>
         </div>
       ) : null}
