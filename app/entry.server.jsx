@@ -2,6 +2,7 @@ import {ServerRouter} from 'react-router';
 import {isbot} from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
 import {createContentSecurityPolicy} from '@shopify/hydrogen';
+import {checkoutDomain} from '~/lib/shopifyEnv';
 
 /**
  * @param {Request} request
@@ -19,7 +20,7 @@ export default async function handleRequest(
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
-      checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
+      checkoutDomain: checkoutDomain(context.env),
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
     styleSrc: ['https://fonts.googleapis.com'],

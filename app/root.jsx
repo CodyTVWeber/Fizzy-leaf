@@ -10,6 +10,7 @@ import {
   useRouteLoaderData,
 } from 'react-router';
 import {PageLayout} from './components/PageLayout';
+import {checkoutDomain} from '~/lib/shopifyEnv';
 import appStyles from '~/styles/app.css?url';
 import indexStyles from '~/styles/index.css?url';
 import shopCartStyles from '~/styles/shop-cart.css?url';
@@ -51,7 +52,7 @@ export async function loader(args) {
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
     }),
     consent: {
-      checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
+      checkoutDomain: checkoutDomain(env),
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
       withPrivacyBanner: false,
       country: args.context.storefront.i18n.country,

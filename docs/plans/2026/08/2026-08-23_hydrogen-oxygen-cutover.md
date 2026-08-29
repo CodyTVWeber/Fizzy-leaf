@@ -4,7 +4,7 @@
 
 **Date:** 2026-08-23  
 **Branch:** `hydrogen` (PR #10 → `main`)  
-**Status:** Not started — wait for explicit go on each step  
+**Status:** Steps 1–4 done (merge, Oxygen from `main`, verify, DNS). Step 5 Pages unpublish is **Admin** (API 404). Password / theme publish still separate yes.  
 **PR:** https://github.com/milfordcwm/Fizzy-leaf/pull/10
 
 Port is done (`storefront/`). This is **cutover only**. Production deploys from **`main`**. Delete `hydrogen` at merge.

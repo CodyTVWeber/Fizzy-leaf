@@ -44,14 +44,18 @@ Shop UI loads display prices from Storefront API (`loadDisplayPrices`). One-time
 `app/routes/discount.$code.jsx`: applies code, 303 redirects. Keeps leftover query (`dt_id`). First-party redirect only (`//` → `/`).
 
 ## Oxygen / cutover
-Order (do not skip): merge PR #10 to **`main`** (delete `hydrogen`) → Oxygen production **`main`**, app root = **repo root** → verify Oxygen URL → **DNS** `fizzyleaf.com` → **then** turn off GitHub Pages.
 
-Full walkthrough: [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md).
+**Done:** Hydrogen on `main` (repo root) → Oxygen → DNS `fizzyleaf.com` / `www` → live.
 
-Do **not** DNS / password off / theme publish until that plan’s step is explicitly approved.
+Walkthrough: [docs/plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md](plans/2026/08/2026-08-23_hydrogen-oxygen-cutover.md). Checkout-domain fallback: [2026-08-28](plans/2026/08/2026-08-28_post-launch-checkout-domain.md).
+
+**Still Admin (not code):** GitHub Pages **Unpublish** (`milfordcwm.github.io/Fizzy-leaf/` still builds). Optional: set Oxygen `PUBLIC_CHECKOUT_DOMAIN` (code falls back to `PUBLIC_STORE_DOMAIN`). Collabs links: `https://www.fizzyleaf.com/discount/CODE?redirect=/shop&dt_id=…`.
+
+Do **not** store password off / `shopify theme publish` without an explicit yes (exposes Dawn on `*.myshopify.com`).
 
 ## Gotchas / launch gates
-- **Store password**: checkout completes when password is OFF (also exposes themed store).
+- **`PUBLIC_CHECKOUT_DOMAIN`**: Analytics needs it. Loader/CSP use `checkoutDomain(env)` → env var or `PUBLIC_STORE_DOMAIN`.
+- **Store password**: guest checkout without `/cart/c/…` needs it OFF — also exposes the themed store.
 - **Shipping zones**: TN only before real orders.
 - API version pinned (`2025-01`).
 
