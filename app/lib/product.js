@@ -111,25 +111,11 @@ export function cartLineInput({pack, purchaseType, quantity}) {
   return line;
 }
 
-export function packFromVariantTitle(title) {
-  return String(title || '').includes('24') ? 24 : 12;
-}
-
-export function purchaseTypeFromUnitPrice(unitAmount, pack) {
-  const prices = PRICES[pack];
-  const unit = Number(unitAmount);
-  return Math.abs(unit - prices.subscribe) < Math.abs(unit - prices.onetime)
-    ? 'subscribe'
-    : 'onetime';
-}
-
 export function cartLinePurchaseLabel(line) {
-  const pack = packFromVariantTitle(line?.merchandise?.title);
-  const unit = line?.cost?.amountPerQuantity?.amount;
-  const type = purchaseTypeFromUnitPrice(unit, pack);
-  return type === 'subscribe'
-    ? 'Subscribe & Save · monthly'
-    : 'One-time purchase';
+  if (line?.sellingPlanAllocation?.sellingPlan?.id) {
+    return 'Subscribe & Save · monthly';
+  }
+  return 'One-time purchase';
 }
 
 export async function loadDisplayPrices(storefront, env) {
