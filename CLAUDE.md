@@ -9,12 +9,12 @@ Marketing + commerce for Fizzy Leaf sparkling hibiscus tea (Middle TN).
 ## Run / verify
 
 ```bash
-./scripts/run-local.sh
+./local-run.sh
 # same as: npm install && npm run dev
 npm run build && npm run lint
 ```
 
-`./scripts/run-local.sh` copies `.env.example` → `.env` if needed, then starts Hydrogen at http://localhost:3000/.
+`./local-run.sh` copies `.env.example` → `.env` if needed, then starts Hydrogen at http://localhost:3000/.
 
 ## Red lines
 - **Do not** turn store password off or `shopify theme publish` without an explicit yes. DNS cutover is **done** — do not change `fizzyleaf.com` records unless asked.
