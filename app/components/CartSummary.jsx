@@ -1,6 +1,6 @@
 import {Money} from '@shopify/hydrogen';
 import {useId} from 'react';
-import {CartDiscountCode} from '~/components/CartDiscountCode';
+import {CartDiscountDialog} from '~/components/CartDiscountDialog';
 import {cartDiscountLines} from '~/lib/cartDiscounts';
 
 export function CartSummary({cart, layout}) {
@@ -15,18 +15,7 @@ export function CartSummary({cart, layout}) {
       <h4 id={summaryId} className="sr-only">
         Totals
       </h4>
-      <CartDiscountCode cart={cart} />
-      {discounts.map((row) => (
-        <p
-          key={`${row.label}-${row.amount.amount}-${row.amount.currencyCode}`}
-          className="cart-discount"
-        >
-          <span>{row.label}</span>
-          <span>
-            −<Money data={row.amount} />
-          </span>
-        </p>
-      ))}
+      <CartDiscountDialog cart={cart} />
       <div className="cart-subtotal">
         <span>Subtotal</span>
         <span>

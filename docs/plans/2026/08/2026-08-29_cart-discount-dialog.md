@@ -3,7 +3,8 @@
 **Date:** 2026-08-29  
 **Branch:** `fix/cart-show-discount-amount`  
 **PR:** https://github.com/milfordcwm/Fizzy-leaf/pull/15  
-**Status:** Planned  
+**Status:** Implemented  
+
 **Base:** same branch (do not open a second PR)
 
 Drawer footer is crowded: Apply field + per-code −$ lines sit on top of Subtotal / Total / Checkout. Totals already come from Shopify `cart.cost`. Move manage-codes UI into a dialog.
