@@ -1,38 +1,37 @@
 import {Suspense} from 'react';
-import {Await, useRouteLoaderData} from 'react-router';
-import {useOptimisticCart} from '@shopify/hydrogen';
-import {priceDisplay} from '~/lib/product';
+import {Await} from 'react-router';
 import {shopPriceDisplay} from '~/lib/discountedPrice';
+import {priceDisplay} from '~/lib/product';
 
-export function ShopPrice({pack, purchaseType, prices}) {
-  const root = useRouteLoaderData('root');
-  const fallback = priceDisplay(pack, purchaseType, prices);
-  if (!root?.cart) return <PriceText price={fallback} />;
+export function ShopPrice({pack, purchaseType, prices, previewRates}) {
+  const catalog = priceDisplay(pack, purchaseType, prices);
+  const offer = {pack, purchaseType, prices};
+
+  if (isPromise(previewRates)) {
+    return (
+      <Suspense fallback={<PriceText price={catalog} pending />}>
+        <Await resolve={previewRates}>
+          {(rates) => (
+            <PriceText
+              price={shopPriceDisplay({...offer, previewRates: rates})}
+            />
+          )}
+        </Await>
+      </Suspense>
+    );
+  }
 
   return (
-    <Suspense fallback={<PriceText price={fallback} />}>
-      <Await resolve={root.cart}>
-        {(cart) => (
-          <CartShopPrice
-            cart={cart}
-            offer={{pack, purchaseType, prices}}
-          />
-        )}
-      </Await>
-    </Suspense>
+    <PriceText price={shopPriceDisplay({...offer, previewRates})} />
   );
 }
 
-function CartShopPrice({cart, offer}) {
-  const optimistic = useOptimisticCart(cart);
+function PriceText({price, pending}) {
   return (
-    <PriceText price={shopPriceDisplay({...offer, cart: optimistic})} />
-  );
-}
-
-function PriceText({price}) {
-  return (
-    <div className="shop-price">
+    <div
+      className={pending ? 'shop-price shop-price-pending' : 'shop-price'}
+      aria-busy={pending ? true : undefined}
+    >
       <span>
         {price.struck ? (
           <>
@@ -44,4 +43,8 @@ function PriceText({price}) {
       </span>
     </div>
   );
+}
+
+function isPromise(value) {
+  return value != null && typeof value.then === 'function';
 }

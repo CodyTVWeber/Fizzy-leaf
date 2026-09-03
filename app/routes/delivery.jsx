@@ -43,19 +43,19 @@ export default function DeliveryPage() {
             <ul className="delivery-prices">
               <li>
                 <span>Delivery fee</span>
-                <strong>$3</strong>
+                <strong>$0</strong>
               </li>
               <li>
                 <span>12 pack</span>
-                <strong>$35/mo</strong>
+                <strong>$30/mo</strong>
               </li>
               <li>
                 <span>24 pack</span>
-                <strong>$65/mo</strong>
+                <strong>$57/mo</strong>
               </li>
               <li>
                 <span>48 pack</span>
-                <strong>$120/mo</strong>
+                <strong>$110/mo</strong>
               </li>
             </ul>
             <p className="delivery-note">

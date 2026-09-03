@@ -1,4 +1,11 @@
 import {ShopConfigurator} from '~/components/ShopConfigurator';
+import {discountRatesByPurchaseType} from '~/lib/discountedPrice';
+import {
+  hasDiscountCodes,
+  loadDiscountPreview,
+  needsDiscountPreview,
+  peekDiscountPreview,
+} from '~/lib/discountPreview';
 import {loadDisplayPrices} from '~/lib/product';
 import {logInfo} from '~/lib/log';
 
@@ -8,8 +15,24 @@ export const meta = () => {
 
 export async function loader({context}) {
   const loaded = await loadDisplayPrices(context.storefront, context.env);
+  const cart = await context.cart.get();
+  const previewRates = discountPreviewForCart(context, cart);
   logInfo('shop-loader', 'returning prices to UI', loaded);
-  return loaded;
+  return {...loaded, previewRates};
+}
+
+function discountPreviewForCart(context, cart) {
+  if (!hasDiscountCodes(cart)) return null;
+  const peeked = peekDiscountPreview(context.session, cart);
+  if (peeked) return peeked;
+  if (needsDiscountPreview(cart)) {
+    return loadDiscountPreview({
+      storefront: context.storefront,
+      cart,
+      session: context.session,
+    });
+  }
+  return discountRatesByPurchaseType(cart);
 }
 
 export default function ShopPage() {

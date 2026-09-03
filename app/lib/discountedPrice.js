@@ -1,5 +1,5 @@
 import {cartDiscountLines, summedDiscountMoney} from '~/lib/cartDiscounts';
-import {formatMoney, priceDisplay, variantGid} from '~/lib/product';
+import {formatMoney, priceDisplay} from '~/lib/product';
 
 const PURCHASE_TYPES = ['onetime', 'subscribe'];
 
@@ -41,21 +41,23 @@ export function lineShowsDiscount(line, cart) {
   return moneyCents(linePaidTotal(line, cart)) < moneyCents(lineListTotal(line));
 }
 
-export function shopPriceDisplay({pack, purchaseType, prices, cart}) {
+export function discountRatesByPurchaseType(cart) {
+  const types = entitledPurchaseTypes(cart);
+  const rate = entitledDiscountRate(cart);
+  return {
+    onetime: types.has('onetime') ? rate : null,
+    subscribe: types.has('subscribe') ? rate : null,
+  };
+}
+
+export function shopPriceDisplay({pack, purchaseType, prices, previewRates}) {
   const base = priceDisplay(pack, purchaseType, prices);
   const catalog = prices?.[pack]?.[purchaseType];
-  if (catalog == null) return base;
+  const rate = previewRates?.[purchaseType];
+  if (catalog == null || rate == null) return base;
 
-  const liveAmount = discountedCatalogAmount({
-    pack,
-    purchaseType,
-    catalog,
-    cart,
-  });
-  if (
-    liveAmount == null ||
-    moneyCents({amount: liveAmount}) >= moneyCents({amount: catalog})
-  ) {
+  const liveAmount = catalog * (1 - rate);
+  if (moneyCents({amount: liveAmount}) >= moneyCents({amount: catalog})) {
     return base;
   }
 
@@ -66,18 +68,6 @@ export function shopPriceDisplay({pack, purchaseType, prices, cart}) {
         ? `${formatMoney(liveAmount)} /mo`
         : formatMoney(liveAmount),
   };
-}
-
-function discountedCatalogAmount({pack, purchaseType, catalog, cart}) {
-  if (!purchaseTypeGetsDiscount(cart, purchaseType)) return null;
-  const line = matchingCartLine(cart, pack, purchaseType);
-  if (line) {
-    if (!line.quantity || !lineShowsDiscount(line, cart)) return null;
-    return moneyCents(linePaidTotal(line, cart)) / 100 / line.quantity;
-  }
-  const rate = entitledDiscountRate(cart);
-  if (rate == null) return null;
-  return catalog * (1 - rate);
 }
 
 function purchaseTypeGetsDiscount(cart, purchaseType) {
@@ -156,20 +146,6 @@ function subtotalByPurchaseType(cart) {
 function cartSavedCents(cart) {
   const saved = summedDiscountMoney(cartDiscountLines(cart));
   return saved ? moneyCents(saved) : 0;
-}
-
-function matchingCartLine(cart, pack, purchaseType) {
-  const wantSubscribe = purchaseType === 'subscribe';
-  const wantId = variantGid(pack);
-  return (cart?.lines?.nodes ?? []).find((row) => {
-    if (!merchandiseMatches(row?.merchandise?.id, wantId)) return false;
-    return lineIsSubscribe(row) === wantSubscribe;
-  });
-}
-
-function merchandiseMatches(id, wantId) {
-  if (!id) return false;
-  return id === wantId || String(id).endsWith(String(wantId).split('/').pop());
 }
 
 function purchaseTypeOf(line) {

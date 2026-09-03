@@ -204,7 +204,7 @@ export function DeliveryChecker() {
                 name="message"
                 rows={4}
                 required
-                placeholder="What you’d like delivered, and when."
+                placeholder="What you'd like delivered, and your address."
               />
             </div>
             <input
